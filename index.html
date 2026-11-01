@@ -5,7 +5,8 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Visual First 2.0.11</title>
+<title>Simulator trougla — Visual First 2.0.14</title>
+<script id="theme-startup">(()=>{let mode=null;try{mode=localStorage.getItem('triangle-simulator-theme')}catch(_){}if(mode!=='light'&&mode!=='dark')mode=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=mode;})();</script>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
     *{box-sizing:border-box} html{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink)}
@@ -723,6 +724,262 @@ body .drawing-workspace .warning:not([hidden]){position:absolute;bottom:5px;left
  .region-chooser .region-equation{font-size:.63rem}
 }
 
+
+/* 2.0.14 — Theme controls replace permanent zoom buttons; geometry and camera are untouched. */
+.workspace-actions .theme-controls .theme-choice[aria-pressed="true"]{background:#dceef8!important;border-color:#a6cde3!important;color:#18597f!important}
+.workspace-actions .theme-controls .theme-choice[aria-pressed="false"]{opacity:.72}
+.workspace-actions .theme-controls .theme-choice:focus-visible{outline:2px solid #538eb7;outline-offset:1px}
+/* Zoom remains available in Više alata, as well as wheel, touch and keyboard shortcuts. */
+.workspace-actions .theme-controls #cameraZoomOut,.workspace-actions .theme-controls #cameraZoomIn{display:none!important}
+.advanced-navigation #cameraZoomOut,.advanced-navigation #cameraZoomIn{display:inline-block!important}
+
+/* A single semantic dark palette; no filter:invert(), which would corrupt geometry. */
+html[data-theme="dark"]{
+ color-scheme:dark;--ink:#eeeeee;--muted:#b8b8b8;--line:#505050;
+ --surface:#292929;--blue:#85bde2;--red:#f08e98;--green:#69c6b0;
+ --orange:#e1a766;--bg:#1c1c1c;
+}
+html[data-theme="dark"],html[data-theme="dark"] body{background:#1c1c1c;color:#eeeeee}
+html[data-theme="dark"] .drawing-workspace .stage,
+html[data-theme="dark"] .stage{background:radial-gradient(circle at center,#333333 0%,#252525 100%)!important}
+html[data-theme="dark"] .stage:before,
+html[data-theme="dark"] .drawing-workspace .stage:before{background-image:linear-gradient(#545454 1px,transparent 1px),linear-gradient(90deg,#545454 1px,transparent 1px);opacity:.25!important}
+html[data-theme="dark"] .card,html[data-theme="dark"] .drawing-workspace,
+html[data-theme="dark"] .control-cabinet,html[data-theme="dark"] .tool-accordion{background:#292929;color:#eaeaea;border-color:#505050}
+html[data-theme="dark"] .workspace-actions .camera-controls,
+html[data-theme="dark"] .workspace-actions #toolsButton,
+html[data-theme="dark"] .filter-dock,html[data-theme="dark"] .observe-dock,
+html[data-theme="dark"] .advanced-dock{background:rgba(41,41,41,.97)!important;border-color:#5b5b5b!important;color:#eeeeee!important;box-shadow:0 5px 18px rgba(0,0,0,.33)!important}
+html[data-theme="dark"] .workspace-actions .camera-controls .theme-choice,
+html[data-theme="dark"] .workspace-actions #toolsButton{color:#dddddd!important}
+html[data-theme="dark"] .workspace-actions .theme-controls .theme-choice[aria-pressed="true"]{background:#565656!important;border-color:#878787!important;color:#f4f4f4!important;opacity:1}
+html[data-theme="dark"] .workspace-actions .theme-controls .theme-choice[aria-pressed="false"]{opacity:.63}
+html[data-theme="dark"] .filter-dock>summary,
+html[data-theme="dark"] .observe-dock>summary,
+html[data-theme="dark"] .floating-drag-handle,
+html[data-theme="dark"] .filter-dock .switch-copy strong{color:#ebebeb!important}
+html[data-theme="dark"] .filter-dock>summary:after,
+html[data-theme="dark"] .observe-dock>summary:after{color:#c7c7c7}
+html[data-theme="dark"] .filter-dock .quick-switches{border-top-color:#4d4d4d!important}
+html[data-theme="dark"] .filter-dock .simple-switch:has(input:checked){background:#393939!important;border-color:#636363!important}
+html[data-theme="dark"] .filter-dock .simple-switch input{accent-color:#bfbfbf!important}
+html[data-theme="dark"] .floating-drag-handle{background:#353535;border-color:#525252}
+html[data-theme="dark"] .floating-close{background:#393939;color:#ececec}
+html[data-theme="dark"] .observe-dock-body,
+html[data-theme="dark"] .observe-dock .math-pane{border-color:#4f4f4f}
+html[data-theme="dark"] .observe-dock-selection,
+html[data-theme="dark"] .discovery-pill{color:#d7d7d7;background:#3c3c3c}
+html[data-theme="dark"] .discovery-card,
+html[data-theme="dark"] .math-pane,
+html[data-theme="dark"] .advanced-tools,
+html[data-theme="dark"] .relation-active,
+html[data-theme="dark"] .extended-active,
+html[data-theme="dark"] .perp-equations{background:#303030!important;color:#ebebeb;border-color:#515151}
+html[data-theme="dark"] .observe-dock .discovery-card,
+html[data-theme="dark"] .observe-dock .math-pane,
+html[data-theme="dark"] .observe-dock .relation-active{background:transparent!important}
+html[data-theme="dark"] .discovery-card h2,
+html[data-theme="dark"] .discovery-card p,
+html[data-theme="dark"] .math-intro strong,
+html[data-theme="dark"] .relation-active h3,
+html[data-theme="dark"] .relation-active p,
+html[data-theme="dark"] .relation-active ol,
+html[data-theme="dark"] .relation-numeric,
+html[data-theme="dark"] .relation-note,
+html[data-theme="dark"] .relation-chip,
+html[data-theme="dark"] .extended-active h3,
+html[data-theme="dark"] .extended-active p,
+html[data-theme="dark"] .extended-active .extended-eq,
+html[data-theme="dark"] .extended-active .extended-numeric{color:#e3e3e3!important}
+html[data-theme="dark"] .math-intro,
+html[data-theme="dark"] .relation-active .relation-numeric{border-color:#4f4f4f}
+html[data-theme="dark"] .math-intro p,
+html[data-theme="dark"] .advanced-help,
+html[data-theme="dark"] .extensions-description,
+html[data-theme="dark"] .construction-help,
+html[data-theme="dark"] .rule-note,
+html[data-theme="dark"] .edit-tip,
+html[data-theme="dark"] .side-explain,
+html[data-theme="dark"] .section-kicker,
+html[data-theme="dark"] .class-note{color:#b9b9b9!important}
+html[data-theme="dark"] .close-discovery,
+html[data-theme="dark"] .relation-chip,
+html[data-theme="dark"] .region-choice,
+html[data-theme="dark"] .input-mode label,
+html[data-theme="dark"] .perp-choice,
+html[data-theme="dark"] .focus-toggle{background:#3d3d3d!important;border-color:#666666!important;color:#ededed!important}
+html[data-theme="dark"] .show-math-button,
+html[data-theme="dark"] .apply{background:#646464;color:#fff;border-color:#646464}
+html[data-theme="dark"] .advanced-navigation{background:#343434;border-color:#515151;color:#c7c7c7}
+html[data-theme="dark"] .advanced-navigation>span{color:#c2c2c2}
+html[data-theme="dark"] .advanced-navigation button{background:#404040!important;color:#efefef!important;border-color:#6c6c6c!important}
+html[data-theme="dark"] .advanced-navigation button:hover,
+html[data-theme="dark"] .close-discovery:hover{background:#515151!important}
+html[data-theme="dark"] .warning{background:#44311f;color:#ffdeb0;border-color:#835f32}
+html[data-theme="dark"] .region-chooser{background:rgba(41,41,41,.97)!important;border-color:#707070;color:#f1f1f1;box-shadow:0 6px 22px rgba(0,0,0,.35)}
+html[data-theme="dark"] .region-chooser-head,
+html[data-theme="dark"] .region-equation,
+html[data-theme="dark"] .region-equation small{color:#e1e1e1}
+html[data-theme="dark"] .region-chooser-head button{color:#d3d3d3}
+html[data-theme="dark"] .region-choice.previewing,
+html[data-theme="dark"] .region-choice:hover,
+html[data-theme="dark"] .region-choice:focus-visible{background:#626262!important;color:white!important}
+html[data-theme="dark"] .angle-row,
+html[data-theme="dark"] .formula,
+html[data-theme="dark"] .class-item,
+html[data-theme="dark"] .side-result,
+html[data-theme="dark"] .edit-form,
+html[data-theme="dark"] .perp-panel,
+html[data-theme="dark"] .extensions-panel,
+html[data-theme="dark"] .intersection-card,
+html[data-theme="dark"] .construction,
+html[data-theme="dark"] .focus-steps,
+html[data-theme="dark"] .calculation,
+html[data-theme="dark"] .tool-accordion,
+html[data-theme="dark"] .control-cabinet{background:#363636!important;border-color:#565656!important;color:#efefef!important}
+html[data-theme="dark"] .construction-b,
+html[data-theme="dark"] .construction-c,
+html[data-theme="dark"] .focus-steps-bsc,
+html[data-theme="dark"] .focus-steps-csa{background:#3b3b3b!important}
+html[data-theme="dark"] .construction-details,
+html[data-theme="dark"] .intersection-card p,
+html[data-theme="dark"] .intersection-heading,
+html[data-theme="dark"] .intersection-equation,
+html[data-theme="dark"] .intersection-result,
+html[data-theme="dark"] .construction-equation,
+html[data-theme="dark"] .construction-value,
+html[data-theme="dark"] .perp-panel p,
+html[data-theme="dark"] .perp-panel h3,
+html[data-theme="dark"] .perp-equations p,
+html[data-theme="dark"] .focus-steps p,
+html[data-theme="dark"] .focus-equation,
+html[data-theme="dark"] .class-rule,
+html[data-theme="dark"] .class-name,
+html[data-theme="dark"] .side-result p,
+html[data-theme="dark"] .side-result strong,
+html[data-theme="dark"] .extended-triangles-panel summary,
+html[data-theme="dark"] .control-cabinet>summary,
+html[data-theme="dark"] .tool-accordion>summary,
+html[data-theme="dark"] .advanced-tools>summary{color:#ebebeb!important}
+html[data-theme="dark"] .relation-panel{background:transparent!important;border-color:#575757}
+html[data-theme="dark"] .relation-panel>summary{color:#d2d2d2}
+html[data-theme="dark"] input:not([type=checkbox]):not([type=radio]),
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea{background:#242424!important;color:#f5f5f5!important;border-color:#6c6c6c!important}
+html[data-theme="dark"] input::placeholder{color:#bababa}
+html[data-theme="dark"] .edit-fields label,
+html[data-theme="dark"] .v-name,
+html[data-theme="dark"] .formula .main,
+html[data-theme="dark"] .formula .value,
+html[data-theme="dark"] .side-label,
+html[data-theme="dark"] .side-value{color:#ededed!important}
+html[data-theme="dark"] #pwaUpdateNotice{background:#353535;border-color:#868686;color:#f4f4f4}
+html[data-theme="dark"] #pwaUpdateNotice button{background:#505050;color:#f2f2f2;border-color:#858585}
+/* Crisp, high-contrast geometry without altering any coordinates or calculations. */
+html[data-theme="dark"] .edge{stroke:#cccccc;fill:#9a9a9a;fill-opacity:.07}
+html[data-theme="dark"] .extension{stroke:#aaaaaa}
+html[data-theme="dark"] .diagram-text{stroke:#1f1f1f;stroke-width:4.6px}
+html[data-theme="dark"] .vertex-text{fill:#f3f3f3}
+html[data-theme="dark"] .side-text{fill:#cfcfcf}
+html[data-theme="dark"] .outer-symbol{fill:#e5b6f1}
+html[data-theme="dark"] .outer-center-label,
+html[data-theme="dark"] .extension-label.bisector-extension{fill:#dcb5fb}
+html[data-theme="dark"] .bisector-text,
+html[data-theme="dark"] .extended-target-label,
+html[data-theme="dark"] .extension-label{fill:#ffc47b}
+html[data-theme="dark"] .bisector-b-text{fill:#c5baff}
+html[data-theme="dark"] .bisector-c-text,
+html[data-theme="dark"] .intersection-label{fill:#83ddc8}
+html[data-theme="dark"] .intersection-label-bc{fill:#c6a7fa}
+html[data-theme="dark"] .intersection-label-ca{fill:#ffc17f}
+html[data-theme="dark"] .side-perp-label{fill:#a9ddff;stroke:#202020}
+html[data-theme="dark"] .side-center-label{fill:#ffab81;stroke:#202020}
+html[data-theme="dark"] .outer-center-label{stroke:#202020}
+html[data-theme="dark"] .region-preview-label{fill:#bcdef5;stroke:#202020}
+html[data-theme="dark"] #contextAnnotations .context-label{stroke:#202020;fill:#ffc48c}
+html[data-theme="dark"] #contextAnnotations .context-label.subtle{fill:#ddc5f1}
+html[data-theme="dark"] #contextAnnotations .context-angle-point{stroke:#202020}
+html[data-theme="dark"] .vertex-dot,
+html[data-theme="dark"] .intersection-point,
+html[data-theme="dark"] .outer-center-point,
+html[data-theme="dark"] .side-perp-midpoint{stroke:#202020}
+
+html[data-theme="dark"] .angle-symbol[fill="#c65c61"]{fill:#ff8d9d!important}
+html[data-theme="dark"] .angle-symbol[fill="#3677a8"]{fill:#8dcaff!important}
+html[data-theme="dark"] .angle-symbol[fill="#2b8b78"]{fill:#77dfbc!important}
+html[data-theme="dark"] .extensions-status,
+html[data-theme="dark"] .extensions-description,
+html[data-theme="dark"] .class-kicker,
+html[data-theme="dark"] .edit-msg,
+html[data-theme="dark"] .extended-active .extended-note{color:#c5c5c5!important}
+
+
+/* 2.0.14 — Semantic accents only on interaction/selection surfaces.
+   Canvas/grid/panels stay ACHROMATIC. Colored construction strokes are unchanged.
+   Use :is() to target both tablet and phone layouts without affecting light theme. */
+html[data-theme="dark"] {
+  --selection-blue-bg:#234f62;
+  --selection-blue-edge:#65b9df;
+  --selection-blue-text:#ddf5ff;
+  --relation-green-bg:#22534a;
+  --relation-green-edge:#5fc4a7;
+  --relation-green-text:#defdf4;
+}
+/* The currently studied triangle must be unambiguous in Posmatraj. */
+html[data-theme="dark"] .observe-dock-selection,
+html[data-theme="dark"] .discovery-pill {
+  color:var(--selection-blue-text)!important;
+  background:var(--selection-blue-bg)!important;
+  border:1px solid var(--selection-blue-edge)!important;
+  box-shadow:inset 0 0 0 1px rgba(25,45,52,.14);
+}
+/* Linked triangles in Posmatraj are navigation tabs, not gray static labels. */
+html[data-theme="dark"] .relation-chip {
+  color:var(--relation-green-text)!important;
+  background:var(--relation-green-bg)!important;
+  border:1px solid var(--relation-green-edge)!important;
+  font-weight:800;
+}
+html[data-theme="dark"] .relation-chip:hover,
+html[data-theme="dark"] .relation-chip:focus-visible {
+  color:#ffffff!important;
+  background:#317966!important;
+  border-color:#9debd4!important;
+}
+html[data-theme="dark"] .relation-chip:focus-visible {
+  outline:2px solid #99eed0;
+  outline-offset:2px;
+}
+/* Overlapping-triangle choice chips: state visible even without hover on touch. */
+html[data-theme="dark"] .region-choice {
+  color:#d0ecf9!important;
+  background:#2c414b!important;
+  border-color:#527b90!important;
+}
+html[data-theme="dark"] .region-choice.previewing,
+html[data-theme="dark"] .region-choice:hover,
+html[data-theme="dark"] .region-choice:focus-visible {
+  color:#fff!important;
+  background:#286d89!important;
+  border-color:#8ddafa!important;
+}
+html[data-theme="dark"] .region-choice.current {
+  box-shadow:inset 0 0 0 1px #d3a961;
+}
+/* Selected construction/tab states in the floating tools. */
+html[data-theme="dark"] .focus-toggle:has(input:checked),
+html[data-theme="dark"] .perp-choice:has(input:checked) {
+  color:#e4fff8!important;
+  background:#254f47!important;
+  border-color:#62bc9e!important;
+}
+html[data-theme="dark"] .filter-dock .simple-switch:has(input:checked) {
+  background:#294540!important;
+  border-color:#477b70!important;
+}
+html[data-theme="dark"] .filter-dock .simple-switch input {
+  accent-color:#67d0b3!important;
+}
 </style>
 <link rel="manifest" href="./manifest.webmanifest"/>
 <link rel="icon" href="./icons/icon-192.png" type="image/png" sizes="192x192"/>
@@ -740,6 +997,7 @@ body .drawing-workspace .warning:not([hidden]){position:absolute;bottom:5px;left
 #pwaUpdateNow{background:#287ba5!important;border-color:#287ba5!important;color:white!important}
 @media(max-width:700px) and (orientation:landscape){#pwaUpdateNotice{bottom:6px;right:6px;width:min(300px,calc(100vw - 12px));font-size:11px;padding:6px;gap:5px}}
 </style>
+<style id="achromatic-pwa-update">html[data-theme="dark"] #pwaUpdateNow{background:#626262!important;border-color:#838383!important;color:#fff!important}</style>
 </head>
 <body>
 <main class="page">
@@ -754,7 +1012,9 @@ body .drawing-workspace .warning:not([hidden]){position:absolute;bottom:5px;left
 <g id="cameraView"><g id="drawing"></g><g aria-hidden="true" id="hoverLayer"></g><g id="handles"></g></g><g id="contextAnnotations" aria-hidden="true" pointer-events="none"></g>
 </svg>
 <span aria-live="polite" class="active-pill current-selection" hidden="" id="activeTriangleBadge">△ ABC</span>
-<div id="cameraControls" class="camera-controls" role="group" aria-label="Zum, uklapanje i vraćanje trougla">
+<div id="cameraControls" class="camera-controls theme-controls" role="group" aria-label="Izgled aplikacije">
+  <button type="button" id="themeLight" class="theme-choice" title="Svetla tema" aria-label="Svetla tema" aria-pressed="true">☀</button>
+  <button type="button" id="themeDark" class="theme-choice" title="Tamna tema" aria-label="Tamna tema" aria-pressed="false">☾</button>
   <button type="button" id="cameraZoomOut" title="Umanji prikaz" aria-label="Umanji prikaz">−</button>
   <button type="button" id="cameraZoomIn" title="Uvećaj prikaz" aria-label="Uvećaj prikaz">+</button>
   <button type="button" id="cameraFitTriangle" title="Uklopi osnovni trougao (F)" aria-label="Uklopi osnovni trougao">△</button>
@@ -4057,8 +4317,8 @@ body .drawing-workspace .warning:not([hidden]){position:absolute;bottom:5px;left
   advancedHead.innerHTML='<span><span class="drag-dots" aria-hidden="true">⠿</span> Više alata</span><button type="button" class="floating-close" id="advancedClose" aria-label="Zatvori Više alata" title="Zatvori">×</button>';
   advancedDock.prepend(advancedHead);
   const advancedNavigation=document.createElement('div');advancedNavigation.className='advanced-navigation';
-  advancedNavigation.innerHTML='<span>Prikaz:</span>';
-  for(const id of ['cameraFitTriangle','cameraFit','reset'])advancedNavigation.append(byId(id));
+  advancedNavigation.innerHTML='<span>Zum i prikaz:</span>';
+  for(const id of ['cameraZoomOut','cameraZoomIn','cameraFitTriangle','cameraFit','reset'])advancedNavigation.append(byId(id));
   advancedHead.after(advancedNavigation);
   byId('advancedClose').addEventListener('click',()=>{if(toolsOpened)originalToolsButton.click();});
 
@@ -4299,6 +4559,34 @@ body .drawing-workspace .warning:not([hidden]){position:absolute;bottom:5px;left
       console.warn('Offline instalacija nije dostupna:', err);
     }
   });
+})();
+</script>
+<script id="triangle-theme-controls">
+(() => {
+  const key='triangle-simulator-theme';
+  const html=document.documentElement;
+  const light=document.getElementById('themeLight');
+  const dark=document.getElementById('themeDark');
+  const bar=document.querySelector('meta[name="theme-color"]');
+  const appleBar=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+  const userChoice=()=>{try{return localStorage.getItem(key)}catch(_){return null}};
+  function applyTheme(value,save=false){
+    const next=value==='dark'?'dark':'light';
+    html.dataset.theme=next;
+    light.setAttribute('aria-pressed',String(next==='light'));
+    dark.setAttribute('aria-pressed',String(next==='dark'));
+    if(bar)bar.setAttribute('content',next==='dark'?'#1c1c1c':'#f4f7fb');
+    if(appleBar)appleBar.setAttribute('content',next==='dark'?'black-translucent':'default');
+    if(save){try{localStorage.setItem(key,next)}catch(_){}}
+  }
+  light.addEventListener('click',()=>applyTheme('light',true));
+  dark.addEventListener('click',()=>applyTheme('dark',true));
+  applyTheme(html.dataset.theme);
+  const os=window.matchMedia?.('(prefers-color-scheme: dark)');
+  os?.addEventListener?.('change',event=>{
+    if(userChoice()!=='light'&&userChoice()!=='dark')applyTheme(event.matches?'dark':'light');
+  });
+  window.TriangleSimulatorTheme=Object.freeze({get current(){return html.dataset.theme},set:applyTheme});
 })();
 </script>
 </body>

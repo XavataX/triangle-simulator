@@ -1,21 +1,18 @@
-# Triangle Simulator 2.0.11 — Unified Workspace and Movable Panels
+# Triangle Simulator 2.0.14 — Semantic UI Accents
 
-## Changes
-- The triangle canvas fills the entire visible viewport. No blank masthead or reserved sidebar.
-- **Prikaz** remains a contextual floating filter panel. **Posmatraj** opens only when geometry is selected. **Više alata** opens from the upper-right gear icon.
-- All three panels can be dragged by their headings using mouse or touch. A tap on the Prikaz/Posmatraj heading still collapses or expands normally.
-- Panel positions stay stable when selecting another triangle or opening equations and are saved locally for portrait and landscape separately. Panels are clamped to the visible canvas and repositioned to avoid control overlaps.
-- The triangle-selection chooser has a dedicated bottom lane and does not jump into the upper controls in mobile landscape.
-- Only compact **− / +** zoom buttons are always visible. Fit Triangle (F), Fit All (Shift+F), and Reset are inside **Više alata**, with their keyboard shortcuts preserved.
-- Geometric calculations, labels, exterior constructions, angle input and gesture controls remain based on 2.0.10.
+## Visual refinement
+- The dark canvas, background, grid and floating panel surfaces remain neutral gray.
+- The active triangle badge inside **Posmatraj** uses an unmistakable blue accent.
+- The related-triangle navigation tabs inside **Posmatraj** use a green accent, with clear hover/focus states.
+- Triangle-overlap preview tabs have a blue active/preview state.
+- Checked geometry filters and selected construction focus tools gain restrained green accents.
+- No geometric calculations, shapes, gestures, panel positioning or light theme were changed.
 
-## Update the same GitHub Pages PWA
-1. Extract `Triangle_Simulator_2_0_11_Installable_PWA.zip`.
-2. Upload **the files inside the extracted folder** to the root of your existing GitHub repository (where `index.html` currently resides), replacing matching files.
-3. Commit changes. Your existing Pages URL and home-screen app remain the same.
-4. Open the website online, refresh if necessary and choose `Ažuriraj` when the PWA offers an update. Do not assume every installed browser will refresh its cache immediately.
-5. Once updated, test the offline version by disabling internet access.
+## Updating your existing GitHub Pages site
+1. Extract the PWA ZIP.
+2. Upload all its **contents** to the root of the existing repository, replacing matching files (not the enclosing folder).
+3. Commit and let GitHub Pages publish the updated `index.html` and `sw.js`.
+4. In the installed application, choose **Ažuriraj** when offered, preferably between exercises.
+5. Test Posmatraj in dark theme by selecting a subtriangle and pressing **Pokaži matematiku**; the active triangle badge and related-triangle buttons should now stand out.
 
-The portable HTML is independent and works directly from a local file. The installable PWA needs HTTPS hosting. Session geometry is not yet persisted across app reloads.
-
-**2.0.11 is a testing candidate until manually accepted.**
+The portable HTML file is a separate standalone version and does not need hosting.
