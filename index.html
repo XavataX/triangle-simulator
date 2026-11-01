@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Visual First 2.0.17</title>
+<title>Simulator trougla — Canvas First 2.0.20</title>
 <script id="theme-startup">(()=>{let mode=null;try{mode=localStorage.getItem('triangle-simulator-theme')}catch(_){}if(mode!=='light'&&mode!=='dark')mode=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=mode;})();</script>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
@@ -729,7 +729,7 @@ body .drawing-workspace .warning:not([hidden]){position:absolute;bottom:5px;left
 }
 
 
-/* 2.0.17 — Theme controls replace permanent zoom buttons; geometry and camera are untouched. */
+/* 2.0.20 — Theme controls replace permanent zoom buttons; geometry and camera are untouched. */
 .workspace-actions .theme-controls .theme-choice[aria-pressed="true"]{background:#dceef8!important;border-color:#a6cde3!important;color:#18597f!important}
 .workspace-actions .theme-controls .theme-choice[aria-pressed="false"]{opacity:.72}
 .workspace-actions .theme-controls .theme-choice:focus-visible{outline:2px solid #538eb7;outline-offset:1px}
@@ -917,7 +917,7 @@ html[data-theme="dark"] .edit-msg,
 html[data-theme="dark"] .extended-active .extended-note{color:#c5c5c5!important}
 
 
-/* 2.0.17 — Semantic accents only on interaction/selection surfaces.
+/* 2.0.20 — Semantic accents only on interaction/selection surfaces.
    Canvas/grid/panels stay ACHROMATIC. Colored construction strokes are unchanged.
    Use :is() to target both tablet and phone layouts without affecting light theme. */
 html[data-theme="dark"] {
@@ -984,12 +984,12 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
   accent-color:#67d0b3!important;
 }
 
-/* 2.0.17 — Vertex-matched exterior labels; neutral canvas/grid untouched. */
+/* 2.0.20 — Vertex-matched exterior labels; neutral canvas/grid untouched. */
 html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="A"]{fill:#f49ba0}
 html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="B"]{fill:#8bc4f0}
 html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78debd}
 
-/* 2.0.17 — Mobile overlapping-triangle carousel. Desktop hover chooser unchanged. */
+/* 2.0.20 — Mobile overlapping-triangle carousel. Desktop hover chooser unchanged. */
 .region-track-shell{position:relative;min-width:0}
 .region-chooser.touch-carousel{gap:4px;max-height:none!important;overflow:visible!important;padding:7px 7px 6px!important}
 .region-chooser.touch-carousel .region-chooser-head{display:none!important}
@@ -1034,28 +1034,95 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
  .region-chooser.touch-carousel .region-choice{min-height:29px;padding:3px 5px!important}
  .region-chooser.touch-carousel .region-equation{font-size:.65rem;min-height:13px}
 }
+/* 2.0.20 — Point aliases remain independent of geometric identifiers. */
+body.name-edit-mode #triangle [data-rename-id]{pointer-events:all!important;cursor:text!important}
+.point-alias-editor{position:absolute;z-index:82;width:min(246px,calc(100% - 14px));
+  padding:10px;border:1px solid var(--border,#b4c2ca);border-radius:11px;
+  box-shadow:0 12px 32px #0005;background:#fff;color:#253641;font:inherit;touch-action:manipulation}
+.point-alias-editor[hidden]{display:none!important}
+.point-alias-editor .alias-title{display:block;font-size:.78rem;font-weight:750;margin-bottom:6px}
+.point-alias-editor .alias-subtitle{font-size:.69rem;line-height:1.3;opacity:.75;margin:1px 0 8px}
+.point-alias-editor .alias-controls{display:flex;gap:5px;align-items:center}
+.point-alias-editor input{width:100%;min-width:0;font:700 1rem inherit;border:1px solid #9baab0;
+  border-radius:6px;padding:6px 7px;background:inherit;color:inherit;box-sizing:border-box}
+.point-alias-editor button{border:1px solid #999;border-radius:6px;background:transparent;
+  color:inherit;padding:6px 8px;font-weight:650;cursor:pointer}
+.point-alias-editor .alias-save{background:#287f72;border-color:#287f72;color:white}
+.point-alias-editor .alias-error{color:#bc5153;font-size:.73rem;margin:7px 0 0;min-height:1em}
+.point-name-mode-button[aria-pressed="true"]{background:#287f72!important;color:white!important;border-color:#287f72!important}
+html[data-theme="dark"] .point-alias-editor{background:#292929;color:#ececec;border-color:#646464}
+html[data-theme="dark"] .point-alias-editor input{background:#222;color:#f4f4f4;border-color:#646464}
+html[data-theme="dark"] .point-alias-editor .alias-error{color:#ffa6a8}
+
+/* 2.0.20 — Geometry IS the input interface. The actual letter receives focus. */
+#triangle .diagram-text[data-rename-id]{pointer-events:visiblePainted!important;cursor:text;touch-action:manipulation}
+#triangle .diagram-text[data-rename-id]:hover{filter:brightness(1.18)}
+#triangle .diagram-text[data-rename-id].inline-editing{opacity:0!important}
+.inline-point-edit{position:absolute;z-index:85;display:block;min-width:34px;width:55px;max-width:100px;
+  padding:0;margin:0;background:transparent!important;border:0!important;box-shadow:none!important;
+  border-radius:0!important;touch-action:manipulation;overflow:visible}
+.inline-point-edit[hidden]{display:none!important}
+.inline-point-edit form{margin:0!important;padding:0!important;display:block!important}
+.inline-point-edit input{display:block;width:100%;min-width:0;height:28px;padding:0 2px 1px;
+  border:0;border-bottom:2px solid #2a9885;outline:none;border-radius:0;
+  background:transparent;color:#263c48;font:800 17px/24px system-ui,"Segoe UI",Arial,sans-serif;
+  text-align:center;letter-spacing:0;box-shadow:none;caret-color:#249b84;user-select:text;-webkit-user-select:text}
+html[data-theme="dark"] .inline-point-edit input{color:#f7f7f7;border-bottom-color:#82dec8;caret-color:#90e7ce}
+.inline-point-edit input[aria-invalid="true"]{border-bottom-color:#dc6367!important}
+.inline-edit-error{position:absolute;top:29px;left:50%;transform:translateX(-50%);
+  width:max-content;max-width:min(260px,80vw);padding:4px 7px;border-radius:5px;
+  background:#fff;color:#b93035;border:1px solid #d78585;font:650 11px/1.3 system-ui;
+  box-shadow:0 3px 8px #0003;white-space:normal;text-align:center}
+.inline-edit-error:empty{display:none}
+html[data-theme="dark"] .inline-edit-error{background:#333;color:#ffb3b5;border-color:#b67476}
+/* The simple answer is visible where the angle is drawn; theory stays in Posmatraj. */
+#triangle .live-angle-value{font-size:12px;font-weight:750;letter-spacing:-.35px}
+@media(max-width:430px){#triangle .live-angle-value{font-size:11px}}
+
+/* 2.0.20: the geometric angle label IS the editable value. */
+
+#pwaUpdateNotice:not([hidden]){position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:1000;
+display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;
+max-width:calc(100vw - 24px);background:#fff;color:#293d45;
+border:1px solid #899a9e;border-radius:10px;padding:9px 12px;
+box-shadow:0 7px 30px #0004;font:650 12px/1.35 system-ui}
+#pwaUpdateNotice button{border:1px solid #86a59e;background:#e5f4ef;color:#235c4e;
+border-radius:6px;padding:6px 10px;font:700 12px system-ui}
+#triangle text[data-canvas-angle]{pointer-events:visiblePainted!important;cursor:text;touch-action:manipulation}
+#triangle text[data-canvas-angle]:hover{filter:brightness(1.22)}
+#triangle text[data-canvas-angle].canvas-angle-editing{opacity:0!important}
+#triangle text[data-canvas-angle][data-given="true"]{font-weight:900;text-decoration:underline;text-decoration-color:#e2ad4d}
+#contextAnnotations text[data-canvas-angle]{pointer-events:visiblePainted!important;cursor:text;touch-action:manipulation}
+.canvas-angle-edit{position:absolute;z-index:90;width:108px;max-width:calc(100% - 8px);background:transparent;
+  border:0;padding:0;margin:0;box-shadow:none;touch-action:manipulation;overflow:visible}
+.canvas-angle-edit[hidden]{display:none!important}
+.canvas-angle-edit input{display:block;width:100%;box-sizing:border-box;height:30px;
+  padding:0 3px;border:0;border-bottom:2px solid #249c8a;border-radius:0;outline:0;
+  background:transparent;color:#243b42;font:800 15px/27px system-ui,Segoe UI,Arial,sans-serif;
+  text-align:center;caret-color:#279c85;box-shadow:none;user-select:text;-webkit-user-select:text}
+html[data-theme="dark"] .canvas-angle-edit input{color:#f7f7f7;caret-color:#89deca;border-bottom-color:#8adecc}
+.canvas-angle-edit input[aria-invalid="true"]{border-bottom-color:#e36a72!important}
+.canvas-angle-error{position:absolute;top:32px;left:50%;transform:translateX(-50%);
+  color:#b7303d;background:#fff;border:1px solid #dc999e;border-radius:6px;padding:4px 8px;
+  font:650 11px/1.3 system-ui;white-space:normal;width:max-content;max-width:min(260px,85vw);text-align:center;
+  box-shadow:0 2px 8px #0003}
+.canvas-angle-error:empty{display:none}
+html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;border-color:#93636a}
+.canvas-angle-status{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);max-width:min(420px,85%);
+  z-index:75;border:1px solid #6c8c86;background:rgba(35,47,45,.94);color:#f5f5f5;
+  padding:6px 9px;border-radius:7px;font:600 12px/1.35 system-ui;text-align:center;pointer-events:none}
+.canvas-angle-status[hidden]{display:none!important}
 </style>
 
 
 
-<link rel="manifest" href="./manifest.webmanifest"/>
-<link rel="icon" href="./icons/icon-192.png" type="image/png" sizes="192x192"/>
-<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
 <meta name="apple-mobile-web-app-title" content="Trouglovi"/>
 <meta name="application-name" content="Simulator trougla"/>
 
-<style id="pwa-lifecycle-styles">
-/* Invisible until an updated offline release is cached. */
-#pwaUpdateNotice[hidden]{display:none!important}
-#pwaUpdateNotice{position:fixed;bottom:calc(12px + env(safe-area-inset-bottom,0px));right:12px;left:auto;max-width:calc(100vw - 24px);width:340px;z-index:1500;display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#fff;border:1px solid #8cb7d0;color:#1a415b;border-radius:12px;padding:11px 12px;box-shadow:0 8px 30px #183d6240;font:600 13px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif}
-#pwaUpdateNotice span{flex:1 1 170px}
-#pwaUpdateNotice button{font:inherit;cursor:pointer;border-radius:7px;border:1px solid #97bfd3;background:#e9f4fb;color:#1c587a;padding:6px 10px;min-height:32px}
-#pwaUpdateNow{background:#287ba5!important;border-color:#287ba5!important;color:white!important}
-@media(max-width:700px) and (orientation:landscape){#pwaUpdateNotice{bottom:6px;right:6px;width:min(300px,calc(100vw - 12px));font-size:11px;padding:6px;gap:5px}}
-</style>
-<style id="achromatic-pwa-update">html[data-theme="dark"] #pwaUpdateNow{background:#626262!important;border-color:#838383!important;color:#fff!important}</style>
+<link rel="manifest" href="./manifest.webmanifest"/>
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"/>
 </head>
 <body>
 <main class="page">
@@ -1084,6 +1151,16 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
   <div class="observe-dock-body" id="observeDockBody"></div>
 </details>
 <div class="advanced-dock" id="advancedDock" hidden aria-label="Dodatni alati za trougao"></div>
+<!-- Editing happens AT the original glyph, not in a floating form or inspector. -->
+<div id="canvasAngleEditor" class="canvas-angle-edit" hidden aria-label="Unesi ugao direktno na crtežu">
+  <input id="canvasAngleInput" aria-label="Ugao u stepenima i minutima; Enter potvrđuje, Escape odustaje, prazno briše zadatu vrednost" type="text" maxlength="20" autocomplete="off" autocorrect="off" spellcheck="false" inputmode="text" enterkeyhint="done"/>
+  <div class="canvas-angle-error" id="canvasAngleError" role="status" aria-live="polite"></div>
+</div>
+<div class="canvas-angle-status" id="canvasAngleStatus" role="status" aria-live="polite" hidden></div>
+<div id="pointAliasEditor" class="inline-point-edit" hidden aria-label="Promeni slovo tačke direktno na crtežu">
+  <form id="aliasForm"><input id="aliasInput" type="text" aria-label="Naziv tačke; Enter potvrđuje, Escape odustaje" maxlength="3" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="done" /></form>
+  <span id="aliasError" class="inline-edit-error" role="status" aria-live="polite"></span>
+</div>
 <div class="region-chooser" id="regionChooser" hidden aria-label="Izaberi preklopljeni trougao">
   <div class="region-chooser-head"><span id="regionChooserHint">Više trouglova je na ovom mestu — izaberi jedan</span><button type="button" id="closeRegionChooser" aria-label="Zatvori izbor trougla">×</button></div>
   <div class="region-track-shell"><div class="region-choices" id="regionChoices" role="group" aria-label="Dostupni trouglovi"></div></div>
@@ -2308,7 +2385,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
       'ω = 180° − (γ+α)/2.',
       'Pošto je γ+α=180°−β: ω = 90° + β/2.'
     ],derived:'90° + β/2',parts:[['90°',-1],['β/2',1]]},
-    // 2.0.17 — šest osnovnih oblasti koje dele unutrašnje simetrale.
+    // 2.0.20 — šest osnovnih oblasti koje dele unutrašnje simetrale.
     // Svaka ima proverljivo izvođenje za sva tri ugla; vizuelne oznake dele
     // istu notaciju sa matematičkim koracima.
     NSC:{sources:['NBC','BSC','PBS','ABC'],origin:'N je na AC, a S na BN i CP. Trougao NSC postoji kada su uključene simetrale iz B i C.',steps:[
@@ -2573,6 +2650,9 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
     return {valid:true,name,spec,vertices,deg,angles,known,unknown,remaining,notation};
   }
   const ids=['A','B','C'],letters=['α','β','γ'],outer=['α₁','β₁','γ₁'];
+  // Given angles are separate from geometry, point aliases, and the readouts.
+  const angleGiven=new Map();
+
   // 2.0: region registry is presentation-only, never alters geometric calculations.
   const hoverLayer=document.getElementById('hoverLayer');
   const activeTriangleBadge=document.getElementById('activeTriangleBadge');
@@ -2632,7 +2712,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
     });
   });
   const exteriorAngleNames=Object.freeze({EXA:'α₁',EXB:'β₁',EXC:'γ₁'});
-  const regionNameLabel=name=>exteriorAngleNames[name]?`∠${exteriorAngleNames[name]}`:`△${name}`;
+  const regionNameLabel=name=>exteriorAngleNames[name]?`∠${exteriorAngleNames[name]}`:`△${displayPointSequence(name)}`;
   const signedArea=(p,q,r)=>(q.x-p.x)*(r.y-p.y)-(q.y-p.y)*(r.x-p.x);
   const areaOf=v=>{
     if(!v||v.length<3)return 0;
@@ -2889,8 +2969,73 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
     const a=normalize(u),b=normalize(v),dir=normalize({x:a.x+b.x,y:a.y+b.y});
     return plus(p,dir,r);
   }
+  // 2.0.20: Geometric IDs NEVER change. Names are presentation-only aliases.
+  const pointIds=Object.freeze(['A','B','C','M','N','P','S','U','V','W','O','X','Y','Z','D','E','F','Q','R','T']);
+  const pointIdSet=new Set(pointIds);
+  const aliasStorageKey='triangle-simulator-point-aliases-v1';
+  let pointAliases={};
+  try {
+    const saved=JSON.parse(localStorage.getItem(aliasStorageKey)||'{}');
+    if(saved&&typeof saved==='object'&&!Array.isArray(saved))for(const id of pointIds){
+      if(typeof saved[id]==='string'&&/^[A-Z][A-Z0-9]{0,2}$/.test(saved[id]))pointAliases[id]=saved[id];
+    }
+  }catch(e){}
+  const displayPoint=id=>pointAliases[id]||id;
+  const displayPointSequence=sequence=>[...sequence].map(x=>displayPoint(x)).join('');
+  const displayMathText=raw=>String(raw??'').replace(/[A-Z]{1,3}/g,(token,offset,source)=>{
+    // Serbian U (in), S (with) and A (and) can be words, not point IDs.
+    // Keep sentence-leading prepositions/conjunctions, except explicit
+    // point statements like "U je središte" or "S se nalazi".
+    const startsSentence=offset===0||/[.!?;:]\s*$/.test(source.slice(0,offset));
+    if(startsSentence&&['U','S','A'].includes(token)&&
+       /^\s+(?!je\b|se\b|leži\b|pripada\b|ima\b)[a-zčćžšđ]/i.test(source.slice(offset+token.length)))return token;
+    return [...token].every(ch=>pointIdSet.has(ch))?displayPointSequence(token):token;
+  });
+  const pointLabelClasses=/\b(vertex-text|outer-center-label|extension-label|side-perp-label|side-center-label)\b/;
+  let visiblePointPositions={};
   function addText(g,x,y,value,className,fill){
-    g.append(element('text',{x:x.toFixed(2),y:y.toFixed(2),'text-anchor':'middle','dominant-baseline':'middle',class:`diagram-text ${className||''}`,fill:fill||'currentColor'},value));
+    const isPoint=pointIdSet.has(value)&&pointLabelClasses.test(className||'');
+    const attrs={x:x.toFixed(2),y:y.toFixed(2),'text-anchor':'middle','dominant-baseline':'middle',
+      class:`diagram-text ${className||''}`,fill:fill||'currentColor'};
+    if(isPoint){attrs['data-rename-id']=value;attrs['aria-label']=`Tačka ${displayPoint(value)}. Dvaput klikni ili dvaput dodirni slovo za promenu naziva.`;}
+    g.append(element('text',attrs,isPoint?displayPoint(value):value));
+  }
+  // A cached source string ensures alias changes never cascade (O→S, S→K).
+  const aliasedTextCache=new WeakMap();
+  function applyAliasText(root){
+    if(!root)return;
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    for(let n=walker.nextNode();n;n=walker.nextNode()){
+      const parent=n.parentElement;if(!parent||parent.closest('script,style,textarea,input,.region-choice,.relation-chip,#observeDockSelection,#discoveryTriangle,#discoveryTitle,#activeTriangleBadge'))continue;
+      const original=aliasedTextCache.get(n);
+      const raw=original&&original.display===n.nodeValue?original.raw:n.nodeValue;
+      const display=displayMathText(raw);
+      aliasedTextCache.set(n,{raw,display});
+      if(n.nodeValue!==display)n.nodeValue=display;
+    }
+  }
+  function refreshVisibleAliases(){
+    // The SVG is freshly regenerated on each normal redraw; do not mutate IDs.
+    for(const node of cameraView.querySelectorAll('[data-rename-id]')){
+      const id=node.getAttribute('data-rename-id');node.textContent=visibleName(id);
+    }
+    for(const root of [byId('observeDock'),byId('advancedDock'),byId('regionChooser'),activeTriangleBadge])applyAliasText(root);
+    for(const node of regionChoices.querySelectorAll('[data-region-choice]')){
+      const id=node.dataset.regionChoice;
+      node.textContent=regionNameLabel(id);
+      node.setAttribute('aria-label',`Pregledaj ${regionNameLabel(id)}, dodirni u sredini za izbor`);
+    }
+    for(const hit of handles.querySelectorAll('[data-vertex]')){
+      hit.setAttribute('aria-label',`Pomeri teme ${displayPoint(hit.getAttribute('data-vertex'))}`);
+    }
+    if(!aliasEditor.hidden)positionAliasEditor();
+  }
+  function visibleName(id){
+    const alias=displayPoint(id);
+    // If a filter later exposes a second point with that alias, disambiguate
+    // visibly rather than silently showing two identical labels.
+    const conflicts=Object.keys(visiblePointPositions).filter(other=>other!==id&&displayPoint(other)===alias);
+    return conflicts.length?`${alias}·${id}`:alias;
   }
   const contextAnnotations=document.getElementById('contextAnnotations');
   // Labels keep a fixed physical size when the geometry camera is zoomed.
@@ -2909,7 +3054,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
       let dx=0,dy=0;
       let outerKey='';
       if(isText&&node.classList.contains('outer-symbol')){
-        outerKey=({'α₁':'EXA','β₁':'EXB','γ₁':'EXC'})[node.textContent]||'';
+        outerKey=node.getAttribute('data-canvas-angle')||({'α₁':'EXA','β₁':'EXB','γ₁':'EXC'})[node.textContent]||'';
       }else if(!isText){
         outerKey=node.getAttribute('data-exterior-angle-select')||'';
       }
@@ -2968,7 +3113,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
     const labels=contextNotation[name]||[];
     return region.vertices.map((at,i)=>({at,
       dir1:region.vertices[(i+1)%3],dir2:region.vertices[(i+2)%3],
-      label:labels[i]||`∠${name[(i+2)%3]||'?'}${name[i]||'?'}${name[(i+1)%3]||'?'}`,
+      label:displayMathText(labels[i]||`∠${name[(i+2)%3]||'?'}${name[i]||'?'}${name[(i+1)%3]||'?'}`),
       exterior:false}));
   }
   function drawContextAnnotations(){
@@ -3034,7 +3179,14 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
       if(!Number.isFinite(tag.x)||!Number.isFinite(tag.y))tag={x:center.x+18,y:center.y-18};
       tag={x:Math.max(22,Math.min(canvasSize.w-22,tag.x)),y:Math.max(21,Math.min(canvasSize.h-18,tag.y))};
       const label=labels[i].label;
-      const text=element('text',{x:tag.x,y:tag.y,class:'context-label','data-context-symbol':label},label);
+      const isCentral=(i===name.indexOf('S')&&['ASB','BSC','CSA'].includes(name));
+      const centralIndex=({ASB:2,BSC:0,CSA:1})[name];
+      const centralMinutes=solveTriangle(screenPoints()).minutes?.[centralIndex];
+      const rawSec=isCentral&&Number.isInteger(centralMinutes)?90*3600+centralMinutes*30:0;
+      const centralValue=isCentral?`${label} ${secondsToAngle(rawSec)}`:label;
+      const attrs={x:tag.x,y:tag.y,class:'context-label','data-context-symbol':label};
+      if(isCentral){attrs['data-canvas-angle']=name;attrs['data-given']=String(angleGiven.has(centralIndex));}
+      const text=element('text',attrs,centralValue);
       contextAnnotations.append(text);
       allowed.push({tag,text});
     }
@@ -3212,6 +3364,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
     if(bisector.valid)named.M=bisector.M;
     if(bisectorB.valid)named.N=bisectorB.N;
     if(bisectorC.valid)named.P=bisectorC.P;
+    if(intersection.valid)named.S=intersection.S;
     for(const [key,entry] of Object.entries(renderedExtensions))named[key]=entry.point;
     if(sidePerpRender.items.AB)named.U=sidePerpRender.items.AB.midpoint;
     if(sidePerpRender.items.BC)named.V=sidePerpRender.items.BC.midpoint;
@@ -3220,6 +3373,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
     if(outerBisectorRender.centers.X)named.X=outerBisectorRender.centers.X.point;
     if(outerBisectorRender.centers.Y)named.Y=outerBisectorRender.centers.Y.point;
     if(outerBisectorRender.centers.Z)named.Z=outerBisectorRender.centers.Z.point;
+    visiblePointPositions=named;
     selectableRegions=[{name:'ABC',vertices:[A,B,C]}];
     if(bisector.valid){selectableRegions.push({name:'ABM',vertices:[A,B,bisector.M]},{name:'AMC',vertices:[A,bisector.M,C]});}
     if(bisectorB.valid){selectableRegions.push({name:'ABN',vertices:[A,B,bisectorB.N]},{name:'NBC',vertices:[bisectorB.N,B,C]});}
@@ -3382,7 +3536,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
             addText(group,h.x,h.y,'α/2','bisector-text');
           }else{
             const pos=angleLabel(v.p,...v.inside,r+20);
-            addText(group,pos.x,pos.y,'α','angle-symbol',colors[i]);
+            // Full live angle follows after arc rendering.
           }
         }else if(i===1&&bisectorB.valid){
           const bn=sub(bisectorB.N,B),ba=sub(A,B),bc=sub(C,B);
@@ -3395,7 +3549,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
             addText(group,h.x,h.y,'β/2','bisector-b-text');
           }else{
             const pos=angleLabel(v.p,...v.inside,r+20);
-            addText(group,pos.x,pos.y,'β','angle-symbol',colors[i]);
+            // Full live angle follows after arc rendering.
           }
         }else if(i===2&&bisectorC.valid){
           const cp=sub(bisectorC.P,C),ca=sub(A,C),cb=sub(B,C);
@@ -3407,14 +3561,24 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
             addText(group,h.x,h.y,'γ/2','bisector-c-text');
           }else{
             const pos=angleLabel(v.p,...v.inside,r+20);
-            addText(group,pos.x,pos.y,'γ','angle-symbol',colors[i]);
+            // Full live angle follows after arc rendering.
           }
         }else{
           group.append(element('path',{d:arcPath(v.p,...v.inside,r),class:'arc',stroke:colors[i]}));
           const pos=angleLabel(v.p,...v.inside,r+17);
-          addText(group,pos.x,pos.y,letters[i],'angle-symbol',colors[i]);
+          // Full live angle follows after arc rendering.
         }
-        const exteriorVisible=byId('quickOuterAngles').checked;
+        // Immediate result ON the canvas; Posmatraj is reserved for derivations.
+        // Display current minutes precisely but omit redundant 00′.
+        const total=answer.minutes[i],deg=Math.floor(total/60),min=total%60;
+        const concise=min?`${deg}°${String(min).padStart(2,'0')}′`:`${deg}°`;
+        const liveAt=angleLabel(v.p,...v.inside,r+30);
+        addText(group,liveAt.x,liveAt.y,`${letters[i]} ${concise}`,'angle-symbol live-angle-value',colors[i]);
+        group.lastChild.setAttribute('data-canvas-angle',ids[i]);
+        group.lastChild.setAttribute('tabindex','0');
+        group.lastChild.setAttribute('role','button');
+        group.lastChild.setAttribute('data-given',String(angleGiven.has(i)));
+                const exteriorVisible=byId('quickOuterAngles').checked;
         const outsideRadius=r+14;
         if(exteriorVisible&&outerBisectorRender.rays[ids[i]]){
           const outerDir=outerBisectorRender.rays[ids[i]].dir;
@@ -3433,8 +3597,14 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
         const out=exteriorVisible
           ?exteriorAngleLabelPosition(v.p,v.outside[0],v.outside[1],points,Object.values(outerBisectorRender.centers))
           :angleLabel(v.p,...v.outside,r+40);
-        addText(group,out.x,out.y,outer[i],'outer-symbol',colors[i]);
+        const extTotal=answer.outerMinutes[i];
+        const extConcise=(extTotal%60)?`${Math.floor(extTotal/60)}°${String(extTotal%60).padStart(2,'0')}′`:`${extTotal/60}°`;
+        addText(group,out.x,out.y,`${outer[i]} ${extConcise}`,'outer-symbol',colors[i]);
         group.lastChild.setAttribute('data-exterior-angle-symbol',ids[i]);
+        group.lastChild.setAttribute('data-canvas-angle','EX'+ids[i]);
+        group.lastChild.setAttribute('tabindex','0');
+        group.lastChild.setAttribute('role','button');
+        group.lastChild.setAttribute('data-given',String(angleGiven.has(i)));
         if(exteriorVisible){
           exteriorAngleHotspots.push({name:'EX'+ids[i],x:out.x,y:out.y});
         }
@@ -3555,6 +3725,9 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
         'aria-label':`Istraži spoljašnji ugao ${exteriorAngleNames[angle.name]}`}));
     }
     handles.replaceChildren(vertexGroup);
+    // 2.0.20: actual point glyphs, not invisible handles, are editable.
+    // Move (not duplicate) them above vertex drag targets to receive double-taps.
+    for(const label of [...drawing.querySelectorAll('text[data-rename-id]')])handles.append(label);
   }
   function updateSideReadouts(solution){
     const rowIds=['sideA','sideB','sideC'],barIds=['barA','barB','barC'];
@@ -3974,6 +4147,8 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
     // simply because the drawing was resized while a number field has focus.
     const focusedNumber=[degreesInput,minutesInput,degreesInput2,minutesInput2].includes(document.activeElement);
     if(syncInputs&&!focusedNumber&&!editorDirty)syncEditor(sol);
+    refreshVisibleAliases();
+    if(editingAngleKey)positionCanvasAngleEditor();
   }
   function showExtensionStatus(){
     const selected=Object.keys(extensionSpec).filter(key=>extensions[key].checked);
@@ -4093,6 +4268,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
     }
     // Jedan commit stanja: samo posle uspešno verifikovanog modela.
     model=fitted;
+    angleGiven.clear();
     // The input's exact geometry has already been verified. Adjust only the
     // exterior view scale after a successful commit so excenters stay visible.
     fitExteriorCenters();
@@ -4424,6 +4600,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
     const newHandle=handles.querySelector(`[data-vertex="${ids[i]}"]`);if(newHandle)newHandle.focus();
   });
   byId('reset').addEventListener('click',()=>{
+    angleGiven.clear();closeCanvasAngleEditor();
     visualSelection=null;mathRevealed=false;
     model=defaultModel();dragging=null;extDragging=null;
     // Reset the extension construction state as well as geometry.
@@ -4632,6 +4809,354 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
   advancedNavigation.innerHTML='<span>Zum i prikaz:</span>';
   for(const id of ['cameraZoomOut','cameraZoomIn','cameraFitTriangle','cameraFit','reset'])advancedNavigation.append(byId(id));
   advancedHead.after(advancedNavigation);
+
+  // 2.0.20 — Direct label editing. No rename mode and no confirmation window.
+  const resetNamesButton=document.createElement('button');
+  resetNamesButton.id='resetNamesButton';resetNamesButton.type='button';
+  resetNamesButton.textContent='↺ Nazivi';resetNamesButton.title='Vrati početne nazive tačaka';
+  advancedNavigation.append(resetNamesButton);
+  let editingPointId=null,editingLabel=null,renameLongPress=null,renameTouchLast=null,renameTouchPending=null;
+  let renameFinishing=false;
+  const aliasEditor=byId('pointAliasEditor'),aliasInput=byId('aliasInput'),aliasError=byId('aliasError');
+  const renameSelector='[data-rename-id],[data-vertex],[data-point],[data-side-midpoint],[data-extension-handle]';
+  function semanticPointFromTarget(target){
+    const el=target.closest?.(renameSelector);if(!el)return null;
+    return el.getAttribute('data-rename-id')||el.getAttribute('data-vertex')||
+      el.getAttribute('data-point')||el.getAttribute('data-side-midpoint')||
+      el.getAttribute('data-extension-handle');
+  }
+  function findPointLabel(id){return [...cameraView.querySelectorAll('[data-rename-id]')]
+    .find(el=>el.getAttribute('data-rename-id')===id)||null;}
+  function positionAliasEditor(){
+    if(aliasEditor.hidden||!editingPointId)return;
+    editingLabel=findPointLabel(editingPointId);
+    const label=editingLabel;if(!label)return;
+    const stageRect=stage.getBoundingClientRect(),r=label.getBoundingClientRect();
+    const centerX=r.left-stageRect.left+r.width/2,centerY=r.top-stageRect.top+r.height/2;
+    const width=Math.max(38,Math.min(86,Math.max(48,r.width+16)));
+    aliasEditor.style.width=width+'px';
+    aliasEditor.style.left=Math.min(Math.max(3,centerX-width/2),stageRect.width-width-3)+'px';
+    aliasEditor.style.top=Math.min(Math.max(2,centerY-14),stageRect.height-32)+'px';
+    label.classList.add('inline-editing');
+    const color=getComputedStyle(label).fill;
+    if(color&&color!=='none')aliasInput.style.color=color;
+  }
+  function closeAliasEditor(){
+    if(editingLabel)editingLabel.classList.remove('inline-editing');
+    editingLabel=null;editingPointId=null;aliasError.textContent='';
+    aliasInput.setAttribute('aria-invalid','false');aliasEditor.hidden=true;
+  }
+  function openAliasEditor(id){
+    if(!pointIdSet.has(id)||!visiblePointPositions[id])return;
+    if(!aliasEditor.hidden){if(id===editingPointId)return;finishAliasEditor(true);}
+    if(editingAngleKey)closeCanvasAngleEditor();
+    hideRegionChooser();editingPointId=id;aliasInput.value=displayPoint(id);aliasError.textContent='';
+    aliasInput.setAttribute('aria-invalid','false');aliasEditor.hidden=false;
+    positionAliasEditor();
+    aliasInput.focus({preventScroll:true});aliasInput.select();
+  }
+  function finishAliasEditor(commit){
+    if(aliasEditor.hidden||renameFinishing)return;
+    if(!commit){closeAliasEditor();return;}
+    const proposed=aliasInput.value.trim().toUpperCase();
+    const invalid=!/^[A-Z][A-Z0-9]{0,2}$/.test(proposed);
+    const duplicate=!invalid&&Object.keys(visiblePointPositions).find(id=>
+      id!==editingPointId&&displayPoint(id)===proposed);
+    if(invalid||duplicate){
+      aliasError.textContent=invalid?'Ime: 1–3 znaka (A–Z, 0–9).':`Ime ${proposed} već koristi druga vidljiva tačka.`;
+      aliasInput.setAttribute('aria-invalid','true');
+      aliasInput.focus({preventScroll:true});aliasInput.select();return;
+    }
+    renameFinishing=true;
+    const id=editingPointId;
+    if(proposed===id)delete pointAliases[id];else pointAliases[id]=proposed;
+    try{localStorage.setItem(aliasStorageKey,JSON.stringify(pointAliases))}catch(e){}
+    closeAliasEditor();redraw(false);
+    renameFinishing=false;
+  }
+  resetNamesButton.addEventListener('click',()=>{
+    closeAliasEditor();pointAliases={};try{localStorage.removeItem(aliasStorageKey)}catch(e){}
+    redraw(false);
+  });
+  byId('aliasForm').addEventListener('submit',event=>{event.preventDefault();finishAliasEditor(true);});
+  aliasInput.addEventListener('keydown',event=>{
+    if(event.key==='Escape'){event.preventDefault();event.stopPropagation();finishAliasEditor(false);}
+  });
+  aliasInput.addEventListener('input',()=>{aliasError.textContent='';aliasInput.setAttribute('aria-invalid','false');});
+  aliasInput.addEventListener('blur',()=>{
+    // Moving focus away completes valid input. Invalid input is abandoned rather than
+    // leaving an inaccessible floating form above the diagram.
+    if(!aliasEditor.hidden){
+      const value=aliasInput.value.trim().toUpperCase();
+      if(!/^[A-Z][A-Z0-9]{0,2}$/.test(value)||
+        Object.keys(visiblePointPositions).some(id=>id!==editingPointId&&displayPoint(id)===value))
+        finishAliasEditor(false);
+      else finishAliasEditor(true);
+    }
+  });
+  // Label text is placed in the topmost SVG handle layer; neither selection nor
+  // point dragging may intercept an intended double-click/double-tap on its glyph.
+  let lastPointPointer=null;
+  document.addEventListener('pointerdown',event=>{
+    let label=event.target.closest?.('[data-rename-id]');
+    // A temporary chooser can cover a label near the bottom edge. Let actual
+    // geometric letters win hit testing even through that transient overlay.
+    if(!label && !regionChooser.hidden && regionChooser.contains(event.target)){
+      label=[...cameraView.querySelectorAll('text[data-rename-id]')].find(node=>{
+        const r=node.getBoundingClientRect();return event.clientX>=r.left-3&&
+          event.clientX<=r.right+3&&event.clientY>=r.top-3&&event.clientY<=r.bottom+3;
+      });
+    }
+    if(!label)return;
+    const id=label.getAttribute('data-rename-id');
+    const now=performance.now();
+    const second=lastPointPointer?.id===id&&now-lastPointPointer.time<470&&
+      Math.hypot(event.clientX-lastPointPointer.x,event.clientY-lastPointPointer.y)<25;
+    lastPointPointer={id,time:now,x:event.clientX,y:event.clientY};
+    if(!regionChooser.hidden)hideRegionChooser();
+    if(event.pointerType==='touch'){
+      renameTouchPending={pointer:event.pointerId,id,x:event.clientX,y:event.clientY};
+      event.preventDefault();
+    }else if(second && event.pointerType==='mouse'){
+      event.preventDefault();openAliasEditor(id);
+    }
+    event.stopImmediatePropagation();
+  },true);
+  // Hover chooser must never obstruct a directly editable point glyph. This
+  // matters especially for U/P along the lower edge of a wide triangle.
+  document.addEventListener('pointermove',event=>{
+    if(event.pointerType!=='mouse'||regionChooser.hidden||!aliasEditor.hidden)return;
+    for(const label of cameraView.querySelectorAll('text[data-rename-id]')){
+      const r=label.getBoundingClientRect();
+      if(event.clientX>=r.left-31&&event.clientX<=r.right+31&&
+         event.clientY>=r.top-31&&event.clientY<=r.bottom+31){
+        hideRegionChooser();break;
+      }
+    }
+  },true);
+    svg.addEventListener('dblclick',event=>{
+    const id=event.target.closest?.('[data-rename-id]')?.getAttribute('data-rename-id');
+    if(!id)return;
+    event.preventDefault();event.stopImmediatePropagation();openAliasEditor(id);
+  },true);
+  document.addEventListener('pointerup',event=>{
+    if(event.pointerType!=='touch'||!renameTouchPending||event.pointerId!==renameTouchPending.pointer)return;
+    // Existing camera code captures pointerup on the SVG itself, not on the
+    // original text target. Match the ID saved during pointerdown instead.
+    const touch=renameTouchPending;renameTouchPending=null;
+    if(Math.hypot(touch.x-event.clientX,touch.y-event.clientY)>14)return;
+    event.preventDefault();event.stopImmediatePropagation();
+    const id=touch.id,when=performance.now(),x=event.clientX,y=event.clientY;
+    if(renameTouchLast&&renameTouchLast.id===id&&when-renameTouchLast.time<420&&
+       Math.hypot(x-renameTouchLast.x,y-renameTouchLast.y)<30){
+      renameTouchLast=null;openAliasEditor(id);
+    }else renameTouchLast={id,time:when,x,y};
+  },true);
+  // Long-press on a point remains an alternative if its label is hard to tap.
+  function cancelNamePress(){if(renameLongPress){clearTimeout(renameLongPress.timer);renameLongPress=null;}}
+  svg.addEventListener('pointerdown',event=>{
+    if(event.pointerType!=='touch'||!event.isPrimary)return;
+    const id=semanticPointFromTarget(event.target);if(!id)return;
+    renameLongPress={pointer:event.pointerId,startX:event.clientX,startY:event.clientY,id,
+      timer:setTimeout(()=>{
+        if(!renameLongPress||renameLongPress.pointer!==event.pointerId)return;
+        const target=renameLongPress.id;renameLongPress=null;
+        suppressRemainingTouchTap=true;dragging=null;extDragging=null;
+        svg.classList.remove('dragging');openAliasEditor(target);
+      },650)};
+  },true);
+  svg.addEventListener('pointermove',event=>{
+    if(renameLongPress&&event.pointerId===renameLongPress.pointer&&
+       Math.hypot(event.clientX-renameLongPress.startX,event.clientY-renameLongPress.startY)>9)cancelNamePress();
+  },true);
+  svg.addEventListener('pointerup',cancelNamePress,true);
+  svg.addEventListener('pointercancel',event=>{renameTouchPending=null;cancelNamePress();},true);
+  svg.addEventListener('pointerdown',event=>{
+    if(event.pointerType==='touch'&&renameLongPress&&event.pointerId!==renameLongPress.pointer)cancelNamePress();
+  },true);
+  window.addEventListener('resize',positionAliasEditor);
+
+
+  // 2.0.20 — direct input anchored to a rendered angle glyph, no intermediary form.
+  const canvasAngleEditor=byId('canvasAngleEditor'),canvasAngleInput=byId('canvasAngleInput');
+  const canvasAngleError=byId('canvasAngleError'),canvasAngleStatus=byId('canvasAngleStatus');
+  let editingAngleKey='',angleTouchCandidate=null,angleLastTap=null,angleCommitBusy=false;
+  const centralOpposite={ASB:2,BSC:0,CSA:1};
+  function angleIndex(key){return 'ABC'.indexOf(key.startsWith('EX')?key[2]:key);}
+  function labelForCanvasAngle(key){return key in centralOpposite?({ASB:'φ',BSC:'ψ',CSA:'ω'})[key]:
+    key.startsWith('EX')?outer[angleIndex(key)]:letters[angleIndex(key)];}
+  function shownAngleSeconds(key,minuteArray){
+    const i=key in centralOpposite?centralOpposite[key]:angleIndex(key);
+    if(i<0||!Number.isFinite(minuteArray[i]))return NaN;
+    return key in centralOpposite?90*3600+minuteArray[i]*30:
+      key.startsWith('EX')?(FULL_TURN_MIN-minuteArray[i])*60:minuteArray[i]*60;
+  }
+  function conciseSeconds(total){
+    const d=Math.floor(total/3600),m=Math.floor(total%3600/60),s=total%60;
+    return `${d}°${m?String(m).padStart(2,'0')+'′':''}${s?String(s).padStart(2,'0')+'″':''}`;
+  }
+  function canvasAngleNode(key){
+    return [...document.querySelectorAll('#triangle text[data-canvas-angle]')]
+      .find(node=>node.getAttribute('data-canvas-angle')===key&&getComputedStyle(node).display!=='none')||null;
+  }
+  function positionCanvasAngleEditor(){
+    if(canvasAngleEditor.hidden||!editingAngleKey)return;
+    const label=canvasAngleNode(editingAngleKey);if(!label)return;
+    const r=label.getBoundingClientRect(),sr=stage.getBoundingClientRect();
+    const width=112;
+    canvasAngleEditor.style.left=Math.max(4,Math.min(sr.width-width-4,(r.left+r.right)/2-sr.left-width/2))+'px';
+    canvasAngleEditor.style.top=Math.max(3,Math.min(sr.height-39,(r.top+r.bottom)/2-sr.top-15))+'px';
+    label.classList.add('canvas-angle-editing');
+  }
+  function closeCanvasAngleEditor(){
+    if(editingAngleKey){const n=canvasAngleNode(editingAngleKey);n?.classList.remove('canvas-angle-editing');}
+    editingAngleKey='';canvasAngleEditor.hidden=true;canvasAngleError.textContent='';
+    canvasAngleInput.removeAttribute('aria-invalid');
+  }
+  function announceCanvasAngle(message){
+    canvasAngleStatus.textContent=message;canvasAngleStatus.hidden=!message;
+    if(message){clearTimeout(announceCanvasAngle.timer);announceCanvasAngle.timer=setTimeout(()=>{canvasAngleStatus.hidden=true;},4800);}
+  }
+  function openCanvasAngleEditor(key){
+    const node=canvasAngleNode(key);if(!node)return;
+    const sol=solveTriangle(screenPoints());if(!sol.valid)return;
+    if(editingAngleKey&&editingAngleKey!==key)closeCanvasAngleEditor();
+    if(!aliasEditor.hidden)finishAliasEditor(true);
+    hideRegionChooser();editingAngleKey=key;canvasAngleEditor.hidden=false;
+    canvasAngleError.textContent='';canvasAngleInput.removeAttribute('aria-invalid');
+    canvasAngleInput.value=conciseSeconds(shownAngleSeconds(key,sol.minutes));
+    positionCanvasAngleEditor();canvasAngleInput.focus({preventScroll:true});canvasAngleInput.select();
+    announceCanvasAngle('');
+  }
+  function parseCanvasAngle(value){
+    const source=value.trim().replace(/,/g,'.').replace(/[º˚]/g,'°').replace(/’|ʼ/g,'′').replace(/“|”/g,'″');
+    if(!source)return {clear:true};
+    const match=source.match(/^(\d{1,3})(?:\s*°\s*(\d{1,2}))?(?:\s*′\s*(\d{1,2})\s*″?)?\s*°?\s*′?$/);
+    if(match){
+      const d=Number(match[1]),m=Number(match[2]||0),sec=Number(match[3]||0);
+      if(d>179||m>59||sec>59)return {error:'Unesi ugao između 0° i 180°.'};
+      return {seconds:d*3600+m*60+sec};
+    }
+    const colon=source.match(/^(\d{1,3})\s*[:\s]\s*(\d{1,2})\s*$/);
+    if(colon){const d=Number(colon[1]),m=Number(colon[2]);if(d>179||m>59)return {error:'Neispravni stepeni ili minuti.'};return {seconds:d*3600+m*60};}
+    const decimal=source.match(/^(\d{1,3})\.(\d{1,5})\s*°?$/);
+    if(decimal){const value=Number(source.replace('°',''));const secs=Math.round(value*3600);if(Math.abs(value*3600-secs)>1e-7)return {error:'Koristi cele sekunde.'};return {seconds:secs};}
+    return {error:'Primer unosa: 64°, 64°30′ ili 64:30.'};
+  }
+  function commitCanvasAngle(){
+    if(!editingAngleKey||angleCommitBusy)return;
+    const key=editingAngleKey,parsed=parseCanvasAngle(canvasAngleInput.value);
+    function fail(msg){canvasAngleError.textContent=msg;canvasAngleInput.setAttribute('aria-invalid','true');canvasAngleInput.focus({preventScroll:true});canvasAngleInput.select();}
+    if(parsed.error){fail(parsed.error);return;}
+    if(parsed.clear){
+      angleGiven.delete(key in centralOpposite?centralOpposite[key]:angleIndex(key));
+      closeCanvasAngleEditor();redraw(false);announceCanvasAngle('Zadati ugao je oslobođen.');return;
+    }
+    const seconds=parsed.seconds;
+    if(seconds<=0||seconds>=180*3600){fail('Ugao mora biti veći od 0° i manji od 180°.');return;}
+    const i=key in centralOpposite?centralOpposite[key]:angleIndex(key);
+    const interiorSec=key in centralOpposite?2*(seconds-90*3600):key.startsWith('EX')?180*3600-seconds:seconds;
+    if(interiorSec<=0||interiorSec>=180*3600){fail('Ovaj ugao ne može pripadati ispravnom trouglu.');return;}
+    if(interiorSec%60!==0){fail('Unesi preciznost od jednog minuta za osnovni ugao (simetrala dozvoljava i 30″).');return;}
+    const minute=interiorSec/60;
+    const proposed=new Map(angleGiven);proposed.set(i,minute);
+    const entries=[...proposed.entries()];
+    if(entries.length>2){
+      const sum=entries.reduce((a,[,v])=>a+v,0);
+      if(sum!==FULL_TURN_MIN){fail('Treći ugao mora biti jednak 180° minus dva već zadata. Oslobodi jedan od njih.');return;}
+      // The third is dependent, not a separate constraint.
+      proposed.delete(i);
+    }
+    if([...proposed.values()].reduce((a,b)=>a+b,0)>=FULL_TURN_MIN){fail('Zbir zadatih uglova mora biti manji od 180°.');return;}
+    const source=referenceForNumericEntry();
+    const fixed=[...proposed.entries()];
+    const result=fixed.length===2?
+      solveWithTwoAngles(source,fixed[0][0],fixed[0][1],fixed[1][0],fixed[1][1]):
+      solveWithOneAngle(source,i,minute);
+    if(!result.valid){fail(result.reason||'Ovaj trougao nije moguće konstruisati.');return;}
+    const candidate=fitEnteredTriangle(result.points);
+    const checked=solveTriangle(screenPointsFor(candidate));
+    if(!checked.valid||checked.minutes.some((v,j)=>v!==result.minutes[j])){
+      fail('Nije moguće tačno nacrtati zadati ugao.');return;
+    }
+    angleCommitBusy=true;
+    model=candidate;angleGiven.clear();for(const [j,v] of proposed)angleGiven.set(j,v);
+    clearInputDraft();closeCanvasAngleEditor();redraw();fitTriangle();
+    angleCommitBusy=false;
+    const resultText=checked.minutes.map((v,j)=>`${letters[j]}=${fmt(v)}`).join(', ');
+    announceCanvasAngle(angleGiven.size===1
+      ?`${labelForCanvasAngle(key)} je zadat. Ostali uglovi zavise i od početnog oblika; za jedinstveno rešenje zadaj još jedan ugao.`
+      :`${labelForCanvasAngle(key)} je zadat. ${resultText}.`);
+  }
+  canvasAngleInput.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){e.preventDefault();e.stopPropagation();commitCanvasAngle();}
+    if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeCanvasAngleEditor();}
+  });
+  canvasAngleInput.addEventListener('input',()=>{canvasAngleError.textContent='';canvasAngleInput.removeAttribute('aria-invalid');});
+  canvasAngleInput.addEventListener('blur',()=>{
+    if(!editingAngleKey)return;
+    if(canvasAngleInput.value.trim()&&parseCanvasAngle(canvasAngleInput.value).error){closeCanvasAngleEditor();return;}
+    commitCanvasAngle();
+  });
+  document.addEventListener('pointerdown',e=>{
+    if(!editingAngleKey||canvasAngleEditor.contains(e.target))return;
+    commitCanvasAngle();
+  },true);
+  // Double click and double touch require distinct event handling; SVG touch may be
+  // captured by the pan/selection engine before bubbling reaches the angle glyph.
+  // Angle glyphs own their pointer gesture; do not open the region picker
+  // or start panning on the first click of an intended double-click.
+  document.addEventListener('pointerdown',e=>{
+    if(e.target.closest?.('text[data-canvas-angle]'))e.stopPropagation();
+  },true);
+  document.addEventListener('keydown',e=>{
+    const key=e.target.closest?.('text[data-canvas-angle]')?.getAttribute('data-canvas-angle');
+    if(key&&(e.key==='Enter'||e.key==='F2')){e.preventDefault();openCanvasAngleEditor(key);}
+  },true);
+  document.addEventListener('dblclick',e=>{
+    const key=e.target.closest?.('text[data-canvas-angle]')?.getAttribute('data-canvas-angle');
+    if(!key)return;e.preventDefault();e.stopPropagation();openCanvasAngleEditor(key);
+  },true);
+  document.addEventListener('pointerdown',e=>{
+    const key=e.pointerType==='touch'?e.target.closest?.('text[data-canvas-angle]')?.getAttribute('data-canvas-angle'):null;
+    if(key)angleTouchCandidate={id:e.pointerId,key,x:e.clientX,y:e.clientY};
+  },true);
+  document.addEventListener('pointerup',e=>{
+    if(e.pointerType!=='touch'||!angleTouchCandidate||e.pointerId!==angleTouchCandidate.id)return;
+    const c=angleTouchCandidate;angleTouchCandidate=null;
+    if(Math.hypot(e.clientX-c.x,e.clientY-c.y)>16)return;
+    const now=performance.now();
+    if(angleLastTap&&angleLastTap.key===c.key&&now-angleLastTap.time<460&&
+      Math.hypot(angleLastTap.x-e.clientX,angleLastTap.y-e.clientY)<35){
+      angleLastTap=null;e.preventDefault();e.stopPropagation();openCanvasAngleEditor(c.key);
+    }else angleLastTap={key:c.key,time:now,x:e.clientX,y:e.clientY};
+  },true);
+  document.addEventListener('pointercancel',()=>{angleTouchCandidate=null;},true);
+  const clearGiven=document.createElement('button');clearGiven.type='button';
+  clearGiven.textContent='↺ Zadati uglovi';clearGiven.title='Oslobodi zadata ograničenja uglova';
+  advancedNavigation.append(clearGiven);
+  clearGiven.addEventListener('click',()=>{angleGiven.clear();closeCanvasAngleEditor();redraw(false);announceCanvasAngle('Svi zadati uglovi su oslobođeni.');});
+  // A constrained triangle is not free-draggable. Prevent an apparently correct
+  // given from being silently invalidated by dragging a vertex.
+  document.addEventListener('pointerdown',e=>{
+    if(!angleGiven.size||!e.target.closest?.('[data-vertex]'))return;
+    e.preventDefault();e.stopPropagation();
+    announceCanvasAngle('Uglovi su zadati. Za slobodno pomeranje temena prvo oslobodi zadate uglove.');
+  },true);
+  document.addEventListener('keydown',e=>{
+    if(angleGiven.size&&e.target.closest?.('[data-vertex]')&&/^Arrow/.test(e.key)){
+      e.preventDefault();e.stopPropagation();
+      announceCanvasAngle('Najpre oslobodi zadate uglove da bi pomerao teme.');
+    }
+  },true);
+  window.addEventListener('resize',positionCanvasAngleEditor);
+  window.TriangleSimulatorCanvasAngles=Object.freeze({
+    get given(){return Object.fromEntries([...angleGiven.entries()].map(([i,v])=>[ids[i],v]));},
+    get values(){const sol=solveTriangle(screenPoints());return sol.valid?sol.minutes:null;},
+    clear(){angleGiven.clear();closeCanvasAngleEditor();redraw(false);},
+    open:openCanvasAngleEditor
+  });
+
   byId('advancedClose').addEventListener('click',()=>{if(toolsOpened)originalToolsButton.click();});
 
   const controlledPanels={filter:byId('filterDock'),observe:observeDock,advanced:advancedDock};
@@ -4803,6 +5328,34 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
 </script>
 
 
+<script id="triangle-theme-controls">
+(() => {
+  const key='triangle-simulator-theme';
+  const html=document.documentElement;
+  const light=document.getElementById('themeLight');
+  const dark=document.getElementById('themeDark');
+  const bar=document.querySelector('meta[name="theme-color"]');
+  const appleBar=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+  const userChoice=()=>{try{return localStorage.getItem(key)}catch(_){return null}};
+  function applyTheme(value,save=false){
+    const next=value==='dark'?'dark':'light';
+    html.dataset.theme=next;
+    light.setAttribute('aria-pressed',String(next==='light'));
+    dark.setAttribute('aria-pressed',String(next==='dark'));
+    if(bar)bar.setAttribute('content',next==='dark'?'#1c1c1c':'#f4f7fb');
+    if(appleBar)appleBar.setAttribute('content',next==='dark'?'black-translucent':'default');
+    if(save){try{localStorage.setItem(key,next)}catch(_){}}
+  }
+  light.addEventListener('click',()=>applyTheme('light',true));
+  dark.addEventListener('click',()=>applyTheme('dark',true));
+  applyTheme(html.dataset.theme);
+  const os=window.matchMedia?.('(prefers-color-scheme: dark)');
+  os?.addEventListener?.('change',event=>{
+    if(userChoice()!=='light'&&userChoice()!=='dark')applyTheme(event.matches?'dark':'light');
+  });
+  window.TriangleSimulatorTheme=Object.freeze({get current(){return html.dataset.theme},set:applyTheme});
+})();
+</script>
 <aside id="pwaUpdateNotice" hidden role="status" aria-live="polite">
 <span>Nova verzija simulatora je spremna.</span>
 <button id="pwaUpdateNow" type="button">Ažuriraj</button>
@@ -4873,34 +5426,6 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
       console.warn('Offline instalacija nije dostupna:', err);
     }
   });
-})();
-</script>
-<script id="triangle-theme-controls">
-(() => {
-  const key='triangle-simulator-theme';
-  const html=document.documentElement;
-  const light=document.getElementById('themeLight');
-  const dark=document.getElementById('themeDark');
-  const bar=document.querySelector('meta[name="theme-color"]');
-  const appleBar=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
-  const userChoice=()=>{try{return localStorage.getItem(key)}catch(_){return null}};
-  function applyTheme(value,save=false){
-    const next=value==='dark'?'dark':'light';
-    html.dataset.theme=next;
-    light.setAttribute('aria-pressed',String(next==='light'));
-    dark.setAttribute('aria-pressed',String(next==='dark'));
-    if(bar)bar.setAttribute('content',next==='dark'?'#1c1c1c':'#f4f7fb');
-    if(appleBar)appleBar.setAttribute('content',next==='dark'?'black-translucent':'default');
-    if(save){try{localStorage.setItem(key,next)}catch(_){}}
-  }
-  light.addEventListener('click',()=>applyTheme('light',true));
-  dark.addEventListener('click',()=>applyTheme('dark',true));
-  applyTheme(html.dataset.theme);
-  const os=window.matchMedia?.('(prefers-color-scheme: dark)');
-  os?.addEventListener?.('change',event=>{
-    if(userChoice()!=='light'&&userChoice()!=='dark')applyTheme(event.matches?'dark':'light');
-  });
-  window.TriangleSimulatorTheme=Object.freeze({get current(){return html.dataset.theme},set:applyTheme});
 })();
 </script>
 </body>
