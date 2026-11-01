@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Visual First 2.0.16</title>
+<title>Simulator trougla — Visual First 2.0.17</title>
 <script id="theme-startup">(()=>{let mode=null;try{mode=localStorage.getItem('triangle-simulator-theme')}catch(_){}if(mode!=='light'&&mode!=='dark')mode=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=mode;})();</script>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
@@ -263,6 +263,10 @@
     .relation-active li{padding:3px 0;overflow-wrap:anywhere}
     .relation-active li::marker{font-weight:800;color:#427e68}
     .relation-numeric{border-top:1px solid #e0eae5;padding-top:8px;font-weight:740;color:#245c50;overflow-wrap:anywhere}
+    .relation-numeric.elementary-values{white-space:pre-line;line-height:1.7;letter-spacing:.01em}
+    #contextAnnotations .context-arc.related-opposite{stroke:#9b81d9;stroke-dasharray:4 3;stroke-width:2}
+    #contextAnnotations .context-label.related-opposite{fill:#8067bc;font-size:11px}
+    html[data-theme="dark"] #contextAnnotations .context-label.related-opposite{fill:#d8c0ff}
     .relation-note{font-size:.75rem!important;color:#6a7773!important}
     [hidden]{display:none!important}
     @media(max-width:850px){.layout{grid-template-columns:minmax(0,1fr)}.stage{height:clamp(320px,52svh,520px)}}
@@ -725,7 +729,7 @@ body .drawing-workspace .warning:not([hidden]){position:absolute;bottom:5px;left
 }
 
 
-/* 2.0.16 — Theme controls replace permanent zoom buttons; geometry and camera are untouched. */
+/* 2.0.17 — Theme controls replace permanent zoom buttons; geometry and camera are untouched. */
 .workspace-actions .theme-controls .theme-choice[aria-pressed="true"]{background:#dceef8!important;border-color:#a6cde3!important;color:#18597f!important}
 .workspace-actions .theme-controls .theme-choice[aria-pressed="false"]{opacity:.72}
 .workspace-actions .theme-controls .theme-choice:focus-visible{outline:2px solid #538eb7;outline-offset:1px}
@@ -913,7 +917,7 @@ html[data-theme="dark"] .edit-msg,
 html[data-theme="dark"] .extended-active .extended-note{color:#c5c5c5!important}
 
 
-/* 2.0.16 — Semantic accents only on interaction/selection surfaces.
+/* 2.0.17 — Semantic accents only on interaction/selection surfaces.
    Canvas/grid/panels stay ACHROMATIC. Colored construction strokes are unchanged.
    Use :is() to target both tablet and phone layouts without affecting light theme. */
 html[data-theme="dark"] {
@@ -980,12 +984,12 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
   accent-color:#67d0b3!important;
 }
 
-/* 2.0.16 — Vertex-matched exterior labels; neutral canvas/grid untouched. */
+/* 2.0.17 — Vertex-matched exterior labels; neutral canvas/grid untouched. */
 html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="A"]{fill:#f49ba0}
 html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="B"]{fill:#8bc4f0}
 html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78debd}
 
-/* 2.0.16 — Mobile overlapping-triangle carousel. Desktop hover chooser unchanged. */
+/* 2.0.17 — Mobile overlapping-triangle carousel. Desktop hover chooser unchanged. */
 .region-track-shell{position:relative;min-width:0}
 .region-chooser.touch-carousel{gap:4px;max-height:none!important;overflow:visible!important;padding:7px 7px 6px!important}
 .region-chooser.touch-carousel .region-chooser-head{display:none!important}
@@ -2304,6 +2308,57 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
       'ω = 180° − (γ+α)/2.',
       'Pošto je γ+α=180°−β: ω = 90° + β/2.'
     ],derived:'90° + β/2',parts:[['90°',-1],['β/2',1]]},
+    // 2.0.17 — šest osnovnih oblasti koje dele unutrašnje simetrale.
+    // Svaka ima proverljivo izvođenje za sva tri ugla; vizuelne oznake dele
+    // istu notaciju sa matematičkim koracima.
+    NSC:{sources:['NBC','BSC','PBS','ABC'],origin:'N je na AC, a S na BN i CP. Trougao NSC postoji kada su uključene simetrale iz B i C.',steps:[
+      'U △NBC: ∠BNC = 180° − β/2 − γ = α + β/2.',
+      'Pošto N–S–B leže na pravoj: ∠SNC = ∠BNC = α + β/2.',
+      'CP deli γ: ∠NCS = γ/2.',
+      '△NSC: ∠SNC + ∠NSC + ∠NCS = 180°.',
+      '∠NSC = 180° − (α + β/2) − γ/2 = 90° − α/2.',
+      '∠NSC = ∠PSB (unakrsni uglovi, jer se BN i CP seku u S).'
+    ],elementary:true},
+    SMC:{sources:['AMC','CSA','APS','ABC'],origin:'M je na BC, a S na AM i CP. Trougao SMC postoji kada su uključene simetrale iz A i C.',steps:[
+      'U △AMC: ∠AMC = 180° − α/2 − γ = β + α/2.',
+      'Pošto A–S–M leže na pravoj: ∠SMC = ∠AMC = β + α/2.',
+      'CP deli γ: ∠SCM = γ/2.',
+      '△SMC: ∠MSC + ∠SMC + ∠SCM = 180°.',
+      '∠MSC = 180° − (β + α/2) − γ/2 = 90° − β/2.',
+      '∠MSC = ∠ASP (unakrsni uglovi, jer se AM i CP seku u S).'
+    ],elementary:true},
+    APS:{sources:['APC','CSA','SMC','ABC'],origin:'P je na AB, a S na CP i AM. Trougao APS postoji kada su uključene simetrale iz A i C.',steps:[
+      'AM deli α: ∠PAS = α/2.',
+      'U △APC: ∠APC = 180° − α − γ/2 = β + γ/2.',
+      'Pošto C–S–P leže na pravoj: ∠APS = ∠APC = β + γ/2.',
+      '△APS: ∠PAS + ∠APS + ∠ASP = 180°.',
+      '∠ASP = 180° − α/2 − (β + γ/2) = 90° − β/2.',
+      '∠ASP = ∠MSC (unakrsni uglovi, jer se AM i CP seku u S).'
+    ],elementary:true},
+    PBS:{sources:['PBC','BSC','NSC','ABC'],origin:'P je na AB, a S na CP i BN. Trougao PBS postoji kada su uključene simetrale iz B i C.',steps:[
+      'BN deli β: ∠PBS = β/2.',
+      'U △PBC: ∠BPC = 180° − β − γ/2 = α + γ/2.',
+      'Pošto C–S–P leže na pravoj: ∠BPS = ∠BPC = α + γ/2.',
+      '△PBS: ∠BPS + ∠PBS + ∠PSB = 180°.',
+      '∠PSB = 180° − (α + γ/2) − β/2 = 90° − α/2.',
+      '∠PSB = ∠NSC (unakrsni uglovi, jer se BN i CP seku u S).'
+    ],elementary:true},
+    SBM:{sources:['ABM','ASB','ASN','ABC'],origin:'M je na BC, a S na AM i BN. Trougao SBM postoji kada su uključene simetrale iz A i B.',steps:[
+      'BN deli β: ∠SBM = β/2.',
+      'U △ABM: ∠BMA = 180° − β − α/2 = γ + α/2.',
+      'Pošto A–S–M leže na pravoj: ∠BMS = ∠BMA = γ + α/2.',
+      '△SBM: ∠BSM + ∠SBM + ∠BMS = 180°.',
+      '∠BSM = 180° − β/2 − (γ + α/2) = 90° − γ/2.',
+      '∠BSM = ∠ASN (unakrsni uglovi, jer se AM i BN seku u S).'
+    ],elementary:true},
+    ASN:{sources:['ABN','ASB','SBM','ABC'],origin:'N je na AC, a S na BN i AM. Trougao ASN postoji kada su uključene simetrale iz A i B.',steps:[
+      'AM deli α: ∠NAS = α/2.',
+      'U △ABN: ∠ANB = 180° − α − β/2 = γ + β/2.',
+      'Pošto B–S–N leže na pravoj: ∠ANS = ∠ANB = γ + β/2.',
+      '△ASN: ∠NAS + ∠ASN + ∠ANS = 180°.',
+      '∠ASN = 180° − α/2 − (γ + β/2) = 90° − γ/2.',
+      '∠ASN = ∠BSM (unakrsni uglovi, jer se AM i BN seku u S).'
+    ],elementary:true},
     AUO:{sources:['BUO','ABC'],origin:'U je središte stranice AB, a OU je simetrala stranice AB.',steps:[
       '△AUO: ∠AUO = 90°.',
       'U je središte stranice AB, zato AU = UB.',
@@ -2463,6 +2518,30 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
     ]}
   });
 
+
+  // 2.0.17: One mathematical source for all three angles of each elementary
+  // triangle. Expressions operate on *integer seconds* from displayed minutes
+  // so half-minute values (30″) are not silently rounded away.
+  const elementaryOpposites=Object.freeze({NSC:'PBS',PBS:'NSC',SMC:'APS',APS:'SMC',SBM:'ASN',ASN:'SBM'});
+  const elementaryAngleSpecs=Object.freeze({
+    NSC:[['N','∠SNC','α + β/2',['α','β/2']],['S','∠NSC','90° − α/2',['90°','−α/2']],['C','∠NCS','γ/2',['γ/2']]],
+    SMC:[['S','∠MSC','90° − β/2',['90°','−β/2']],['M','∠SMC','β + α/2',['β','α/2']],['C','∠SCM','γ/2',['γ/2']]],
+    APS:[['A','∠PAS','α/2',['α/2']],['P','∠APS','β + γ/2',['β','γ/2']],['S','∠ASP','90° − β/2',['90°','−β/2']]],
+    PBS:[['P','∠BPS','α + γ/2',['α','γ/2']],['B','∠PBS','β/2',['β/2']],['S','∠PSB','90° − α/2',['90°','−α/2']]],
+    SBM:[['S','∠BSM','90° − γ/2',['90°','−γ/2']],['B','∠SBM','β/2',['β/2']],['M','∠BMS','γ + α/2',['γ','α/2']]],
+    ASN:[['A','∠NAS','α/2',['α/2']],['S','∠ASN','90° − γ/2',['90°','−γ/2']],['N','∠ANS','γ + β/2',['γ','β/2']]]
+  });
+  function elementaryAngleValues(name,minutes){
+    const entries=elementaryAngleSpecs[name];
+    if(!entries||!Array.isArray(minutes)||minutes.length!==3)return null;
+    const result=entries.map(([vertex,notation,formula,terms])=>({
+      vertex,notation,formula,terms,
+      seconds:terms.reduce((sum,term)=>sum+sectionOfMinutes(minutes,term),0)
+    }));
+    if(result.some(r=>!Number.isInteger(r.seconds)||r.seconds<=0||r.seconds>=648000))return null;
+    if(result.reduce((sum,r)=>sum+r.seconds,0)!==648000)return null;
+    return result;
+  }
   const extendedTriangleIds=Object.keys(extendedTriangleSpecs);
   function extensionTriangleGeometry(name,named){
     const spec=extendedTriangleSpecs[name];
@@ -2858,6 +2937,9 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
     ABN:['α','β/2','∠ANB'],NBC:['∠BNC','β/2','γ'],
     APC:['α','∠APC','γ/2'],PBC:['∠BPC','β','γ/2'],
     ASB:['α/2','φ','β/2'],BSC:['β/2','ψ','γ/2'],CSA:['γ/2','ω','α/2'],
+    NSC:['∠SNC','∠NSC','γ/2'],SMC:['∠MSC','∠SMC','γ/2'],
+    APS:['α/2','∠APS','∠ASP'],PBS:['∠BPS','β/2','∠PSB'],
+    SBM:['∠BSM','β/2','∠BMS'],ASN:['α/2','∠ASN','∠ANS'],
     AUO:['∠UAO','90°','∠AOU'],BUO:['∠UBO','90°','∠BOU'],
     BVO:['∠VBO','90°','∠BOV'],CVO:['∠VCO','90°','∠COV'],
     CWO:['∠WCO','90°','∠COW'],AWO:['∠WAO','90°','∠AOW'],
@@ -2955,6 +3037,35 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
       const text=element('text',{x:tag.x,y:tag.y,class:'context-label','data-context-symbol':label},label);
       contextAnnotations.append(text);
       allowed.push({tag,text});
+    }
+    // Unakrsni ugao u S appears only with the full mathematical explanation:
+    // the fourth label identifies the actual opposite arc, not a detached term.
+    // Keep this overlay out of the exploration-only view to avoid clutter.
+    const partnerName=elementaryOpposites[name];
+    const partner=mathRevealed&&partnerName&&selectableRegions.find(r=>r.name===partnerName);
+    if(partner){
+      const si=partnerName.indexOf('S');
+      const at=worldToScreen(partner.vertices[si]);
+      const other=partner.vertices.filter((_,i)=>i!==si).map(worldToScreen);
+      const u=normalize(sub(other[0],at)),v=normalize(sub(other[1],at));
+      const minLen=Math.min(distance(at,other[0]),distance(at,other[1]));
+      if(minLen>28){
+        const radius=Math.max(11,Math.min(22,minLen*.23));
+        const pa=plus(at,u,radius),pb=plus(at,v,radius);
+        const opposite=elementaryAngleSpecs[partnerName].find(row=>row[0]==='S');
+        const label=opposite?.[1];
+        if(label){
+          contextAnnotations.append(element('path',{
+            d:`M${pa.x} ${pa.y} A${radius} ${radius} 0 0 ${cross(u,v)>=0?1:0} ${pb.x} ${pb.y}`,
+            class:'context-arc related-opposite','data-context-arc':label
+          }));
+          const mid=normalize(plus(u,v));
+          const pos=plus(at,mid,radius+32);
+          const x=Math.max(30,Math.min(canvasSize.w-30,pos.x)),y=Math.max(21,Math.min(canvasSize.h-22,pos.y));
+          contextAnnotations.append(element('text',{x,y,class:'context-label related-opposite',
+            'data-context-symbol':label},label));
+        }
+      }
     }
     // Avoid on-screen label collisions without suppressing the active math:
     // small separations are resolved by staggering labels away from one another.
@@ -3117,6 +3228,21 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
       if(bisector.valid&&bisectorB.valid)selectableRegions.push({name:'ASB',vertices:[A,intersection.S,B]});
       if(bisectorB.valid&&bisectorC.valid)selectableRegions.push({name:'BSC',vertices:[B,intersection.S,C]});
       if(bisectorC.valid&&bisector.valid)selectableRegions.push({name:'CSA',vertices:[C,intersection.S,A]});
+      // Elementary regions are legitimate as soon as their two defining
+      // bisectors are visible; the third bisector is NOT required.
+      const S=intersection.S;
+      const elementary=[
+        {name:'NSC',enabled:bisectorB.valid&&bisectorC.valid,vertices:[bisectorB.N,S,C]},
+        {name:'SMC',enabled:bisector.valid&&bisectorC.valid,vertices:[S,bisector.M,C]},
+        {name:'APS',enabled:bisector.valid&&bisectorC.valid,vertices:[A,bisectorC.P,S]},
+        {name:'PBS',enabled:bisectorB.valid&&bisectorC.valid,vertices:[bisectorC.P,B,S]},
+        {name:'SBM',enabled:bisector.valid&&bisectorB.valid,vertices:[S,B,bisector.M]},
+        {name:'ASN',enabled:bisector.valid&&bisectorB.valid,vertices:[A,S,bisectorB.N]}
+      ];
+      for(const region of elementary){
+        if(region.enabled&&region.vertices.every(Boolean)&&areaOf(region.vertices)>0.1)
+          selectableRegions.push({name:region.name,vertices:region.vertices});
+      }
     }
     if(sidePerpRender.center.valid){
       const O=sidePerpRender.center.O;
@@ -3673,6 +3799,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
   let mathRevealed=false;
   let toolsOpened=false;
   const focusRequirements={ABM:['A'],AMC:['A'],ABN:['B'],NBC:['B'],APC:['C'],PBC:['C'],ASB:['A','B'],BSC:['B','C'],CSA:['C','A']};
+  const elementaryRequirements={NSC:['B','C'],SMC:['A','C'],APS:['A','C'],PBS:['B','C'],SBM:['A','B'],ASN:['A','B']};
   const customTriangleRequirements=Object.freeze({
     AUO:{side:['AB','BC']},BUO:{side:['AB','BC']},
     BVO:{side:['BC','CA']},CVO:{side:['BC','CA']},
@@ -3702,6 +3829,10 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
       for(const key of focusRequirements[target])parentBisector[key].checked=true;
       extendedTriangleChoice.value='';
       Object.entries(focusToggles).forEach(([key,el])=>el.checked=key===target);
+    }else if(elementaryRequirements[target]){
+      for(const key of elementaryRequirements[target])parentBisector[key].checked=true;
+      extendedTriangleChoice.value='';
+      Object.values(focusToggles).forEach(el=>el.checked=false);
     }else if(extendedTriangleSpecs[target]){
       const ext=extendedTriangleSpecs[target].ext,spec=extensionSpec[ext];
       extensions[ext].checked=true;
@@ -3770,10 +3901,30 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
       const li=document.createElement('li');li.textContent=statement;steps.append(li);
     }
     const minutes=solution.minutes;
+    byId('relationNumeric').classList.toggle('elementary-values',Boolean(spec.elementary));
     if(name==='ABC'){
       const values=minutes.map(m=>m*60);
       byId('relationNumeric').textContent=`α + β + γ ≈ ${values.map(secondsToAngle).join(' + ')} = 180° 00′`;
       byId('relationNote').textContent='Zbir prikazanih unutrašnjih uglova tačno je 180°. Iz ovog pravila izvodimo jednačine drugih trouglova.';
+    }else if(spec.elementary){
+      const angles=elementaryAngleValues(name,minutes);
+      if(angles){
+        const substitutions=angles.map(a=>{
+          const terms=a.terms.map(term=>sectionOfMinutes(minutes,term));
+          const expanded=terms.map((n,i)=>n<0
+            ?` − ${secondsToAngle(-n)}`
+            :`${i?' + ':''}${secondsToAngle(n)}`).join('').replace(/^ − /,'−');
+          return `${a.notation} = ${a.formula} ≈ ${expanded} = ${secondsToAngle(a.seconds)}`;
+        });
+        byId('relationNumeric').textContent=substitutions.join('\n')+'\n'+
+          `Provera: ${angles.map(a=>secondsToAngle(a.seconds)).join(' + ')} = 180° 00′`;
+        byId('relationNote').textContent=
+          'Sva tri ugla su izračunata u sekundama iz α, β i γ, a zbir je tačno 180°. '+
+          'Odgovarajući lukovi i nazivi uglova pojavljuju se na crtežu pri izboru ovog trougla.';
+      }else{
+        byId('relationNumeric').textContent='Nije moguće pouzdano izračunati sva tri ugla.';
+        byId('relationNote').textContent='Proveri početni trougao i simetrale.';
+      }
     }else if(spec.parts){
       const terms=spec.parts.map(([label])=>label);
       const nums=spec.parts.map(([label])=>sectionOfMinutes(minutes,label));
@@ -4303,6 +4454,12 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
     ASB:'Dve simetrale prave novi trougao. Njegova dva ugla su polovine α i β.',
     BSC:'U ovom trouglu su polovine β i γ. Njihov zbir određuje ugao kod S.',
     CSA:'U ovom trouglu su polovine γ i α. Poveži ih sa trećim uglom.',
+    NSC:'Najmanji trougao uz C i N. Pronađi ugao kod S: on je unakrsni sa uglom PSB.',
+    SMC:'Najmanji trougao uz C i M. Ugao kod S je unakrsni sa uglom ASP.',
+    APS:'Mali trougao između A, P i preseka S. Uporedi ugao ASP sa MSC.',
+    PBS:'Mali trougao između P, B i S. Uporedi ugao PSB sa NSC.',
+    SBM:'Trougao između S, B i M. Ugao kod S je jednak unakrsnom uglu ASN.',
+    ASN:'Trougao između A, S i N. Ugao kod S je jednak unakrsnom uglu BSM.',
     AUO:'Trougao nastaje od središta stranice AB i centra opisane kružnice O. U tački U je pravi ugao.',
     BUO:'Druga polovina oko stranice AB daje još jedan pravougli trougao sa istim centrom O.',
     BVO:'Ovde središte stranice BC i centar O grade pravougli trougao.',
@@ -4641,7 +4798,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
       minY:-camera.y/camera.zoom,maxY:(canvasSize.h-camera.y)/camera.zoom
     };}
   });
-  window.TriangleSimulatorMath=Object.freeze({perpendicularBisector,circumcenter,clipInfiniteLine,clampRayAtViewport,extensionGeometry,solveTriangle,solveWithOneAngle,solveWithTwoAngles,analyzeSides,sideDisplayPrecision,classifyTriangle,bisectAngleA,bisectAngleB,bisectAngleC,intersectAngleBisectors,outerAngleBisector,outerBisectorGeometry,lineIntersection,anglesAtBisectorIntersection,intersectionAngleFromDisplayedMinutes,halfAngleFromDisplayedMinutes,solveASBFromMinutes,solveOtherFocusFromMinutes,solveAMSubtriangleFromMinutes,solveBNSubtriangleFromMinutes,solveCPSubtriangleFromMinutes,extensionTriangleGeometry,extendedTriangleSpecs,relationSpecs,secondsToAngle,runMathChecks});
+  window.TriangleSimulatorMath=Object.freeze({perpendicularBisector,circumcenter,clipInfiniteLine,clampRayAtViewport,extensionGeometry,solveTriangle,solveWithOneAngle,solveWithTwoAngles,analyzeSides,sideDisplayPrecision,classifyTriangle,bisectAngleA,bisectAngleB,bisectAngleC,intersectAngleBisectors,outerAngleBisector,outerBisectorGeometry,lineIntersection,anglesAtBisectorIntersection,intersectionAngleFromDisplayedMinutes,halfAngleFromDisplayedMinutes,solveASBFromMinutes,solveOtherFocusFromMinutes,solveAMSubtriangleFromMinutes,solveBNSubtriangleFromMinutes,solveCPSubtriangleFromMinutes,extensionTriangleGeometry,extendedTriangleSpecs,relationSpecs,elementaryAngleSpecs,elementaryAngleValues,secondsToAngle,runMathChecks});
 })();
 </script>
 

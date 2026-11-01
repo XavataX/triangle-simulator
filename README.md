@@ -1,25 +1,25 @@
-# Triangle Simulator 2.0.16 — Mobile Triangle Carousel and Live Preview
+# Simulator trougla 2.0.17 — Šest najmanjih trouglova i njihova matematika
 
-## What's new
+## Novine u 2.0.17
 
-- On touch devices, tapping an overlapping triangle region opens a horizontal snap-to-center chooser.
-- Swipe tabs left and right; the tab nearest the center previews its triangle on the canvas without committing a selection.
-- The centered preview remains after scrolling. Tap the centered tab to confirm and show **Posmatraj**.
-- Tapping an off-center tab moves it to the center for preview, instead of accidentally selecting it.
-- Mouse hover previews and clicking remain unchanged on desktop.
-- Existing geometry, math, visual filters, light/dark styling, and camera interactions remain intact.
+- Prepoznaje šest osnovnih trouglova **NSC, SMC, APS, PBS, SBM, ASN** koje formiraju unutrašnje simetrale.
+- Dostupni su čim su prikazane odgovarajuće **dve** simetrale; nisu potrebne sve tri.
+- I desktop izbor i mobilni carousel prikazuju šest novih trouglova.
+- Posmatraj: svaki ima tri simbolička izraza, izračunate vrednosti sa međukoracima i proveru zbira **180°**.
+- Pri izboru se direktno na crtežu prikazuju tri ugla; pri otvaranju matematike naznačen je odgovarajući unakrsni ugao u susednom malom trouglu.
+- Sačuvani su UI 2.0.16, svetla/tamna tema, gestovi, filtriranje i matematika starijih konstrukcija.
 
-## Update an existing GitHub Pages PWA
+## Ažuriraj aplikaciju na GitHub Pages
 
-1. Extract `Triangle_Simulator_2_0_16_Installable_PWA.zip`.
-2. Upload **the contents of the ZIP** to the root of your existing repository, replacing files with matching names. Preserve the `icons/` folder.
-3. Commit. The app's public URL stays the same.
-4. Open the site online. Choose **Ažuriraj** when the updated offline version is ready, after finishing any current exercise.
+1. Raspakuj `Triangle_Simulator_2_0_17_Installable_PWA.zip`.
+2. U postojećem GitHub repozitorijumu **zameni sadržaj korena** fajlovima iz arhive: `index.html`, `sw.js`, `manifest.webmanifest`, `icons/` i dr. Ne uploaduj spoljašnji folder.
+3. Klikni **Commit changes**. Javni URL ostaje isti.
+4. Otvori javni URL na internetu. Kad stigne obaveštenje za novu verziju, izaberi **Ažuriraj** kada završiš zadatak.
+
+## Test na telefonu
+
+U Prikaz uključi **Simetrale uglova**. Dodirni jednu od šest najmanjih površina i prevuci carousel do željenog trougla. Izaberi ga, otvori **Pokaži matematiku**, pronađi označena tri ugla i proveru zbira. Proveri zasebno postavke sa samo dve uključene simetrale kroz **Više alata**.
 
 ## Offline
 
-Install from HTTPS (e.g. GitHub Pages) and allow the first online visit to cache the application shell. The portable HTML can be opened directly offline.
-
-## Manual phone acceptance
-
-Enable multiple geometric constructions, tap where triangles overlap, swipe through the carousel and compare live highlights. Let go to keep the preview, then tap the centered triangle to confirm. Rotate the phone and repeat. Test dark theme, pinch zoom, and Posmatraj explanations.
+PWA je moguće instalirati sa HTTPS sajta (npr. GitHub Pages). Posle keširanja radi offline. Prenosiva HTML datoteka može se otvoriti i neposredno bez internet veze.
