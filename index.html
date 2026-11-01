@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Canvas First 2.0.20</title>
+<title>Simulator trougla — Live Canvas Math 2.0.22</title>
 <script id="theme-startup">(()=>{let mode=null;try{mode=localStorage.getItem('triangle-simulator-theme')}catch(_){}if(mode!=='light'&&mode!=='dark')mode=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=mode;})();</script>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
@@ -729,7 +729,7 @@ body .drawing-workspace .warning:not([hidden]){position:absolute;bottom:5px;left
 }
 
 
-/* 2.0.20 — Theme controls replace permanent zoom buttons; geometry and camera are untouched. */
+/* 2.0.21 — Theme controls replace permanent zoom buttons; geometry and camera are untouched. */
 .workspace-actions .theme-controls .theme-choice[aria-pressed="true"]{background:#dceef8!important;border-color:#a6cde3!important;color:#18597f!important}
 .workspace-actions .theme-controls .theme-choice[aria-pressed="false"]{opacity:.72}
 .workspace-actions .theme-controls .theme-choice:focus-visible{outline:2px solid #538eb7;outline-offset:1px}
@@ -917,7 +917,7 @@ html[data-theme="dark"] .edit-msg,
 html[data-theme="dark"] .extended-active .extended-note{color:#c5c5c5!important}
 
 
-/* 2.0.20 — Semantic accents only on interaction/selection surfaces.
+/* 2.0.21 — Semantic accents only on interaction/selection surfaces.
    Canvas/grid/panels stay ACHROMATIC. Colored construction strokes are unchanged.
    Use :is() to target both tablet and phone layouts without affecting light theme. */
 html[data-theme="dark"] {
@@ -984,12 +984,12 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
   accent-color:#67d0b3!important;
 }
 
-/* 2.0.20 — Vertex-matched exterior labels; neutral canvas/grid untouched. */
+/* 2.0.21 — Vertex-matched exterior labels; neutral canvas/grid untouched. */
 html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="A"]{fill:#f49ba0}
 html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="B"]{fill:#8bc4f0}
 html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78debd}
 
-/* 2.0.20 — Mobile overlapping-triangle carousel. Desktop hover chooser unchanged. */
+/* 2.0.21 — Mobile overlapping-triangle carousel. Desktop hover chooser unchanged. */
 .region-track-shell{position:relative;min-width:0}
 .region-chooser.touch-carousel{gap:4px;max-height:none!important;overflow:visible!important;padding:7px 7px 6px!important}
 .region-chooser.touch-carousel .region-chooser-head{display:none!important}
@@ -1034,7 +1034,7 @@ html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{
  .region-chooser.touch-carousel .region-choice{min-height:29px;padding:3px 5px!important}
  .region-chooser.touch-carousel .region-equation{font-size:.65rem;min-height:13px}
 }
-/* 2.0.20 — Point aliases remain independent of geometric identifiers. */
+/* 2.0.21 — Point aliases remain independent of geometric identifiers. */
 body.name-edit-mode #triangle [data-rename-id]{pointer-events:all!important;cursor:text!important}
 .point-alias-editor{position:absolute;z-index:82;width:min(246px,calc(100% - 14px));
   padding:10px;border:1px solid var(--border,#b4c2ca);border-radius:11px;
@@ -1054,7 +1054,7 @@ html[data-theme="dark"] .point-alias-editor{background:#292929;color:#ececec;bor
 html[data-theme="dark"] .point-alias-editor input{background:#222;color:#f4f4f4;border-color:#646464}
 html[data-theme="dark"] .point-alias-editor .alias-error{color:#ffa6a8}
 
-/* 2.0.20 — Geometry IS the input interface. The actual letter receives focus. */
+/* 2.0.21 — Geometry IS the input interface. The actual letter receives focus. */
 #triangle .diagram-text[data-rename-id]{pointer-events:visiblePainted!important;cursor:text;touch-action:manipulation}
 #triangle .diagram-text[data-rename-id]:hover{filter:brightness(1.18)}
 #triangle .diagram-text[data-rename-id].inline-editing{opacity:0!important}
@@ -1079,7 +1079,7 @@ html[data-theme="dark"] .inline-edit-error{background:#333;color:#ffb3b5;border-
 #triangle .live-angle-value{font-size:12px;font-weight:750;letter-spacing:-.35px}
 @media(max-width:430px){#triangle .live-angle-value{font-size:11px}}
 
-/* 2.0.20: the geometric angle label IS the editable value. */
+/* 2.0.21: the geometric angle label IS the editable value. */
 
 #pwaUpdateNotice:not([hidden]){position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:1000;
 display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;
@@ -1112,6 +1112,97 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
   z-index:75;border:1px solid #6c8c86;background:rgba(35,47,45,.94);color:#f5f5f5;
   padding:6px 9px;border-radius:7px;font:600 12px/1.35 system-ui;text-align:center;pointer-events:none}
 .canvas-angle-status[hidden]{display:none!important}
+
+#triangle .live-side-order{font-size:12px;font-weight:850;fill:#388d78;stroke:#fff;stroke-width:3.3px;paint-order:stroke;pointer-events:none}
+html[data-theme="dark"] #triangle .live-side-order{fill:#80dfc3;stroke:#252525}
+/* 2.0.21 — Canvas-side equality: pick two labels, no separate panel. */
+#triangle text[data-side-pick]{pointer-events:visiblePainted!important;cursor:pointer;touch-action:manipulation}
+#triangle text[data-side-pick][data-pending="true"]{fill:#e6b55f!important;font-weight:900!important}
+#triangle text[data-side-pick][data-equal="true"]{fill:#62c4aa!important;font-weight:900!important}
+#triangle .equality-tick{stroke:#58c9a7;stroke-width:3.2;stroke-linecap:round;vector-effect:non-scaling-stroke;pointer-events:none}
+#triangle .equality-badge{font-size:12px;font-weight:850;fill:#64c7ac;paint-order:stroke;stroke:var(--bg,#202020);stroke-width:3.3px;pointer-events:none}
+#triangle .circum-angle-value{font-size:12px;font-weight:850;fill:#b6a0f0;paint-order:stroke;stroke:#242424;stroke-width:2.5px}
+html:not([data-theme="dark"]) #triangle .circum-angle-value{fill:#6854a4;stroke:#f6f8fa}
+#triangle .circum-angle-mark{fill:none;stroke:#b69bff;stroke-width:2.6;vector-effect:non-scaling-stroke;pointer-events:none}
+
+.constraint-explanation{margin:14px 0 0;padding:12px;border:1px solid #93cdbd;border-radius:9px;background:#eef8f4;color:#274b41;font-size:.8rem;line-height:1.55}
+.constraint-explanation h3{margin:0 0 8px;font-size:.87rem}
+.constraint-explanation p{margin:6px 0}
+.constraint-explanation[hidden]{display:none!important}
+html[data-theme="dark"] .constraint-explanation{background:#303934;border-color:#547c6f;color:#e3eee7}
+#triangle .circum-angle-leader{stroke:#a998d4;stroke-width:1.1;stroke-dasharray:3 3;opacity:.7;vector-effect:non-scaling-stroke;pointer-events:none}
+
+/* 2.0.22 — Mathematical reasoning lives WITHIN the uninterrupted canvas.
+   No additional layout column, modal or opaque desktop inspector. */
+.live-math-dock{position:absolute;z-index:13;top:68px;right:12px;
+  width:min(312px,33vw);max-height:calc(100% - 86px);overflow:hidden;
+  padding:0 0 5px;color:#294a48;background:linear-gradient(90deg,transparent,rgba(249,251,252,.93) 13%);
+  border:0;border-radius:8px;box-shadow:none;font-size:13px;line-height:1.48;
+  transition:opacity .12s ease;pointer-events:auto;}
+.live-math-dock[hidden],.live-math-dock.theory-active{display:none!important}
+.live-math-head{display:flex;align-items:center;gap:7px;padding:6px 4px 6px 12px;min-height:34px;
+  touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;}
+.live-math-head:active{cursor:grabbing}
+.live-math-title{flex:1;min-width:0;font-weight:820;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+.live-math-title strong{color:#237f72}
+.live-math-actions{display:flex;align-items:center;gap:3px}
+.live-math-actions button{min-width:29px;min-height:29px;padding:3px 5px;font-size:12px;font-weight:750;
+ background:transparent;border:1px solid transparent;border-radius:6px;color:inherit;cursor:pointer}
+.live-math-actions button:hover,.live-math-actions button:focus-visible{background:rgba(105,147,132,.15);border-color:rgba(89,146,125,.45)}
+.live-math-body{padding:2px 9px 10px 14px;overflow-y:auto;max-height:calc(100dvh - 165px);
+ scrollbar-width:thin;overscroll-behavior:contain;touch-action:pan-y}
+.live-math-dock.is-compact .live-math-body{display:none}
+.live-math-caption{font-size:11px;color:#557a74;margin:0 0 7px;line-height:1.5}
+.live-math-heading{font-weight:830;color:#38786e;font-size:12px;margin:10px 0 4px}
+.live-math-links{display:flex;flex-wrap:wrap;gap:5px}
+.live-math-links button{padding:5px 9px;min-height:30px;border-radius:8px;border:1px solid #6bb59f;
+ color:#215b52;background:rgba(58,135,113,.12);font-size:12px;font-weight:800;cursor:pointer}
+.live-math-links button:focus-visible,.live-math-links button:hover{background:rgba(66,145,122,.3);outline:2px solid #64b79c;outline-offset:1px}
+.live-math-steps{margin:3px 0 0;padding-left:24px;line-height:1.53;font-size:12px}
+.live-math-steps li{padding:3px 1px;overflow-wrap:anywhere}
+.live-math-steps li::marker{color:#358a73;font-weight:800}
+.live-math-result{border-top:1px solid rgba(75,142,123,.36);padding-top:8px;margin-top:8px;
+ font-size:13px;color:#1e8066;font-weight:850;white-space:pre-line;overflow-wrap:anywhere}
+.live-math-summary{display:block;font-size:12px;font-weight:800;color:#278168;white-space:normal}
+.live-math-dock:not(.is-compact) .live-math-summary{display:none}
+.live-math-theory{display:inline-flex;align-items:center;gap:3px;margin-top:9px;padding:5px 8px;
+ border:1px solid #8abca9;border-radius:7px;background:transparent;color:inherit;cursor:pointer;font-weight:750;font-size:11px}
+.live-math-dock.dragged{box-shadow:0 9px 26px rgba(0,0,0,.18);background:rgba(246,249,247,.97);border:1px solid rgba(78,128,108,.35)}
+body:has(.region-chooser:not([hidden])) .live-math-dock{opacity:0;pointer-events:none}
+html[data-theme="dark"] .live-math-dock{color:#d9ddda;background:linear-gradient(90deg,transparent,rgba(37,37,37,.94) 13%)}
+html[data-theme="dark"] .live-math-dock.dragged{background:rgba(39,39,39,.98);border-color:#646464}
+html[data-theme="dark"] .live-math-caption{color:#b9c1bb}
+html[data-theme="dark"] .live-math-title strong,
+html[data-theme="dark"] .live-math-heading{color:#8ad8bf}
+html[data-theme="dark"] .live-math-result,html[data-theme="dark"] .live-math-summary{color:#9beacb}
+html[data-theme="dark"] .live-math-links button{background:rgba(32,84,69,.86);border-color:#5ba88f;color:#ddfff2}
+html[data-theme="dark"] .live-math-links button:hover{background:#336d5a}
+html[data-theme="dark"] .live-math-theory{border-color:#757575;color:#e4e4e4}
+html[data-theme="dark"] .live-math-steps li::marker{color:#75cba9}
+/* Tablet / compact landscape: thinner dock and independent scroll. */
+@media (orientation:landscape) and (max-width:900px){
+ .live-math-dock{top:47px;right:5px;width:min(210px,36vw);max-height:calc(100% - 55px);font-size:11px}
+ .live-math-head{padding:3px 2px 3px 8px;min-height:29px}
+ .live-math-title{font-size:11px}.live-math-body{padding:2px 5px 6px 9px;max-height:calc(100dvh - 102px)}
+ .live-math-heading{margin:6px 0 3px;font-size:11px}.live-math-steps{font-size:10.5px;padding-left:18px}
+ .live-math-result{font-size:11px;margin-top:5px;padding-top:5px}
+ .live-math-links button{font-size:10px;min-height:25px;padding:3px 5px}
+ .live-math-caption{font-size:10px;margin-bottom:3px}
+}
+@media (orientation:portrait) and (max-width:700px){
+ .live-math-dock{top:auto;right:6px;bottom:8px;left:6px;width:auto;max-height:min(49dvh,370px);
+  background:rgba(250,252,251,.96);border:1px solid #adc5b9;box-shadow:0 3px 15px rgba(0,0,0,.12);}
+ html[data-theme="dark"] .live-math-dock{background:rgba(37,37,37,.96);border-color:#626962}
+ .live-math-head{padding:4px 8px;min-height:35px}
+ .live-math-body{max-height:calc(min(49dvh,370px) - 48px);padding:3px 12px 10px}
+ .live-math-steps{font-size:11px}
+ .live-math-dock.is-compact{max-height:64px}
+ .live-math-dock.dragged{left:auto;right:auto;bottom:auto;width:calc(100% - 12px);max-height:min(49dvh,370px)}
+}
+@media (max-height:405px) and (orientation:landscape){
+ .live-math-steps li{padding:1px 0}.live-math-body{max-height:calc(100dvh - 90px)}
+}
+
 </style>
 
 
@@ -1120,6 +1211,7 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
 <meta name="apple-mobile-web-app-title" content="Trouglovi"/>
 <meta name="application-name" content="Simulator trougla"/>
+
 
 <link rel="manifest" href="./manifest.webmanifest"/>
 <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"/>
@@ -1150,6 +1242,26 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
   <summary><span class="observe-dock-label">◉ Posmatraj</span><span id="observeDockSelection" class="observe-dock-selection">△ABC</span></summary>
   <div class="observe-dock-body" id="observeDockBody"></div>
 </details>
+<!-- 2.0.22: selected geometry writes its mathematics directly on the canvas. -->
+<section id="liveMathDock" class="live-math-dock" hidden aria-label="Matematika aktivnog trougla">
+  <div id="liveMathHead" class="live-math-head" aria-label="Prevuci da pomeriš matematički prikaz">
+    <span id="liveMathTitle" class="live-math-title">Aktivni trougao: △ABC</span>
+    <div class="live-math-actions">
+      <button id="liveMathExpand" type="button" title="Prikaži ili sakrij postupak" aria-label="Proširi ili sažmi računanje" aria-expanded="true">▴</button>
+      <button id="liveMathClose" type="button" title="Sakrij matematički prikaz" aria-label="Sakrij matematički prikaz">×</button>
+    </div>
+  </div>
+  <div id="liveMathSummary" class="live-math-summary" aria-live="polite" style="padding:0 11px 8px" hidden></div>
+  <div id="liveMathBody" class="live-math-body">
+    <p id="liveMathOrigin" class="live-math-caption"></p>
+    <div id="liveMathLinksHeading" class="live-math-heading">Povezani trouglovi:</div>
+    <div id="liveMathLinks" class="live-math-links"></div>
+    <div class="live-math-heading">Sistem i redosled zamene:</div>
+    <ol id="liveMathSteps" class="live-math-steps"></ol>
+    <div id="liveMathResult" class="live-math-result" aria-live="polite"></div>
+    <button id="liveMathTheory" class="live-math-theory" type="button">Teorija i detalji</button>
+  </div>
+</section>
 <div class="advanced-dock" id="advancedDock" hidden aria-label="Dodatni alati za trougao"></div>
 <!-- Editing happens AT the original glyph, not in a floating form or inspector. -->
 <div id="canvasAngleEditor" class="canvas-angle-edit" hidden aria-label="Unesi ugao direktno na crtežu">
@@ -1599,6 +1711,100 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     const result=constructFromMinutes(points,values);
     if(result.valid)result.thirdIndex=3-index1-index2;
     return result;
+  }
+  // Constrained solver: two equal sides impose equality on their opposite angles.
+  // It never changes the rendered label alone; all vertices are reconstructed.
+  function circumBisectorAngle(points){
+    const O=circumcenter(points);
+    if(!O.valid)return NaN;
+    const U={x:(points[0].x+points[1].x)/2,y:(points[0].y+points[1].y)/2};
+    const V={x:(points[1].x+points[2].x)/2,y:(points[1].y+points[2].y)/2};
+    if(distance(O.O,U)<1e-5||distance(O.O,V)<1e-5)return NaN;
+    return degreesAt(O.O,U,V);
+  }
+  function solveEqualSides(points,pair,givens=new Map(),circumSeconds=null){
+    if(!pair)return {valid:false,reason:'Prvo označi dve jednake stranice.'};
+    const [sa,sb]=pair.split('=');
+    const i=sideToAngle[sa],j=sideToAngle[sb],k=3-i-j;
+    if([i,j,k].some(v=>!Number.isInteger(v)||v<0||v>2))return {valid:false,reason:'Nepostojeća kombinacija stranica.'};
+    const old=solveTriangle(points);
+    if(!old.valid)return {valid:false,reason:'Trougao nije ispravan.'};
+    const candidates=[];
+    const setCandidate=t=>{if(Number.isInteger(t)&&t>MIN_ANGLE_DEG*60&&2*t<FULL_TURN_MIN-MIN_ANGLE_DEG*60&&!candidates.includes(t))candidates.push(t);};
+    if(circumSeconds!==null){
+      // ∠UOV is between the perpendicular bisectors of AB and BC. The
+      // directed rays can select β or 180°−β; verify geometric branch below.
+      const targets=[circumSeconds/60,(180*3600-circumSeconds)/60];
+      for(const betaMinutes of targets){
+        if(j===1||i===1)setCandidate(Math.round(betaMinutes));
+        else setCandidate(Math.round((FULL_TURN_MIN-betaMinutes)/2));
+      }
+    } else if(givens.size){
+      for(const [index,value] of givens){
+        const t=(index===k)?(FULL_TURN_MIN-value)/2:value;
+        if(!Number.isInteger(t))return {valid:false,reason:'Jednakost stranica i zadati ugao zahtevaju pola minuta. Zadaj kompatibilne vrednosti.'};
+        setCandidate(t);
+      }
+    }else{
+      setCandidate(Math.round((FULL_TURN_MIN-old.minutes[k])/2));
+    }
+    const solutions=[];
+    for(const t of candidates){
+      const values=[0,0,0];values[i]=t;values[j]=t;values[k]=FULL_TURN_MIN-2*t;
+      if([...givens].some(([idx,val])=>values[idx]!==val))continue;
+      const result=constructFromMinutes(points,values);
+      if(!result.valid)continue;
+      if(circumSeconds!==null){
+        const calculated=circumBisectorAngle(result.points);
+        if(!Number.isFinite(calculated)||Math.abs(calculated*3600-circumSeconds)>3.1)continue;
+      }
+      if(!solutions.some(s=>s.minutes.join(',')===values.join(',')))solutions.push(result);
+    }
+    if(!solutions.length)return {valid:false,reason:'Zadati uglovi i jednakost stranica nisu saglasni. Oslobodi ili promeni jedan uslov.'};
+    if(solutions.length>1)return {valid:false,reason:'Postoje dva različita rešenja. Zadaj još jedan nezavisan podatak.'};
+    return solutions[0];
+  }
+  // Constraint details live in Posmatraj, never in a modal editor.
+  // Basic values and the final side order are drawn in the SVG instead.
+  function updateConstraintExplanation(){
+    const host=document.getElementById('mathPane');if(!host)return;
+    let box=document.getElementById('constraintExplanation221');
+    if(!box){
+      box=document.createElement('section');box.id='constraintExplanation221';
+      box.setAttribute('aria-label','Jednakost stranica i zadati ugao');
+      box.className='constraint-explanation';host.append(box);
+    }
+    box.hidden=!equalSides;
+    if(!equalSides)return;
+    const tri=solveTriangle(screenPoints());if(!tri.valid)return;
+    const pair=equalSides.split('='),which={a:'BC',b:'AC',c:'AB'};
+    const names=pair.map(k=>[...which[k]].map(displayPoint).join(''));
+    const idx=pair.map(k=>sideToAngle[k]),third=3-idx[0]-idx[1];
+    const symbols=['α','β','γ'];
+    const n=tri.minutes;
+    const fmtCompact=v=>`${Math.floor(v/60)}°${v%60?String(v%60).padStart(2,'0')+'′':''}`;
+    const equalLine=`${names[0]} = ${names[1]} ⇒ ${symbols[idx[0]]} = ${symbols[idx[1]]} = ${fmtCompact(n[idx[0]])}`;
+    const angleThird=`${symbols[third]} = 180° − ${fmtCompact(n[idx[0]])} − ${fmtCompact(n[idx[1]])} = ${fmtCompact(n[third])}`;
+    const info=analyzeSides(screenPoints());
+    const order=info.groups.map(g=>g.map(j=>[...which[['a','b','c'][j]]].map(displayPoint).join('')).join(' = ')).join(' > ');
+    let rule='';
+    if(givenCircumAngle!==null){
+      const word=`∠${displayPoint('U')}${displayPoint('O')}${displayPoint('V')}`;
+      const beta=tri.minutes[1]*60,omega=givenCircumAngle;
+      const complementary=Math.abs(beta+omega-180*3600)<4;
+      const same=Math.abs(beta-omega)<4;
+      rule=`<p><strong>Zadati ugao:</strong> ${word} = ${conciseSeconds(omega)}.</p>`+
+        (complementary?`<p>Simetrale stranica AB i BC su normalne na te stranice. U prikazanom rasporedu ${word} i β su suplementni: β = 180° − ${conciseSeconds(omega)} = ${fmtCompact(n[1])}.</p>`:
+        same?`<p>U prikazanom rasporedu ugao između polupravih na simetralama jednak je β = ${fmtCompact(n[1])}.</p>`:
+        `<p>Ugao je povezan sa uglom između pravih AB i BC. Proveri smer polupravih iz njihovog preseka.</p>`);
+    }
+    box.innerHTML=`<h3>Jednake stranice · direktno zadato na crtežu</h3>
+      <p><strong>Uslov:</strong> ${names[0]} = ${names[1]} (jednake crtice na stranicama).</p>
+      ${rule}
+      <p><strong>Jednaki naspramni uglovi:</strong> ${equalLine}.</p>
+      <p><strong>Zbir uglova:</strong> ${angleThird}.</p>
+      <p><strong>Poređenje stranica:</strong> ${order}.</p>
+      <p>Pravilo: većem uglu naspram je duža stranica, a jednakim uglovima jednake stranice.</p>`;
   }
   // Odnosi stranica se računaju nezavisno od iscrtavanja i prikaza vrednosti.
   // Jedinica 'u' nije cm: pri prikazu se najduža stranica normalizuje na 100 u.
@@ -2385,7 +2591,7 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
       'ω = 180° − (γ+α)/2.',
       'Pošto je γ+α=180°−β: ω = 90° + β/2.'
     ],derived:'90° + β/2',parts:[['90°',-1],['β/2',1]]},
-    // 2.0.20 — šest osnovnih oblasti koje dele unutrašnje simetrale.
+    // 2.0.21 — šest osnovnih oblasti koje dele unutrašnje simetrale.
     // Svaka ima proverljivo izvođenje za sva tri ugla; vizuelne oznake dele
     // istu notaciju sa matematičkim koracima.
     NSC:{sources:['NBC','BSC','PBS','ABC'],origin:'N je na AC, a S na BN i CP. Trougao NSC postoji kada su uključene simetrale iz B i C.',steps:[
@@ -2652,6 +2858,12 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
   const ids=['A','B','C'],letters=['α','β','γ'],outer=['α₁','β₁','γ₁'];
   // Given angles are separate from geometry, point aliases, and the readouts.
   const angleGiven=new Map();
+  // Pair refers to opposite sides a=BC, b=CA, c=AB, never to display aliases.
+  let equalSides=null, pendingSide=null, givenCircumAngle=null;
+  const sideToAngle=Object.freeze({a:0,b:1,c:2});
+  const sideEndpoints=Object.freeze({a:[1,2],b:[2,0],c:[0,1]});
+  const equalityKey=(a,b)=>[a,b].sort().join('=');
+
 
   // 2.0: region registry is presentation-only, never alters geometric calculations.
   const hoverLayer=document.getElementById('hoverLayer');
@@ -2874,6 +3086,99 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
   const observeDockBody=document.getElementById('observeDockBody');
   const advancedDock=document.getElementById('advancedDock');
   observeDockBody.append(document.getElementById('discoveryCard'),document.getElementById('mathPane'));
+  const liveMathDock=document.getElementById('liveMathDock');
+  const liveMathExpand=document.getElementById('liveMathExpand');
+  const liveMathHead=document.getElementById('liveMathHead');
+  const liveMathResult=document.getElementById('liveMathResult');
+  let liveMathExpanded=!(matchMedia('(orientation:portrait) and (max-width:700px)').matches);
+  let liveMathHiddenByUser=false;
+  let liveMathLastSelection='';
+  // Reserve the right-hand math reading lane on a phone in landscape by
+  // panning the CAMERA, never resizing the canvas or altering the triangle.
+  function avoidMathTriangleCollision(){
+    if(liveMathDock.hidden||liveMathDock.classList.contains('is-compact')||liveMathDock.classList.contains('dragged'))return;
+    const landscape=matchMedia('(orientation:landscape) and (max-width:900px) and (max-height:600px)').matches;
+    const portrait=matchMedia('(orientation:portrait) and (max-width:700px)').matches;
+    if(!landscape&&!portrait)return;
+    const rail=liveMathDock.getBoundingClientRect(),stageRect=stage.getBoundingClientRect();
+    if(rail.width<50)return;
+    const vertices=screenPoints().map(p=>({x:p.x*camera.zoom+camera.x,y:p.y*camera.zoom+camera.y}));
+    if(landscape){
+      const rightEdge=rail.left-stageRect.left-42;
+      const maxX=Math.max(...vertices.map(p=>p.x)),minX=Math.min(...vertices.map(p=>p.x));
+      const delta=Math.max(0,Math.min(maxX-rightEdge,minX-25));
+      if(delta>3)setCamera(camera.zoom,camera.x-delta,camera.y);
+    }else{
+      // A student expanding the arithmetic in portrait must keep the figure
+      // in sight above the bottom dock; only pan the camera, never alter angles.
+      const topEdge=rail.top-stageRect.top-23;
+      const maxY=Math.max(...vertices.map(p=>p.y)),minY=Math.min(...vertices.map(p=>p.y));
+      const delta=Math.max(0,Math.min(maxY-topEdge,minY-68));
+      if(delta>3)setCamera(camera.zoom,camera.x,camera.y-delta);
+    }
+  }
+  function setLiveMathExpanded(next){
+    liveMathExpanded=Boolean(next);
+    liveMathDock.classList.toggle('is-compact',!liveMathExpanded);
+    liveMathExpand.textContent=liveMathExpanded?'▴':'▾';
+    liveMathExpand.setAttribute('aria-expanded',String(liveMathExpanded));
+    document.getElementById('liveMathSummary').hidden=liveMathExpanded;
+    if(liveMathExpanded)requestAnimationFrame(avoidMathTriangleCollision);
+  }
+  setLiveMathExpanded(liveMathExpanded);
+  liveMathExpand.addEventListener('click',()=>setLiveMathExpanded(!liveMathExpanded));
+  document.getElementById('liveMathClose').addEventListener('click',()=>{
+    // Close only the mathematical display; the selected geometry stays selected.
+    liveMathHiddenByUser=true;liveMathDock.hidden=true;
+  });
+  document.getElementById('liveMathTheory').addEventListener('click',()=>{
+    theoryRequested=true;mathRevealed=true;liveMathDock.classList.add('theory-active');
+    updateVisualDiscovery();updateRelationships(solveTriangle(screenPoints()));
+    observeDock.open=true;placeObservationDock();
+  });
+  // Natural return from the explanation window to the real-time canvas.
+  const returnToCanvas=document.createElement('button');
+  returnToCanvas.type='button';returnToCanvas.className='show-math-button';
+  returnToCanvas.textContent='← Nazad na crtež';returnToCanvas.style.margin='5px 0';
+  observeDockBody.prepend(returnToCanvas);
+  returnToCanvas.addEventListener('click',()=>{
+    theoryRequested=false;observeDock.open=false;updateVisualDiscovery();
+  });
+  // Direct manipulation of the live math area: drag its heading, no new window.
+  let mathDrag=null;
+  liveMathHead.addEventListener('pointerdown',e=>{
+    if(e.button!==0||e.target.closest('button'))return;
+    const r=liveMathDock.getBoundingClientRect(),sr=stage.getBoundingClientRect();
+    mathDrag={id:e.pointerId,x:e.clientX,y:e.clientY,left:r.left-sr.left,top:r.top-sr.top,active:false};
+    liveMathHead.setPointerCapture(e.pointerId);
+  });
+  liveMathHead.addEventListener('pointermove',e=>{
+    if(!mathDrag||mathDrag.id!==e.pointerId)return;
+    const dx=e.clientX-mathDrag.x,dy=e.clientY-mathDrag.y;
+    if(!mathDrag.active&&Math.hypot(dx,dy)<7)return;
+    mathDrag.active=true;liveMathDock.classList.add('dragged');
+    const sr=stage.getBoundingClientRect();
+    const left=Math.max(4,Math.min(sr.width-liveMathDock.offsetWidth-4,mathDrag.left+dx));
+    const top=Math.max(4,Math.min(sr.height-liveMathDock.offsetHeight-4,mathDrag.top+dy));
+    liveMathDock.style.setProperty('left',left+'px','important');
+    liveMathDock.style.setProperty('top',top+'px','important');
+    liveMathDock.style.setProperty('right','auto','important');
+    liveMathDock.style.setProperty('bottom','auto','important');e.preventDefault();
+  });
+  function finishMathDrag(e){
+    if(!mathDrag||mathDrag.id!==e.pointerId)return;
+    mathDrag=null;try{liveMathHead.releasePointerCapture(e.pointerId)}catch(_){ }
+  }
+  liveMathHead.addEventListener('pointerup',finishMathDrag);
+  liveMathHead.addEventListener('pointercancel',finishMathDrag);
+  window.addEventListener('resize',()=>{
+    if(!liveMathDock.classList.contains('dragged'))return;
+    const sr=stage.getBoundingClientRect();
+    const x=Math.max(4,Math.min(sr.width-liveMathDock.offsetWidth-4,parseFloat(liveMathDock.style.left)||4));
+    const y=Math.max(4,Math.min(sr.height-liveMathDock.offsetHeight-4,parseFloat(liveMathDock.style.top)||4));
+    liveMathDock.style.left=x+'px';liveMathDock.style.top=y+'px';
+  });
+
   advancedDock.append(document.getElementById('advancedTools'));
   let lastObservedRegion='';
   // 2.0.11: geometry selections never arbitrarily reposition a learning window.
@@ -2919,6 +3224,7 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     const z=Math.max(camera.minimum,Math.min(camera.maximum,
       (canvasSize.w-2*margin)/w,(canvasSize.h-2*margin)/h));
     setCamera(z,canvasSize.w/2-z*(minX+maxX)/2,canvasSize.h/2-z*(minY+maxY)/2);
+    if(visualSelection)requestAnimationFrame(avoidMathTriangleCollision);
   }
   function fitAll(){
     if(!canvasSize.w||!canvasSize.h)return;
@@ -2969,7 +3275,7 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     const a=normalize(u),b=normalize(v),dir=normalize({x:a.x+b.x,y:a.y+b.y});
     return plus(p,dir,r);
   }
-  // 2.0.20: Geometric IDs NEVER change. Names are presentation-only aliases.
+  // 2.0.21: Geometric IDs NEVER change. Names are presentation-only aliases.
   const pointIds=Object.freeze(['A','B','C','M','N','P','S','U','V','W','O','X','Y','Z','D','E','F','Q','R','T']);
   const pointIdSet=new Set(pointIds);
   const aliasStorageKey='triangle-simulator-point-aliases-v1';
@@ -3024,6 +3330,11 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
       const id=node.dataset.regionChoice;
       node.textContent=regionNameLabel(id);
       node.setAttribute('aria-label',`Pregledaj ${regionNameLabel(id)}, dodirni u sredini za izbor`);
+    }
+    for(const node of drawing.querySelectorAll('text[data-canvas-angle="UOV"]')){
+      node.textContent=node.textContent.replace(/^∠[A-Z0-9]{3,9}/,
+        `∠${displayPoint('U')}${displayPoint('O')}${displayPoint('V')}`);
+      node.setAttribute('aria-label',`Ugao ${displayPoint('U')}${displayPoint('O')}${displayPoint('V')} — dvaput dodirni za unos`);
     }
     for(const hit of handles.querySelectorAll('[data-vertex]')){
       hit.setAttribute('aria-label',`Pomeri teme ${displayPoint(hit.getAttribute('data-vertex'))}`);
@@ -3619,7 +3930,38 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
         const k=dot(sub(centroid,mid),v)>0?-1:1;
         const pos=plus(mid,v,k*19);
         addText(group,pos.x,pos.y,name,'side-text',colors[i]);
+        group.lastChild.setAttribute('data-side-pick',name);
+        group.lastChild.setAttribute('tabindex','0');
+        group.lastChild.setAttribute('role','button');
+        group.lastChild.setAttribute('aria-label',`Označi stranicu ${name} za jednakost`);
+        group.lastChild.setAttribute('data-pending',String(pendingSide===name));
+        group.lastChild.setAttribute('data-equal',String(!!equalSides&&equalSides.split('=').includes(name)));
+        // A screen-size-stable transparent hit area for small mobile side labels.
+        group.append(element('circle',{cx:pos.x,cy:pos.y,r:19,fill:'transparent',stroke:'none',
+          'pointer-events':'all','data-side-pick':name,class:'side-hit',tabindex:0,role:'button',
+          'aria-label':`Izaberi stranicu ${name} za jednakost`}));
+        if(equalSides&&equalSides.split('=').includes(name)){
+          // Matching classical tick marks at the midpoint, normal to the segment.
+          const tangent=normalize(sub(q,p));
+          const perp={x:-tangent.y,y:tangent.x};
+          const tickA=plus(mid,perp,-8),tickB=plus(mid,perp,8);
+          group.append(element('line',{x1:tickA.x,y1:tickA.y,x2:tickB.x,y2:tickB.y,class:'equality-tick'}));
+        }
       });
+      if(equalSides&&givenCircumAngle!==null){
+        // A compact live conclusion, near but outside AB; not an inspector window.
+        const sideNumbers=analyzeSides(points);
+        if(sideNumbers.valid){
+          const sideNames=['BC','AC','AB'];
+          const order=sideNumbers.groups.map(group=>group.map(i=>sideNames[i]).join(' = ')).join(' > ');
+          const midAB=plus(A,sub(B,A),.29),tangent=normalize(sub(B,A));
+          const away={x:tangent.y,y:-tangent.x};
+          const centroidAt={x:(A.x+B.x+C.x)/3,y:(A.y+B.y+C.y)/3};
+          const sign=dot(sub(centroidAt,midAB),away)>0?-1:1;
+          const tag=plus(midAB,away,sign*34);
+          addText(group,tag.x,tag.y,order,'live-side-order');
+        }
+      }
       if(bisector.valid){
         const M=bisector.M;
         // Pomeri oznaku M ka unutrašnjosti da se ne sudara sa oznakom stranice a.
@@ -3680,6 +4022,32 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
         }
       }
       renderSidePerp(group,points,answer);
+      // Show the actual angle between the perpendicular bisectors AB and BC.
+      // Its semantic point IDs remain U,O,V even if homework renames them M,S,N.
+      if(sidePerpRender.center.valid&&sidePerpRender.items.AB&&sidePerpRender.items.BC){
+        const O=sidePerpRender.center.O,U=sidePerpRender.items.AB.midpoint,V=sidePerpRender.items.BC.midpoint;
+        const val=circumBisectorAngle(points);
+        if(Number.isFinite(val)&&val>.05&&val<179.95){
+          const u=sub(U,O),v=sub(V,O),r=Math.min(29,Math.max(13,Math.min(len(u),len(v))*.25));
+          group.append(element('path',{d:arcPath(O,u,v,r),class:'circum-angle-mark'}));
+          const pos=angleLabel(O,u,v,r+26),total=Math.round(val*60);
+          // Keep the constructed angle readable on narrow phones where O
+          // and the AB midpoint may be only 20 screen pixels apart.
+          if(canvasSize.w<540){
+            const offset=O.x<canvasSize.w*.62?72:-72;
+            pos.x=O.x+offset;
+            pos.y=O.y-25;
+            group.append(element('line',{x1:O.x,y1:O.y,x2:pos.x-offset*.18,y2:pos.y,
+              class:'circum-angle-leader'}));
+          }
+          const d=Math.floor(total/60),m=total%60;
+          addText(group,pos.x,pos.y,`∠${displayPoint('U')}${displayPoint('O')}${displayPoint('V')} ${d}°${m?String(m).padStart(2,'0')+'′':''}`,'circum-angle-value');
+          group.lastChild.setAttribute('data-canvas-angle','UOV');
+          group.lastChild.setAttribute('data-given',String(givenCircumAngle!==null));
+          group.lastChild.setAttribute('tabindex','0');
+          group.lastChild.setAttribute('role','button');
+        }
+      }
       renderOuterBisectors(group,points,bisector,bisectorB,bisectorC);
       for(const angle of exteriorAngleHotspots){
         group.append(element('circle',{cx:angle.x,cy:angle.y,r:17,fill:'transparent',stroke:'none',
@@ -3725,7 +4093,7 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
         'aria-label':`Istraži spoljašnji ugao ${exteriorAngleNames[angle.name]}`}));
     }
     handles.replaceChildren(vertexGroup);
-    // 2.0.20: actual point glyphs, not invisible handles, are editable.
+    // 2.0.21: actual point glyphs, not invisible handles, are editable.
     // Move (not duplicate) them above vertex drag targets to receive double-taps.
     for(const label of [...drawing.querySelectorAll('text[data-rename-id]')])handles.append(label);
   }
@@ -3969,6 +4337,7 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
   // povezanog izvora menja samo selekciju (i uključuje potrebnu konstrukciju).
   let baseRelationActive=true;
   let visualSelection=null;
+  let theoryRequested=false;
   let mathRevealed=false;
   let toolsOpened=false;
   const focusRequirements={ABM:['A'],AMC:['A'],ABN:['B'],NBC:['B'],APC:['C'],PBC:['C'],ASB:['A','B'],BSC:['B','C'],CSA:['C','A']};
@@ -3993,7 +4362,8 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     if(!relationSpecs[target])return;
     const changed=visualSelection!==target;
     visualSelection=target;
-    if(changed){mathRevealed=false;byId('mathPane').hidden=true;}
+    liveMathHiddenByUser=false;
+    if(changed){mathRevealed=false;theoryRequested=false;byId('mathPane').hidden=true;}
     baseRelationActive=target==='ABC';
     if(target==='ABC'){
       extendedTriangleChoice.value='';
@@ -4129,6 +4499,55 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     }
   }
 
+  // 2.0.22: read verified equation steps directly from the ONE mathematical
+  // registry; do not duplicate any formulas or hardcode an exercise answer.
+  function updateLiveCanvasMath(solution){
+    const name=visualSelection;
+    if(!name||!solution.valid||!relationSpecs[name]){liveMathDock.hidden=true;return;}
+    const spec=relationSpecs[name];
+    const heading=exteriorAngleNames[name]
+      ?`Aktivni ugao: ${exteriorAngleNames[name]}`
+      :`Aktivni trougao: ${regionNameLabel(name)}`;
+    byId('liveMathTitle').textContent=heading;
+    byId('liveMathOrigin').textContent=displayMathText(byId('relationOrigin').textContent);
+    const links=byId('liveMathLinks');
+    // Recreate only when selection/aliases differ; avoids replacing focused tabs
+    // for every frame of dragging, so keyboard navigation remains functional.
+    const key=spec.sources.map(x=>regionNameLabel(x)).join('|');
+    if(links.dataset.names!==key){
+      links.dataset.names=key;links.replaceChildren();
+      for(const target of spec.sources){
+        if(!relationSpecs[target])continue;
+        const b=document.createElement('button');b.type='button';
+        b.textContent=regionNameLabel(target);
+        b.addEventListener('click',()=>navigateToLinkedTriangle(target));
+        links.appendChild(b);
+      }
+    }
+    byId('liveMathLinksHeading').hidden=spec.sources.length===0;
+    links.hidden=spec.sources.length===0;
+    const steps=byId('liveMathSteps');
+    const textSteps=[...byId('relationSteps').children].map(li=>displayMathText(li.textContent));
+    if(steps.dataset.current!==textSteps.join('\n')){
+      steps.dataset.current=textSteps.join('\n');steps.replaceChildren();
+      for(const step of textSteps){const li=document.createElement('li');li.textContent=step;steps.append(li);}
+    }
+    let numeric=displayMathText(byId('relationNumeric').textContent);
+    if(!numeric.trim())numeric='Izaberi geometrijski element za proračun.';
+    liveMathResult.textContent=numeric;
+    let summary=numeric.split('\n')[0];
+    if(spec.parts){
+      const symbol={ASB:'φ',BSC:'ψ',CSA:'ω'}[name]||'';
+      const finalValue=numeric.match(/=\s*(\d+°\s*\d*′?(?:\s*\d+″)?)\s*$/);
+      summary=`${symbol?symbol+' = ':''}${spec.derived}${finalValue?' = '+finalValue[1]:''}`;
+    }else if(spec.elementary){
+      summary=`${regionNameLabel(name)} · tri izračunata ugla`;
+    }
+    byId('liveMathSummary').textContent=summary;
+    // Never make the computed value depend on whether Posmatraj was opened.
+    liveMathDock.hidden=Boolean(toolsOpened||liveMathHiddenByUser);
+  }
+
   function redraw(syncInputs=true){
     if(!canvasSize.w||!canvasSize.h)return;
     const pts=screenPoints(),sol=solveTriangle(pts);
@@ -4142,12 +4561,13 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     activeTriangleBadge.textContent=regionNameLabel(visualSelection||activeTriangleName()||'ABC');
     updateVisualDiscovery();
     if(!regionChooser.hidden&&previewRegionName)previewRegion(previewRegionName);
-    updateSidePerpPanel();updateOuterBisectorPanel();updateExtendedTriangleFocus();updateRelationships(sol);updateReadouts(sol);updateSideReadouts(sol);updateClassification(sol);updateBisectorExplanation(sol);updateBisectorExplanationB(sol);updateBisectorExplanationC(sol);updateIntersectionExplanation(sol);
+    updateSidePerpPanel();updateOuterBisectorPanel();updateExtendedTriangleFocus();updateRelationships(sol);updateLiveCanvasMath(sol);updateReadouts(sol);updateSideReadouts(sol);updateClassification(sol);updateBisectorExplanation(sol);updateBisectorExplanationB(sol);updateBisectorExplanationC(sol);updateIntersectionExplanation(sol);
     // Mobile keyboards may resize the viewport mid-entry. Never overwrite a draft
     // simply because the drawing was resized while a number field has focus.
     const focusedNumber=[degreesInput,minutesInput,degreesInput2,minutesInput2].includes(document.activeElement);
     if(syncInputs&&!focusedNumber&&!editorDirty)syncEditor(sol);
     refreshVisibleAliases();
+    updateConstraintExplanation();
     if(editingAngleKey)positionCanvasAngleEditor();
   }
   function showExtensionStatus(){
@@ -4257,9 +4677,19 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     // od trenutne veličine prikaza, prethodnih zumiranja ili promene orijentacije.
     // Geometrijski odnosi ostaju isti, a solver i dalje čuva trenutnu orijentaciju.
     const current=referenceForNumericEntry();
-    const solution=two?
-      solveWithTwoAngles(current,first.index,first.interior,second.index,second.interior):
-      solveWithOneAngle(current,first.index,first.interior);
+    // Older advanced inputs must not silently override in-canvas side constraints.
+    const panelGivens=new Map([[first.index,first.interior]]);
+    if(two){
+      if(panelGivens.has(second.index)){
+        announce('Izaberi dva različita temena za dva nezavisna ugla.',true);return;
+      }
+      panelGivens.set(second.index,second.interior);
+    }
+    const solution=equalSides
+      ?solveEqualSides(current,equalSides,panelGivens,givenCircumAngle)
+      :two
+        ?solveWithTwoAngles(current,first.index,first.interior,second.index,second.interior)
+        :solveWithOneAngle(current,first.index,first.interior);
     if(!solution.valid){announce(solution.reason,true);return;}
     const fitted=fitEnteredTriangle(solution.points);
     const verified=solveTriangle(screenPointsFor(fitted));
@@ -4269,6 +4699,7 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     // Jedan commit stanja: samo posle uspešno verifikovanog modela.
     model=fitted;
     angleGiven.clear();
+    if(equalSides){for(const [i,v] of panelGivens)angleGiven.set(i,v);}
     // The input's exact geometry has already been verified. Adjust only the
     // exterior view scale after a successful commit so excenters stay visible.
     fitExteriorCenters();
@@ -4600,7 +5031,7 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     const newHandle=handles.querySelector(`[data-vertex="${ids[i]}"]`);if(newHandle)newHandle.focus();
   });
   byId('reset').addEventListener('click',()=>{
-    angleGiven.clear();closeCanvasAngleEditor();
+    angleGiven.clear();equalSides=null;pendingSide=null;givenCircumAngle=null;closeCanvasAngleEditor();
     visualSelection=null;mathRevealed=false;
     model=defaultModel();dragging=null;extDragging=null;
     // Reset the extension construction state as well as geometry.
@@ -4669,12 +5100,23 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     const selected=Boolean(visualSelection);
     // Selecting another actual geometric region reopens its contextual observer.
     // Closing Posmatraj only folds the panel: it does not erase selection or values.
-    observeDock.hidden=!selected||toolsOpened;
+    liveMathDock.hidden=!selected||toolsOpened||liveMathHiddenByUser;
+    liveMathDock.classList.toggle('theory-active',theoryRequested);
+    if(selected && liveMathLastSelection!==visualSelection){
+      liveMathLastSelection=visualSelection;
+      byId('canvasAngleStatus').hidden=true;
+      liveMathHiddenByUser=false;liveMathDock.hidden=toolsOpened;
+      theoryRequested=false;liveMathDock.classList.remove('theory-active');
+      setLiveMathExpanded(!(matchMedia('(orientation:portrait) and (max-width:700px)').matches));
+      requestAnimationFrame(avoidMathTriangleCollision);
+    }
+    if(!selected)liveMathLastSelection='';
+    observeDock.hidden=!selected||toolsOpened||!theoryRequested;
     if(selected){
       document.getElementById('observeDockSelection').textContent=regionNameLabel(visualSelection);
       if(lastObservedRegion!==visualSelection){
-        observeDock.open=true;lastObservedRegion=visualSelection;
-        placeObservationDock();
+        observeDock.open=theoryRequested;lastObservedRegion=visualSelection;
+        if(theoryRequested)placeObservationDock();
       }
     }else{
       observeDock.open=false;lastObservedRegion='';
@@ -4745,7 +5187,7 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     // Two expanded overlays would hide the drawing; keep the observer ready
     // as a small selectable header while advanced controls are in use.
     if(toolsOpened)observeDock.open=false;
-    else if(visualSelection)observeDock.open=true;
+    else if(visualSelection&&theoryRequested)observeDock.open=true;
     byId('toolsButton').setAttribute('aria-expanded',String(toolsOpened));
     byId('toolsButton').textContent=toolsOpened?'✕':'⚙';
     byId('toolsButton').setAttribute('aria-label',toolsOpened?'Zatvori alate':'Otvori dodatne alate');
@@ -4810,7 +5252,7 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
   for(const id of ['cameraZoomOut','cameraZoomIn','cameraFitTriangle','cameraFit','reset'])advancedNavigation.append(byId(id));
   advancedHead.after(advancedNavigation);
 
-  // 2.0.20 — Direct label editing. No rename mode and no confirmation window.
+  // 2.0.21 — Direct label editing. No rename mode and no confirmation window.
   const resetNamesButton=document.createElement('button');
   resetNamesButton.id='resetNamesButton';resetNamesButton.type='button';
   resetNamesButton.textContent='↺ Nazivi';resetNamesButton.title='Vrati početne nazive tačaka';
@@ -4977,15 +5419,16 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
   window.addEventListener('resize',positionAliasEditor);
 
 
-  // 2.0.20 — direct input anchored to a rendered angle glyph, no intermediary form.
+  // 2.0.21 — direct input anchored to a rendered angle glyph, no intermediary form.
   const canvasAngleEditor=byId('canvasAngleEditor'),canvasAngleInput=byId('canvasAngleInput');
   const canvasAngleError=byId('canvasAngleError'),canvasAngleStatus=byId('canvasAngleStatus');
   let editingAngleKey='',angleTouchCandidate=null,angleLastTap=null,angleCommitBusy=false;
   const centralOpposite={ASB:2,BSC:0,CSA:1};
   function angleIndex(key){return 'ABC'.indexOf(key.startsWith('EX')?key[2]:key);}
-  function labelForCanvasAngle(key){return key in centralOpposite?({ASB:'φ',BSC:'ψ',CSA:'ω'})[key]:
+  function labelForCanvasAngle(key){if(key==='UOV')return `∠${displayPoint('U')}${displayPoint('O')}${displayPoint('V')}`;return key in centralOpposite?({ASB:'φ',BSC:'ψ',CSA:'ω'})[key]:
     key.startsWith('EX')?outer[angleIndex(key)]:letters[angleIndex(key)];}
   function shownAngleSeconds(key,minuteArray){
+    if(key==='UOV')return Math.round(circumBisectorAngle(screenPoints())*3600);
     const i=key in centralOpposite?centralOpposite[key]:angleIndex(key);
     if(i<0||!Number.isFinite(minuteArray[i]))return NaN;
     return key in centralOpposite?90*3600+minuteArray[i]*30:
@@ -5049,11 +5492,27 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     function fail(msg){canvasAngleError.textContent=msg;canvasAngleInput.setAttribute('aria-invalid','true');canvasAngleInput.focus({preventScroll:true});canvasAngleInput.select();}
     if(parsed.error){fail(parsed.error);return;}
     if(parsed.clear){
+      if(key==='UOV'){
+        givenCircumAngle=null;closeCanvasAngleEditor();redraw(false);
+        announceCanvasAngle('Zadati ugao simetrala stranica je oslobođen.');return;
+      }
       angleGiven.delete(key in centralOpposite?centralOpposite[key]:angleIndex(key));
       closeCanvasAngleEditor();redraw(false);announceCanvasAngle('Zadati ugao je oslobođen.');return;
     }
     const seconds=parsed.seconds;
     if(seconds<=0||seconds>=180*3600){fail('Ugao mora biti veći od 0° i manji od 180°.');return;}
+    if(key==='UOV'){
+      if(!sidePerpRender.items.AB||!sidePerpRender.items.BC){fail('Uključi simetrale stranica AB i BC.');return;}
+      if(!equalSides){fail('Za jedinstveno rešenje najpre označi dve jednake stranice.');return;}
+      const solution=solveEqualSides(screenPoints(),equalSides,angleGiven,seconds);
+      if(!solution.valid){fail(solution.reason);return;}
+      const candidate=fitEnteredTriangle(solution.points);
+      const calculated=circumBisectorAngle(screenPointsFor(candidate));
+      if(!Number.isFinite(calculated)||Math.abs(calculated*3600-seconds)>3.1){fail('Ugao se ne može precizno konstruisati.');return;}
+      model=candidate;givenCircumAngle=seconds;closeCanvasAngleEditor();redraw(false);fitTriangle();
+      announceCanvasAngle(`${labelForCanvasAngle(key)} = ${conciseSeconds(seconds)}. Jednakost stranica je očuvana.`);
+      return;
+    }
     const i=key in centralOpposite?centralOpposite[key]:angleIndex(key);
     const interiorSec=key in centralOpposite?2*(seconds-90*3600):key.startsWith('EX')?180*3600-seconds:seconds;
     if(interiorSec<=0||interiorSec>=180*3600){fail('Ovaj ugao ne može pripadati ispravnom trouglu.');return;}
@@ -5070,9 +5529,11 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     if([...proposed.values()].reduce((a,b)=>a+b,0)>=FULL_TURN_MIN){fail('Zbir zadatih uglova mora biti manji od 180°.');return;}
     const source=referenceForNumericEntry();
     const fixed=[...proposed.entries()];
-    const result=fixed.length===2?
-      solveWithTwoAngles(source,fixed[0][0],fixed[0][1],fixed[1][0],fixed[1][1]):
-      solveWithOneAngle(source,i,minute);
+    const result=equalSides
+      ?solveEqualSides(source,equalSides,proposed,givenCircumAngle)
+      :fixed.length===2
+        ?solveWithTwoAngles(source,fixed[0][0],fixed[0][1],fixed[1][0],fixed[1][1])
+        :solveWithOneAngle(source,i,minute);
     if(!result.valid){fail(result.reason||'Ovaj trougao nije moguće konstruisati.');return;}
     const candidate=fitEnteredTriangle(result.points);
     const checked=solveTriangle(screenPointsFor(candidate));
@@ -5132,28 +5593,74 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
     }else angleLastTap={key:c.key,time:now,x:e.clientX,y:e.clientY};
   },true);
   document.addEventListener('pointercancel',()=>{angleTouchCandidate=null;},true);
+  // Direct side selection. One side previews; second side creates the equality.
+  // Repeating an existing equality removes it. No inspector/form is involved.
+  function selectSideForEquality(side){
+    if(!['a','b','c'].includes(side))return;
+    closeCanvasAngleEditor();
+    if(!pendingSide){
+      pendingSide=side;redraw(false);
+      announceCanvasAngle(`Stranica ${side} je izabrana. Dodirni drugu stranicu da ih izjednačiš.`);
+      return;
+    }
+    const first=pendingSide;pendingSide=null;
+    if(first===side){redraw(false);announceCanvasAngle('Izbor stranice je otkazan.');return;}
+    const pair=equalityKey(first,side);
+    if(equalSides===pair){
+      equalSides=null;givenCircumAngle=null;redraw(false);
+      announceCanvasAngle('Jednakost stranica je oslobođena.');return;
+    }
+    const solution=solveEqualSides(screenPoints(),pair,angleGiven,givenCircumAngle);
+    if(!solution.valid){redraw(false);announceCanvasAngle(solution.reason);return;}
+    const next=fitEnteredTriangle(solution.points);
+    if(!solveTriangle(screenPointsFor(next)).valid){redraw(false);announceCanvasAngle('Konstruisanje jednakih stranica nije uspelo.');return;}
+    equalSides=pair;model=next;redraw(false);fitTriangle();
+    announceCanvasAngle(`${pair.replace('=',' = ')}. Jednake stranice su obeležene na crtežu.`);
+  }
+  // Capture phase: side text sits underneath the generic canvas pointer handler.
+  document.addEventListener('pointerdown',e=>{
+    const side=e.target.closest?.('[data-side-pick]')?.getAttribute('data-side-pick');
+    if(!side)return;
+    e.stopPropagation();e.preventDefault();
+    selectSideForEquality(side);
+  },true);
+  document.addEventListener('keydown',e=>{
+    const side=e.target.closest?.('[data-side-pick]')?.getAttribute('data-side-pick');
+    if(side&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopPropagation();selectSideForEquality(side);}
+  },true);
+  const releaseEquality=document.createElement('button');releaseEquality.type='button';
+  releaseEquality.textContent='↺ Jednake stranice';
+  releaseEquality.title='Oslobodi jednakost stranica';advancedNavigation.append(releaseEquality);
+  releaseEquality.addEventListener('click',()=>{equalSides=null;pendingSide=null;givenCircumAngle=null;redraw(false);announceCanvasAngle('Jednakost stranica je oslobođena.');});
+  window.TriangleSimulatorRelations=Object.freeze({
+    get equality(){return equalSides;},get pending(){return pendingSide;},
+    get circumAngle(){return givenCircumAngle;},
+    choose:selectSideForEquality,
+    clear(){equalSides=null;pendingSide=null;givenCircumAngle=null;redraw(false);}
+  });
   const clearGiven=document.createElement('button');clearGiven.type='button';
   clearGiven.textContent='↺ Zadati uglovi';clearGiven.title='Oslobodi zadata ograničenja uglova';
   advancedNavigation.append(clearGiven);
-  clearGiven.addEventListener('click',()=>{angleGiven.clear();closeCanvasAngleEditor();redraw(false);announceCanvasAngle('Svi zadati uglovi su oslobođeni.');});
-  // A constrained triangle is not free-draggable. Prevent an apparently correct
-  // given from being silently invalidated by dragging a vertex.
+  clearGiven.addEventListener('click',()=>{angleGiven.clear();givenCircumAngle=null;closeCanvasAngleEditor();redraw(false);announceCanvasAngle('Svi zadati uglovi su oslobođeni.');});
+  // 2.0.22 — Editing is direct and reversible: a new free-hand vertex gesture
+  // releases prior givens instead of sending the student into an unlock menu.
+  function freeForManualGeometry(){
+    if(!(angleGiven.size||equalSides||givenCircumAngle!==null))return;
+    angleGiven.clear();equalSides=null;pendingSide=null;givenCircumAngle=null;
+    closeCanvasAngleEditor();
+    announceCanvasAngle('Slobodno pomeranje: prethodno zadate vrednosti su oslobođene.');
+  }
   document.addEventListener('pointerdown',e=>{
-    if(!angleGiven.size||!e.target.closest?.('[data-vertex]'))return;
-    e.preventDefault();e.stopPropagation();
-    announceCanvasAngle('Uglovi su zadati. Za slobodno pomeranje temena prvo oslobodi zadate uglove.');
+    if(e.target.closest?.('[data-vertex]'))freeForManualGeometry();
   },true);
   document.addEventListener('keydown',e=>{
-    if(angleGiven.size&&e.target.closest?.('[data-vertex]')&&/^Arrow/.test(e.key)){
-      e.preventDefault();e.stopPropagation();
-      announceCanvasAngle('Najpre oslobodi zadate uglove da bi pomerao teme.');
-    }
+    if(e.target.closest?.('[data-vertex]')&&/^Arrow/.test(e.key))freeForManualGeometry();
   },true);
   window.addEventListener('resize',positionCanvasAngleEditor);
   window.TriangleSimulatorCanvasAngles=Object.freeze({
     get given(){return Object.fromEntries([...angleGiven.entries()].map(([i,v])=>[ids[i],v]));},
     get values(){const sol=solveTriangle(screenPoints());return sol.valid?sol.minutes:null;},
-    clear(){angleGiven.clear();closeCanvasAngleEditor();redraw(false);},
+    clear(){angleGiven.clear();givenCircumAngle=null;closeCanvasAngleEditor();redraw(false);},
     open:openCanvasAngleEditor
   });
 
@@ -5307,6 +5814,10 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
   // Dostupno za nezavisne provere u browser konzoli.
   window.TriangleSimulatorWorkspace=Object.freeze({
     get selected(){return visualSelection;},
+    select:navigateToLinkedTriangle,
+    get liveMathVisible(){return !liveMathDock.hidden&&!liveMathDock.classList.contains('theory-active');},
+    get liveMathTitle(){return byId('liveMathTitle').textContent;},
+    get liveMathResult(){return byId('liveMathResult').textContent;},
     get observerVisible(){return !observeDock.hidden;},
     get observerOpen(){return observeDock.open;},
     get advancedVisible(){return !advancedDock.hidden;},
@@ -5356,11 +5867,6 @@ html[data-theme="dark"] .canvas-angle-error{background:#303030;color:#ffc0c2;bor
   window.TriangleSimulatorTheme=Object.freeze({get current(){return html.dataset.theme},set:applyTheme});
 })();
 </script>
-<aside id="pwaUpdateNotice" hidden role="status" aria-live="polite">
-<span>Nova verzija simulatora je spremna.</span>
-<button id="pwaUpdateNow" type="button">Ažuriraj</button>
-<button id="pwaUpdateLater" type="button">Kasnije</button>
-</aside>
 <script id="pwa-registration">
 // Only the HTTPS/localhost edition registers a service worker; portable HTML does not.
 (() => {
