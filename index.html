@@ -1312,6 +1312,9 @@ html[data-theme="dark"] .export-formats label:has(input:checked){background:#245
 <meta name="apple-mobile-web-app-title" content="Trouglovi"/>
 <meta name="application-name" content="Simulator trougla"/>
 
+
+<link rel="manifest" href="./manifest.webmanifest"/>
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"/>
 </head>
 <body>
 <main class="page">
@@ -6920,6 +6923,77 @@ html[data-theme="dark"] .export-formats label:has(input:checked){background:#245
     if(userChoice()!=='light'&&userChoice()!=='dark')applyTheme(event.matches?'dark':'light');
   });
   window.TriangleSimulatorTheme=Object.freeze({get current(){return html.dataset.theme},set:applyTheme});
+})();
+</script>
+<div id="pwaUpdateNotice" hidden role="status" aria-live="polite">Nova verzija simulatora je dostupna.
+  <button id="pwaUpdateNow" type="button">Ažuriraj</button>
+  <button id="pwaUpdateLater" type="button">Kasnije</button>
+</div>
+<script id="pwa-registration">
+// Only the HTTPS/localhost edition registers a service worker; portable HTML does not.
+(() => {
+  if (!('serviceWorker' in navigator) || !window.isSecureContext) return;
+  const notice = document.getElementById('pwaUpdateNotice');
+  const updateButton = document.getElementById('pwaUpdateNow');
+  const laterButton = document.getElementById('pwaUpdateLater');
+  let registration = null;
+  let refreshing = false;
+  let updateApproved = false;
+  let waiting = null;
+  let deferred = false;
+
+  function showWaiting(worker) {
+    if (!worker || !navigator.serviceWorker.controller || deferred) return;
+    waiting = worker;
+    notice.hidden = false;
+  }
+  updateButton.addEventListener('click', () => {
+    const worker = waiting || registration?.waiting;
+    if (worker) {
+      updateApproved = true;
+      updateButton.disabled = true;
+      updateButton.textContent = 'Učitavanje…';
+      worker.postMessage({type:'SKIP_WAITING'});
+    }
+  });
+  laterButton.addEventListener('click', () => {
+    deferred = true;
+    notice.hidden = true;
+  });
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    // A first-time service worker activation is NOT an app update.
+    if (refreshing || !updateApproved) return;
+    refreshing = true;
+    window.location.reload();
+  });
+
+  function onInstalling(worker) {
+    if (!worker) return;
+    worker.addEventListener('statechange', () => {
+      if (worker.state === 'installed') showWaiting(worker);
+    });
+  }
+
+  window.addEventListener('load', async () => {
+    try {
+      registration = await navigator.serviceWorker.register('./sw.js', {updateViaCache:'none'});
+      if (registration.waiting) showWaiting(registration.waiting);
+      if (registration.installing) onInstalling(registration.installing);
+      registration.addEventListener('updatefound', () => onInstalling(registration.installing));
+      // Check when reopening the installed app or returning online.
+      const checkUpdate = () => {
+        if (navigator.onLine && registration) registration.update().catch(() => {});
+      };
+      window.addEventListener('online', checkUpdate);
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) checkUpdate();
+      });
+      checkUpdate();
+    } catch (err) {
+      // Even if offline setup fails, the mathematical simulator still works.
+      console.warn('Offline instalacija nije dostupna:', err);
+    }
+  });
 })();
 </script>
 </body>
