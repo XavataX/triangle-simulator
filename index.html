@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Matematička sveska 2.0.26</title>
+<title>Simulator trougla — Matematička sveska 2.0.27</title>
 <script id="theme-startup">(()=>{let mode=null;try{mode=localStorage.getItem('triangle-simulator-theme')}catch(_){}if(mode!=='light'&&mode!=='dark')mode=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=mode;})();</script>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
@@ -1156,7 +1156,7 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
 
 
 
-/* 2.0.26: Four real sectors at the intersection of two straight construction lines.
+/* 2.0.27: Four real sectors at the intersection of two straight construction lines.
    The sectors and labels are world-space geometry, not an HTML overlay. */
 #triangle .intersection-angles{user-select:none;-webkit-user-select:none}
 #triangle .intersection-angles .intersection-sector{fill:transparent;stroke:none;cursor:pointer;touch-action:manipulation}
@@ -1171,7 +1171,7 @@ html[data-theme="dark"] #triangle .intersection-angles .intersection-arc{stroke:
 #triangle .intersection-angles .intersection-hint{font-family:system-ui,sans-serif;fill:#af885c;font-weight:650;font-size:11px;pointer-events:none}
 html[data-theme="dark"] #triangle .intersection-angles .intersection-hint{fill:#e3c59b}
 
-/* 2.0.26 — Portrait selector visibility fix.
+/* 2.0.27 — Portrait selector visibility fix.
    The chooser used to sit 7px above the canvas bottom, underneath mobile
    browser/PWA navigation controls. Keep the whole carousel inside the usable
    portrait viewport, while retaining the independent landscape placement. */
@@ -1193,7 +1193,7 @@ html[data-theme="dark"] #triangle .intersection-angles .intersection-hint{fill:#
 /* The retired Posmatraj is a hidden backing store for existing live formulas.
    Only the actual notebook ink is presented to the student. */
 #observeDock{display:none!important}
-/* 2.0.26: The notebook has a world-space drag handle only in its title.
+/* 2.0.27: The notebook has a world-space drag handle only in its title.
    It has no window, chrome, scroll region or separate UI coordinate system. */
 #triangle .notebook-math .note-title{pointer-events:all;cursor:grab;touch-action:none}
 #triangle .notebook-math .note-title:hover{filter:brightness(1.15);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:4px}
@@ -1203,6 +1203,60 @@ html[data-theme="dark"] #triangle .intersection-angles .intersection-hint{fill:#
 #triangle .notebook-math .note-detail{font-size:12.5px;fill:#455b54}
 html[data-theme="dark"] #triangle .notebook-math .note-action{fill:#8be1c0}
 html[data-theme="dark"] #triangle .notebook-math .note-detail{fill:#c9d4cd}
+
+/* 2.0.27: An anchored canvas shelf, never a movable secondary window. */
+#savedSetupToggle{font-size:1.06rem!important;width:35px;min-height:35px;border:1px solid #cbdce6;
+ background:rgba(255,255,255,.94);border-radius:9px;color:#2b6c71;cursor:pointer;
+ box-shadow:0 2px 10px #284b6517;touch-action:manipulation}
+#savedSetupToggle[aria-expanded="true"]{background:#dcefe9;border-color:#8dbdb0}
+#savedSetupShelf{position:absolute;z-index:33;top:50px;right:max(7px,env(safe-area-inset-right));
+ width:min(452px,calc(100% - 14px));max-height:min(76%,660px);display:flex;flex-direction:column;
+ overflow:hidden;border:1px solid #cbded9;border-radius:12px;background:rgba(250,253,251,.98);
+ box-shadow:0 12px 33px #173d432c;backdrop-filter:blur(10px);color:#294a49}
+#savedSetupShelf[hidden]{display:none!important}
+.saved-shelf-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;
+ border-bottom:1px solid #d6e8df;font-weight:780;font-size:.9rem}
+.saved-shelf-close{font-size:1.22rem!important;border:0;background:transparent;cursor:pointer;color:inherit;min-height:30px;min-width:30px}
+.saved-shelf-body{padding:10px 12px 12px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.saved-create{display:flex;align-items:stretch;gap:6px;margin:2px 0 10px}
+.saved-create input{flex:1;min-width:0;border-radius:8px;padding:9px 10px;border:1px solid #bccfc8;
+ background:white;color:#294a49;font-size:14px}
+.saved-shelf-action{border:1px solid #b9d1c8;background:#edf7f2;border-radius:8px;padding:7px 9px;
+ color:#2f6758;font-size:.78rem;font-weight:750;cursor:pointer;min-height:35px;touch-action:manipulation}
+.saved-shelf-action:hover,.saved-shelf-action:focus-visible{background:#d8ece3;outline-offset:2px}
+.saved-shelf-action.primary{background:#2d826b;border-color:#2d826b;color:#fff}
+.saved-shelf-action.primary:hover{background:#226c59}
+.saved-shelf-action.danger{color:#a34a45;background:#fff6f4;border-color:#e9c6c1}
+.saved-shelf-action:disabled{opacity:.55;cursor:not-allowed}
+.saved-shelf-help,.saved-shelf-status{font-size:.73rem;line-height:1.4;color:#5b7770;margin:7px 0}
+.saved-shelf-status{min-height:1.2em;overflow-wrap:anywhere}
+.saved-shelf-status[data-error="true"]{color:#a6443b}
+.saved-shelf-list{display:grid;gap:7px;padding:0;margin:9px 0;list-style:none}
+.saved-shelf-row{display:flex;gap:7px;justify-content:space-between;align-items:flex-start;padding:9px;
+ border-radius:9px;border:1px solid #d9e7e1;background:#fff}
+.saved-shelf-meta{min-width:0;flex:1;line-height:1.4}
+.saved-shelf-name{display:block;color:#27584c;font-weight:760;font-size:.82rem;overflow-wrap:anywhere}
+.saved-shelf-date{display:block;color:#70837e;font-size:.69rem}
+.saved-shelf-buttons{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:58%}
+.saved-shelf-buttons .saved-shelf-action{padding:5px 7px;min-height:29px;font-size:.7rem}
+.saved-shelf-bottom{border-top:1px solid #dae9e2;padding-top:9px;display:flex;gap:7px;flex-wrap:wrap}
+html[data-theme="dark"] #savedSetupShelf{background:rgba(38,43,40,.98);border-color:#607a6b;color:#e1e9e1}
+html[data-theme="dark"] .saved-shelf-head{border-color:#536e5d}
+html[data-theme="dark"] .saved-shelf-row{background:#303933;border-color:#506859}
+html[data-theme="dark"] .saved-shelf-name{color:#b2dfc8}
+html[data-theme="dark"] .saved-shelf-date,html[data-theme="dark"] .saved-shelf-help{color:#aebfb4}
+html[data-theme="dark"] .saved-create input{background:#282e29;color:#e7eee9;border-color:#6b8676}
+html[data-theme="dark"] .saved-shelf-action{background:#39483f;color:#c4efdb;border-color:#547764}
+html[data-theme="dark"] .saved-shelf-action.primary{background:#277657;color:white}
+html[data-theme="dark"] .saved-shelf-action.danger{background:#583634;color:#ffd5d0;border-color:#86524b}
+html[data-theme="dark"] .saved-shelf-status{color:#c2d2c5}
+html[data-theme="dark"] .saved-shelf-status[data-error="true"]{color:#ffc2b9}
+@media(max-width:600px){
+ #savedSetupShelf{top:max(47px,calc(env(safe-area-inset-top) + 47px));right:6px;width:calc(100% - 12px);max-height:calc(100% - 70px)}
+ .saved-shelf-body{padding:8px}
+ .saved-shelf-row{flex-direction:column;gap:5px}
+ .saved-shelf-buttons{max-width:none;width:100%;justify-content:flex-start}
+}
 </style>
 
 
@@ -4413,7 +4467,7 @@ html[data-theme="dark"] #triangle .notebook-math .note-detail{fill:#c9d4cd}
   // 2.0.23: Plain SVG mathematics is ordinary notebook content, rendered at
   // WORLD coordinates in cameraView. Camera zoom/pan acts on it exactly like
   // the triangle. It is always visible, with no panel/overlay or text scroll.
-  // 2.0.26: General four-sector geometry for the crossing of two lines.
+  // 2.0.27: General four-sector geometry for the crossing of two lines.
   // The exterior centers X/Y/Z are intersections of TWO exterior bisectors,
   // and the perpendicular-bisector circumcenter O uses exactly the same model.
   // All angles come from the live ray vectors, never a fixed 45° answer.
@@ -4566,7 +4620,7 @@ html[data-theme="dark"] #triangle .notebook-math .note-detail{fill:#c9d4cd}
     pickIntersectionSector(key,Number(n));
   });
 
-  // 2.0.26: One writing object, one camera. Dragging its title changes only
+  // 2.0.27: One writing object, one camera. Dragging its title changes only
   // its world-space anchor; the ink is NOT a floating HTML panel.
   function notebookWorldFromEvent(e){
     const point=localTouchPoint(e.clientX,e.clientY);
@@ -5386,7 +5440,7 @@ html[data-theme="dark"] #triangle .notebook-math .note-detail{fill:#c9d4cd}
     if(toolsOpened && window.innerWidth<700)document.getElementById('filterDock').open=false;
     // Two expanded overlays would hide the drawing; keep the observer ready
     // as a small selectable header while advanced controls are in use.
-    observeDock.open=false; // Posmatraj window retired in 2.0.26
+    observeDock.open=false; // Posmatraj window retired in 2.0.27
     byId('toolsButton').setAttribute('aria-expanded',String(toolsOpened));
     byId('toolsButton').textContent=toolsOpened?'✕':'⚙';
     byId('toolsButton').setAttribute('aria-label',toolsOpened?'Zatvori alate':'Otvori dodatne alate');
@@ -6001,12 +6055,366 @@ html[data-theme="dark"] #triangle .notebook-math .note-detail{fill:#c9d4cd}
     reset(){panelStore[currentOrientation()]={};for(const key of Object.keys(panelGeometry))panelGeometry[key]=null;savePanelLayout();queuePanelLayout();}
   });
 
+
+  // 2.0.27 — Named projects and recoverable current session.
+  // Deliberately contained inside the existing canvas workspace: no separate
+  // window, no network calls, and no serializing live DOM/canvas elements.
+  const PROJECT_FORMAT='triangle-simulator-project',PROJECT_SCHEMA=1;
+  const SESSION_KEY='triangle-simulator-current-session-v1';
+  const LIBRARY_KEY='triangle-simulator-named-projects-fallback-v1';
+  const DATABASE_NAME='triangle-simulator-local-library-v1';
+  const LIBRARY_STORE='projects';
+  let sessionReady=false,sessionWriteTimer=0,projectsBackend='pending';
+  let projectEntries=[],projectBusy=false,deleteCandidate=null;
+  const savedToggle=document.createElement('button');
+  savedToggle.id='savedSetupToggle';savedToggle.type='button';savedToggle.textContent='▣';
+  savedToggle.title='Moji trouglovi — sačuvaj ili otvori';
+  savedToggle.setAttribute('aria-label','Moji trouglovi — sačuvaj ili otvori');
+  savedToggle.setAttribute('aria-controls','savedSetupShelf');
+  savedToggle.setAttribute('aria-expanded','false');
+  workspaceActions.insertBefore(savedToggle,originalToolsButton);
+  const savedShelf=document.createElement('section');
+  savedShelf.id='savedSetupShelf';savedShelf.hidden=true;
+  savedShelf.setAttribute('aria-label','Moji trouglovi');
+  savedShelf.innerHTML=`<div class="saved-shelf-head"><span>▣ Moji trouglovi</span><button type="button" class="saved-shelf-close" id="savedShelfClose" aria-label="Zatvori sačuvane trouglove">×</button></div>
+    <div class="saved-shelf-body">
+      <form class="saved-create" id="savedCreateForm">
+        <input id="savedProjectName" type="text" maxlength="70" placeholder="Naziv trougla ili zadatka" aria-label="Naziv za novi sačuvani trougao" required autocomplete="off"/>
+        <button type="submit" class="saved-shelf-action primary">Sačuvaj</button>
+      </form>
+      <p class="saved-shelf-help">Sačuvaj geometriju, konstrukcije, uglove, izbor i položaj matematike. Svaki zapis ostaje nezavisan.</p>
+      <div id="savedShelfStatus" class="saved-shelf-status" role="status" aria-live="polite"></div>
+      <ul id="savedProjectList" class="saved-shelf-list" aria-label="Sačuvani trouglovi"></ul>
+      <div class="saved-shelf-bottom">
+        <button type="button" id="savedExportCurrent" class="saved-shelf-action">↓ Izvezi trenutni JSON</button>
+        <button type="button" id="savedImportButton" class="saved-shelf-action">↑ Uvezi JSON</button>
+        <input id="savedImportFile" type="file" accept=".json,application/json" hidden aria-label="Uvezi sačuvani trougao"/>
+      </div>
+      <p class="saved-shelf-help">Trenutni rad automatski se obnavlja. Lokalni zapisi mogu nestati kada obrišeš podatke pregledača; JSON je prenosiva rezervna kopija.</p>
+    </div>`;
+  stage.append(savedShelf);
+  const savedStatus=savedShelf.querySelector('#savedShelfStatus');
+  const savedList=savedShelf.querySelector('#savedProjectList');
+  const savedName=savedShelf.querySelector('#savedProjectName');
+  function projectMessage(message,error=false){savedStatus.textContent=message;savedStatus.dataset.error=String(error);}
+  function openSavedShelf(open){
+    savedShelf.hidden=!open;savedToggle.setAttribute('aria-expanded',String(open));
+    if(open){reloadProjectList();}else{deleteCandidate=null;}
+  }
+  savedToggle.addEventListener('click',()=>openSavedShelf(savedShelf.hidden));
+  savedShelf.querySelector('#savedShelfClose').addEventListener('click',()=>openSavedShelf(false));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!savedShelf.hidden){openSavedShelf(false);savedToggle.focus();}});
+
+  function makeProjectSnapshot(){
+    const scale=Math.max(1,unit());
+    const visibleCenter=cameraWorldPoint({x:canvasSize.w/2,y:canvasSize.h/2});
+    return {
+      format:PROJECT_FORMAT,schemaVersion:PROJECT_SCHEMA,appVersion:'2.0.27',
+      savedAt:new Date().toISOString(),state:{
+        vertices:model.map(p=>({x:p.x,y:p.y})),
+        givens:[...angleGiven.entries()],equalSides,givenCircumAngle,
+        aliases:{...pointAliases},
+        constructions:{
+          angle:Object.fromEntries(['A','B','C'].map(k=>[k,parentBisector[k].checked])),
+          side:Object.fromEntries(Object.entries(sidePerpToggles).map(([k,v])=>[k,v.checked])),
+          outer:Object.fromEntries(Object.entries(outerBisectorToggles).map(([k,v])=>[k,v.checked])),
+          extensions:Object.fromEntries(Object.entries(extensions).map(([k,v])=>[k,v.checked])),
+          extensionDistances:{...extPosition}
+        },
+        display:{angles:quickAngles.checked,sides:quickSides.checked,outerAngles:quickOuterAngles.checked},
+        selection:visualSelection,
+        notebook:{detailsExpanded:notebookDetailsExpanded,offset:{x:notebookOffset.x/scale,y:notebookOffset.y/scale}},
+        view:{zoom:camera.zoom,centerX:(visibleCenter.x-canvasSize.w/2)/scale,
+          centerY:(visibleCenter.y-canvasSize.h/2)/scale},
+        theme:document.documentElement.dataset.theme==='dark'?'dark':'light'
+      }
+    };
+  }
+  function normalizedProject(data){
+    if(!data||data.format!==PROJECT_FORMAT||data.schemaVersion!==PROJECT_SCHEMA||
+       !data.state||typeof data.state!=='object')throw Error('Nepoznat ili nepodržan format projekta.');
+    const x=data.state,validNum=(v,min,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max;
+    if(!Array.isArray(x.vertices)||x.vertices.length!==3||!x.vertices.every(p=>
+       p&&validNum(p.x,-30,30)&&validNum(p.y,-30,30)))throw Error('Neispravne koordinate temena.');
+    if(!solveTriangle(screenPointsFor(x.vertices)).valid)throw Error('Sačuvani trougao nije geometrijski ispravan.');
+    if(!Array.isArray(x.givens)||x.givens.length>3||!x.givens.every(pair=>
+       Array.isArray(pair)&&pair.length===2&&Number.isInteger(pair[0])&&pair[0]>=0&&pair[0]<=2&&
+       Number.isInteger(pair[1])&&pair[1]>=1&&pair[1]<=10799)||
+       new Set(x.givens.map(p=>p[0])).size!==x.givens.length)throw Error('Neispravni zadati uglovi.');
+    if(x.equalSides!==null&&!['a=b','a=c','b=c'].includes(x.equalSides))throw Error('Neispravna jednakost stranica.');
+    if(x.givenCircumAngle!==null&&(!Number.isInteger(x.givenCircumAngle)||
+       x.givenCircumAngle<0||x.givenCircumAngle>648000))throw Error('Neispravan ugao oko centra O.');
+    const c=x.constructions;
+    if(!c||!c.angle||!c.side||!c.outer||!c.extensions||!c.extensionDistances)
+      throw Error('Nedostaju podaci o konstrukcijama.');
+    const checkBooleans=(obj,keys)=>keys.every(k=>typeof obj[k]==='boolean');
+    if(!checkBooleans(c.angle,['A','B','C'])||!checkBooleans(c.side,['AB','BC','CA'])||
+       !checkBooleans(c.outer,['A','B','C'])||!checkBooleans(c.extensions,Object.keys(extensions))||
+       !Object.keys(extensions).every(k=>validNum(c.extensionDistances[k],.025,3)))
+       throw Error('Neispravno stanje konstrukcija.');
+    if(!x.display||!checkBooleans(x.display,['angles','sides','outerAngles']))throw Error('Neispravni filteri prikaza.');
+    if(x.selection!==null&&(typeof x.selection!=='string'||!Object.hasOwn(relationSpecs,x.selection)))
+      throw Error('Nepoznat izabrani trougao.');
+    if(!x.notebook||typeof x.notebook.detailsExpanded!=='boolean'||!x.notebook.offset||
+       !validNum(x.notebook.offset.x,-50,50)||!validNum(x.notebook.offset.y,-50,50))
+       throw Error('Neispravan položaj matematičkog zapisa.');
+    if(!x.view||!validNum(x.view.zoom,camera.minimum,camera.maximum)||
+       !validNum(x.view.centerX,-100,100)||!validNum(x.view.centerY,-100,100))
+       throw Error('Neispravan prikaz platna.');
+    if(!['dark','light'].includes(x.theme))throw Error('Nepoznata tema.');
+    if(!x.aliases||typeof x.aliases!=='object'||Array.isArray(x.aliases))throw Error('Neispravni nazivi tačaka.');
+    const aliases={};
+    for(const [key,value] of Object.entries(x.aliases)){
+      if(!pointIdSet.has(key)||typeof value!=='string'||!/^[A-Z][A-Z0-9]{0,2}$/.test(value))
+        throw Error('Neispravni nazivi tačaka.');
+      if(value!==key)aliases[key]=value;
+    }
+    // The original editor allows names to overlap across HIDDEN construction
+    // layers. Reject only duplicate permanent vertex labels; otherwise retain
+    // snapshots that the original app itself can legitimately create.
+    if(new Set(['A','B','C'].map(k=>aliases[k]||k)).size!==3)
+      throw Error('Osnovna temena imaju iste nazive.');
+    return {vertices:x.vertices.map(p=>({x:p.x,y:p.y})),givens:x.givens.map(pair=>[...pair]),
+      equalSides:x.equalSides,givenCircumAngle:x.givenCircumAngle,aliases,
+      constructions:c,display:x.display,selection:x.selection,notebook:x.notebook,
+      view:x.view,theme:x.theme};
+  }
+  function applyProjectSnapshot(data){
+    const state=normalizedProject(data);
+    clearTimeout(sessionWriteTimer);sessionReady=false;
+    try{
+      closeAliasEditor();closeCanvasAngleEditor();hideRegionChooser();
+      model=state.vertices;angleGiven.clear();for(const [index,value] of state.givens)angleGiven.set(index,value);
+      equalSides=state.equalSides;givenCircumAngle=state.givenCircumAngle;pendingSide=null;
+      pointAliases=state.aliases;
+      try{localStorage.setItem(aliasStorageKey,JSON.stringify(pointAliases))}catch(_){}
+      for(const key of ['A','B','C'])parentBisector[key].checked=state.constructions.angle[key];
+      for(const [key,toggle] of Object.entries(sidePerpToggles))toggle.checked=state.constructions.side[key];
+      for(const [key,toggle] of Object.entries(outerBisectorToggles))toggle.checked=state.constructions.outer[key];
+      for(const [key,toggle] of Object.entries(extensions))toggle.checked=state.constructions.extensions[key];
+      for(const key of Object.keys(extPosition))extPosition[key]=state.constructions.extensionDistances[key];
+      quickAngles.checked=state.display.angles;quickSides.checked=state.display.sides;
+      quickOuterAngles.checked=state.display.outerAngles;
+      document.body.classList.toggle('quick-hide-angles',!quickAngles.checked);
+      document.body.classList.toggle('quick-hide-sides',!quickSides.checked);
+      document.body.classList.toggle('quick-show-outer-angles',quickOuterAngles.checked);
+      visualSelection=state.selection;baseRelationActive=!visualSelection||visualSelection==='ABC';
+      intersectionFocus=null;notebookLastSelection=null;
+      Object.entries(focusToggles).forEach(([key,toggle])=>toggle.checked=key===visualSelection);
+      extendedTriangleChoice.value=extendedTriangleSpecs[visualSelection]?visualSelection:'';
+      notebookOffset={x:state.notebook.offset.x*unit(),y:state.notebook.offset.y*unit()};
+      notebookAnchor=null;notebookAnchorViewport='';notebookDetailsExpanded=state.notebook.detailsExpanded;
+      mathRevealed=false;theoryRequested=false;
+      updateGroupToggles();showExtensionStatus();clearInputDraft();
+      redraw(false);
+      const v=state.view,scale=unit(),centerX=canvasSize.w/2+v.centerX*scale,
+        centerY=canvasSize.h/2+v.centerY*scale;
+      setCamera(v.zoom,canvasSize.w/2-centerX*v.zoom,canvasSize.h/2-centerY*v.zoom);
+      // Theme controller lives in a subsequent script, so this also works on startup.
+      if(window.TriangleSimulatorTheme)window.TriangleSimulatorTheme.set(state.theme,true);
+      else setTimeout(()=>window.TriangleSimulatorTheme?.set(state.theme,true),0);
+      try{localStorage.setItem(SESSION_KEY,JSON.stringify(makeProjectSnapshot()))}catch(_){}
+    }finally{sessionReady=true;}
+    return true;
+  }
+  function persistSessionNow(){
+    clearTimeout(sessionWriteTimer);
+    if(!sessionReady||!canvasSize.w)return;
+    try{localStorage.setItem(SESSION_KEY,JSON.stringify(makeProjectSnapshot()));}catch(_){}
+  }
+  function scheduleSessionSave(){
+    if(!sessionReady)return;
+    clearTimeout(sessionWriteTimer);
+    sessionWriteTimer=setTimeout(persistSessionNow,550);
+  }
+  // Save after all existing handlers have committed their state, not on every redraw frame.
+  document.addEventListener('pointerup',scheduleSessionSave,true);
+  document.addEventListener('change',scheduleSessionSave,true);
+  document.addEventListener('click',scheduleSessionSave,true);
+  document.addEventListener('keyup',scheduleSessionSave,true);
+  document.addEventListener('wheel',scheduleSessionSave,{capture:true,passive:true});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)persistSessionNow();});
+  window.addEventListener('pagehide',persistSessionNow);
+
+  const indexedDBOpen=()=>new Promise((resolve,reject)=>{
+    if(!window.indexedDB){reject(Error('IndexedDB nije dostupan.'));return;}
+    let request;
+    try{request=indexedDB.open(DATABASE_NAME,1)}catch(error){reject(error);return;}
+    request.onupgradeneeded=()=>{
+      const db=request.result;
+      if(!db.objectStoreNames.contains(LIBRARY_STORE))db.createObjectStore(LIBRARY_STORE,{keyPath:'id'});
+    };
+    request.onerror=()=>reject(request.error||Error('Neuspešno otvaranje lokalne baze.'));
+    request.onsuccess=()=>resolve(request.result);
+    request.onblocked=()=>reject(Error('Baza je blokirana u drugom tabu.'));
+  });
+  const libraryDB=indexedDBOpen().then(db=>{projectsBackend='indexeddb';return db;}).catch(()=>{
+    projectsBackend='localstorage';return null;
+  });
+  function fallbackProjects(){
+    try{const data=JSON.parse(localStorage.getItem(LIBRARY_KEY)||'[]');
+      return Array.isArray(data)?data.filter(x=>x&&typeof x.id==='string'&&typeof x.name==='string'):[];
+    }catch(_){return [];}
+  }
+  function fallbackWrite(entries){
+    localStorage.setItem(LIBRARY_KEY,JSON.stringify(entries));
+  }
+  async function libraryOperation(action,entryOrId){
+    const db=await libraryDB;
+    if(!db){
+      const list=fallbackProjects();
+      if(action==='list')return list;
+      if(action==='put'){
+        const i=list.findIndex(e=>e.id===entryOrId.id);
+        if(i<0)list.push(entryOrId);else list[i]=entryOrId;
+        fallbackWrite(list);return;
+      }
+      if(action==='delete'){fallbackWrite(list.filter(e=>e.id!==entryOrId));return;}
+    }
+    return new Promise((resolve,reject)=>{
+      try{
+        const tx=db.transaction(LIBRARY_STORE,action==='list'?'readonly':'readwrite');
+        const store=tx.objectStore(LIBRARY_STORE);
+        const request=action==='list'?store.getAll():action==='put'?store.put(entryOrId):store.delete(entryOrId);
+        let response;
+        request.onsuccess=()=>{response=request.result};
+        tx.oncomplete=()=>resolve(response);
+        tx.onerror=()=>reject(tx.error||Error('Čuvanje nije uspelo.'));
+        tx.onabort=()=>reject(tx.error||Error('Čuvanje je prekinuto.'));
+      }catch(error){reject(error)}
+    });
+  }
+  function projectDate(value){
+    try{return new Date(value).toLocaleString('sr-RS',{dateStyle:'short',timeStyle:'short'})}catch(_){return ''}
+  }
+  function shelfButton(title,action,record,variant=''){
+    const button=document.createElement('button');button.type='button';
+    button.textContent=title;button.className='saved-shelf-action'+(variant?' '+variant:'');
+    button.addEventListener('click',()=>action(record));return button;
+  }
+  function renderProjectEntries(){
+    savedList.replaceChildren();
+    if(!projectEntries.length){const p=document.createElement('li');p.className='saved-shelf-help';
+      p.textContent='Još nema sačuvanih trouglova.';savedList.append(p);return;}
+    for(const entry of projectEntries){
+      const li=document.createElement('li');li.className='saved-shelf-row';
+      const meta=document.createElement('div');meta.className='saved-shelf-meta';
+      const name=document.createElement('strong');name.className='saved-shelf-name';name.textContent=entry.name;
+      const date=document.createElement('span');date.className='saved-shelf-date';date.textContent=`Sačuvano: ${projectDate(entry.updatedAt)}`;
+      meta.append(name,date);
+      const actions=document.createElement('div');actions.className='saved-shelf-buttons';
+      actions.append(shelfButton('Otvori',loadProject,entry,'primary'),
+        shelfButton('Ažuriraj',updateProject,entry),shelfButton('↓ JSON',exportNamedProject,entry),
+        shelfButton(deleteCandidate===entry.id?'Potvrdi':'Obriši',deleteProject,entry,
+          deleteCandidate===entry.id?'danger':''));
+      li.append(meta,actions);savedList.append(li);
+    }
+  }
+  async function reloadProjectList(){
+    try{projectEntries=(await libraryOperation('list')).sort((a,b)=>String(b.updatedAt).localeCompare(String(a.updatedAt)));
+      renderProjectEntries();if(projectsBackend==='localstorage')
+        projectMessage('Rezervna lokalna memorija: koristi JSON za prenos i backup.');
+    }catch(error){projectMessage('Lokalna baza nije dostupna. I dalje možeš izvesti JSON.',true);}
+  }
+  async function runProjectAction(fn){
+    if(projectBusy)return;projectBusy=true;
+    try{await fn();}catch(error){projectMessage(error.message||'Operacija nije uspela.',true)}
+    finally{projectBusy=false;}
+  }
+  const makeId=()=>window.crypto?.randomUUID?.()||`t-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  async function saveNamedProject(name,source){
+    const trimmed=String(name||'').trim();
+    if(!trimmed||trimmed.length>70)throw Error('Unesi naziv do 70 znakova.');
+    if(projectEntries.some(e=>e.name.toLocaleLowerCase('sr')===trimmed.toLocaleLowerCase('sr')))
+      throw Error('Taj naziv već postoji. Izaberi drugi ili klikni Ažuriraj.');
+    const now=new Date().toISOString(),entry={id:makeId(),name:trimmed,createdAt:now,updatedAt:now,
+      snapshot:source||makeProjectSnapshot()};
+    normalizedProject(entry.snapshot);
+    await libraryOperation('put',entry);await reloadProjectList();return entry;
+  }
+  savedShelf.querySelector('#savedCreateForm').addEventListener('submit',e=>{
+    e.preventDefault();runProjectAction(async()=>{
+      const entry=await saveNamedProject(savedName.value);savedName.value='';
+      projectMessage(`Sačuvan je „${entry.name}“.`);
+    });
+  });
+  function loadProject(entry){runProjectAction(async()=>{
+    applyProjectSnapshot(entry.snapshot);openSavedShelf(false);
+    projectMessage(`Otvoren je „${entry.name}“.`);
+  });}
+  function updateProject(entry){runProjectAction(async()=>{
+    const updated={...entry,updatedAt:new Date().toISOString(),snapshot:makeProjectSnapshot()};
+    await libraryOperation('put',updated);await reloadProjectList();
+    projectMessage(`Ažuriran je „${entry.name}“.`);
+  });}
+  function deleteProject(entry){
+    if(deleteCandidate!==entry.id){deleteCandidate=entry.id;renderProjectEntries();
+      projectMessage(`Za brisanje „${entry.name}“ klikni Potvrdi u istom redu.`);return;}
+    runProjectAction(async()=>{
+      await libraryOperation('delete',entry.id);deleteCandidate=null;
+      await reloadProjectList();projectMessage(`Obrisan je „${entry.name}“.`);
+    });
+  }
+  function jsonDownload(name,snapshot){
+    const safe=String(name||'trougao').normalize('NFKD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^A-Za-z0-9_-]+/g,'_').slice(0,55)||'trougao';
+    const blob=new Blob([JSON.stringify({name,snapshot},null,2)],{type:'application/json;charset=utf-8'});
+    const url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=`Trougao_${safe}.json`;document.body.append(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  function exportNamedProject(entry){jsonDownload(entry.name,entry.snapshot);
+    projectMessage(`Izvezen je „${entry.name}“ kao JSON.`);}
+  savedShelf.querySelector('#savedExportCurrent').addEventListener('click',()=>{
+    jsonDownload(savedName.value.trim()||'Trenutni_rad',makeProjectSnapshot());
+    projectMessage('Trenutna postavka je izvezena u JSON.');
+  });
+  const projectFileInput=savedShelf.querySelector('#savedImportFile');
+  savedShelf.querySelector('#savedImportButton').addEventListener('click',()=>projectFileInput.click());
+  projectFileInput.addEventListener('change',()=>{
+    const file=projectFileInput.files?.[0];projectFileInput.value='';if(!file)return;
+    runProjectAction(async()=>{
+      if(file.size>1024*1024)throw Error('JSON je prevelik (najviše 1 MB).');
+      const parsed=JSON.parse(await file.text());
+      const snapshot=parsed?.snapshot||parsed;normalizedProject(snapshot);
+      const name=typeof parsed.name==='string'?parsed.name.trim().slice(0,70):
+        file.name.replace(/\.json$/i,'').slice(0,70);
+      let proposed=name||'Uvezeni trougao',num=2;
+      while(projectEntries.some(e=>e.name.toLocaleLowerCase('sr')===proposed.toLocaleLowerCase('sr')))
+        proposed=`${name.slice(0,58)} (${num++})`;
+      const entry=await saveNamedProject(proposed,snapshot);
+      applyProjectSnapshot(snapshot);
+      projectMessage(`Uvezen i otvoren „${entry.name}“.`);
+    });
+  });
+  let restoreAttempted=false;
+  function restoreSessionOnFirstPaint(){
+    if(restoreAttempted||!canvasSize.w)return;restoreAttempted=true;
+    try{const raw=localStorage.getItem(SESSION_KEY);
+      if(raw){applyProjectSnapshot(JSON.parse(raw));}
+    }catch(error){console.warn('Triangle session could not be restored:',error.message);}
+    sessionReady=true;
+    scheduleSessionSave();
+  }
+  // Readonly diagnostics to support repeatable offline/manual testing.
+  window.TriangleSimulatorProjects=Object.freeze({
+    get backend(){return projectsBackend;},
+    get entries(){return projectEntries.map(e=>({id:e.id,name:e.name,updatedAt:e.updatedAt}));},
+    get sessionReady(){return sessionReady;},
+    snapshot:makeProjectSnapshot,
+    validate:normalizedProject,
+    apply:applyProjectSnapshot,
+    refresh:reloadProjectList,
+    get shelfOpen(){return !savedShelf.hidden;}
+  });
+
   const observer=new ResizeObserver(entries=>{
     const rect=entries[0].contentRect;
     if(rect.width<=0||rect.height<=0)return;
     canvasSize={w:rect.width,h:rect.height};
     svg.setAttribute('viewBox',`0 0 ${canvasSize.w} ${canvasSize.h}`);
     fitExteriorCenters();redraw();fitAll();
+    if(!restoreAttempted)requestAnimationFrame(restoreSessionOnFirstPaint);
   });
   try{runMathChecks();observer.observe(stage);}
   catch(error){warning.hidden=false;warning.textContent=`Greška u matematičkoj proveri: ${error.message}`;console.error(error);}
