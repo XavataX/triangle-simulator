@@ -1,4 +1,4 @@
-# Triangle Simulator 2.0.27 — Save, Load & Session Recovery
+# Triangle Simulator 2.0.28 — Save, Load & Session Recovery
 
 ## Install or update
 Unzip and upload the **contents** to the root of the existing GitHub Pages repository. The URL and PWA identity remain the same. Open the hosted site, then use the built-in update prompt. Existing named projects are kept in IndexedDB on the same origin; the service-worker cache is replaced but never clears project data.
@@ -14,3 +14,5 @@ Unzip and upload the **contents** to the root of the existing GitHub Pages repos
 
 ## Limits
 On browser data clearing or uninstallation, origin-scoped saved projects can be lost; export JSON backups. The portable file:// origin can be isolated from the installed PWA origin. The browser must allow local storage for auto recovery. This is a candidate awaiting physical-device acceptance.
+
+2.0.28: Izvoz PNG slike pomoću nezavisnog SVG prikaza i viših rezolucija; lokalna biblioteka i ID PWA su očuvani.

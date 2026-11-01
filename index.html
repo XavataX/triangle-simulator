@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Matematička sveska 2.0.27</title>
+<title>Simulator trougla — Matematička sveska 2.0.28</title>
 <script id="theme-startup">(()=>{let mode=null;try{mode=localStorage.getItem('triangle-simulator-theme')}catch(_){}if(mode!=='light'&&mode!=='dark')mode=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=mode;})();</script>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
@@ -1156,7 +1156,20 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
 
 
 
-/* 2.0.27: Four real sectors at the intersection of two straight construction lines.
+/* The retired Posmatraj is a hidden backing store for existing live formulas.
+   Only the actual notebook ink is presented to the student. */
+#observeDock{display:none!important}
+/* 2.0.27: The notebook has a world-space drag handle only in its title.
+   It has no window, chrome, scroll region or separate UI coordinate system. */
+#triangle .notebook-math .note-title{pointer-events:all;cursor:grab;touch-action:none}
+#triangle .notebook-math .note-title:hover{filter:brightness(1.15);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:4px}
+#triangle .notebook-math .note-title:active{cursor:grabbing}
+#triangle .notebook-math .note-action{font-weight:750;fill:#237d69;pointer-events:all;cursor:pointer;touch-action:manipulation}
+#triangle .notebook-math .note-action:hover,#triangle .notebook-math .note-action:focus-visible{text-decoration:underline;outline:none}
+#triangle .notebook-math .note-detail{font-size:12.5px;fill:#455b54}
+html[data-theme="dark"] #triangle .notebook-math .note-action{fill:#8be1c0}
+html[data-theme="dark"] #triangle .notebook-math .note-detail{fill:#c9d4cd}
+/* 2.0.25: Four real sectors at the intersection of two straight construction lines.
    The sectors and labels are world-space geometry, not an HTML overlay. */
 #triangle .intersection-angles{user-select:none;-webkit-user-select:none}
 #triangle .intersection-angles .intersection-sector{fill:transparent;stroke:none;cursor:pointer;touch-action:manipulation}
@@ -1171,7 +1184,7 @@ html[data-theme="dark"] #triangle .intersection-angles .intersection-arc{stroke:
 #triangle .intersection-angles .intersection-hint{font-family:system-ui,sans-serif;fill:#af885c;font-weight:650;font-size:11px;pointer-events:none}
 html[data-theme="dark"] #triangle .intersection-angles .intersection-hint{fill:#e3c59b}
 
-/* 2.0.27 — Portrait selector visibility fix.
+/* 2.0.25 — Portrait selector visibility fix.
    The chooser used to sit 7px above the canvas bottom, underneath mobile
    browser/PWA navigation controls. Keep the whole carousel inside the usable
    portrait viewport, while retaining the independent landscape placement. */
@@ -1190,19 +1203,6 @@ html[data-theme="dark"] #triangle .intersection-angles .intersection-hint{fill:#
     padding:6px 7px!important;
   }
 }
-/* The retired Posmatraj is a hidden backing store for existing live formulas.
-   Only the actual notebook ink is presented to the student. */
-#observeDock{display:none!important}
-/* 2.0.27: The notebook has a world-space drag handle only in its title.
-   It has no window, chrome, scroll region or separate UI coordinate system. */
-#triangle .notebook-math .note-title{pointer-events:all;cursor:grab;touch-action:none}
-#triangle .notebook-math .note-title:hover{filter:brightness(1.15);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:4px}
-#triangle .notebook-math .note-title:active{cursor:grabbing}
-#triangle .notebook-math .note-action{font-weight:750;fill:#237d69;pointer-events:all;cursor:pointer;touch-action:manipulation}
-#triangle .notebook-math .note-action:hover,#triangle .notebook-math .note-action:focus-visible{text-decoration:underline;outline:none}
-#triangle .notebook-math .note-detail{font-size:12.5px;fill:#455b54}
-html[data-theme="dark"] #triangle .notebook-math .note-action{fill:#8be1c0}
-html[data-theme="dark"] #triangle .notebook-math .note-detail{fill:#c9d4cd}
 
 /* 2.0.27: An anchored canvas shelf, never a movable secondary window. */
 #savedSetupToggle{font-size:1.06rem!important;width:35px;min-height:35px;border:1px solid #cbdce6;
@@ -1257,6 +1257,38 @@ html[data-theme="dark"] .saved-shelf-status[data-error="true"]{color:#ffc2b9}
  .saved-shelf-row{flex-direction:column;gap:5px}
  .saved-shelf-buttons{max-width:none;width:100%;justify-content:flex-start}
 }
+
+/* 2.0.28 — Anchored export controls; no separate window or screenshot dependency. */
+#imageExportToggle{font-size:1.03rem!important;width:35px;min-height:35px;border:1px solid #cbdce6;
+ background:rgba(255,255,255,.94);border-radius:9px;color:#2b6c71;cursor:pointer;
+ box-shadow:0 2px 10px #284b6517;touch-action:manipulation}
+#imageExportToggle[aria-expanded="true"]{background:#dcefe9;border-color:#8dbdb0}
+#imageExportShelf{position:absolute;z-index:34;top:50px;right:max(7px,env(safe-area-inset-right));
+ width:min(386px,calc(100% - 14px));max-height:min(79%,640px);display:flex;flex-direction:column;
+ overflow:hidden;border:1px solid #cbded9;border-radius:12px;background:rgba(250,253,251,.985);
+ box-shadow:0 12px 33px #173d432c;backdrop-filter:blur(10px);color:#294a49}
+#imageExportShelf[hidden]{display:none!important}
+.export-shelf-body{padding:12px;display:grid;gap:12px;overflow-y:auto;overscroll-behavior:contain}
+.export-shelf-hint{font-size:.75rem;line-height:1.5;color:#647c73;margin:0}
+.export-shelf-field{display:grid;gap:5px;font-size:.8rem;font-weight:700}
+.export-resolution{display:flex;gap:6px}
+.export-resolution label{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;
+ border:1px solid #b9d1c8;background:#f2f9f5;border-radius:9px;min-height:40px;cursor:pointer}
+.export-resolution label:has(input:checked){background:#d0ecdf;border-color:#6aaf91;color:#155e49}
+.export-resolution input{accent-color:#2d826b}
+.export-shelf-checkbox{display:flex;align-items:center;gap:9px;line-height:1.4;font-size:.79rem;cursor:pointer}
+.export-shelf-checkbox input{accent-color:#2d826b;width:17px;height:17px}
+.export-shelf-output{font-size:.71rem;font-variant-numeric:tabular-nums;color:#5a776c;min-height:1.2em}
+.export-shelf-output[data-error="true"]{color:#a84741}
+.export-shelf-body>.saved-shelf-action{min-height:42px;font-size:.87rem}
+html[data-theme="dark"] #imageExportShelf{background:rgba(38,43,40,.985);border-color:#607a6b;color:#e1e9e1}
+html[data-theme="dark"] .export-shelf-hint,html[data-theme="dark"] .export-shelf-output{color:#bccdc1}
+html[data-theme="dark"] .export-resolution label{background:#354239;border-color:#587666}
+html[data-theme="dark"] .export-resolution label:has(input:checked){background:#245c47;color:#e2fff0;border-color:#72b795}
+html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
+@media(max-width:600px){#imageExportShelf{top:max(47px,calc(env(safe-area-inset-top) + 47px));right:6px;
+ width:calc(100% - 12px);max-height:calc(100% - 70px)}}
+
 </style>
 
 
@@ -1266,8 +1298,6 @@ html[data-theme="dark"] .saved-shelf-status[data-error="true"]{color:#ffc2b9}
 <meta name="apple-mobile-web-app-title" content="Trouglovi"/>
 <meta name="application-name" content="Simulator trougla"/>
 
-<link rel="manifest" href="./manifest.webmanifest"/>
-<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"/>
 </head>
 <body>
 <main class="page">
@@ -4467,7 +4497,7 @@ html[data-theme="dark"] .saved-shelf-status[data-error="true"]{color:#ffc2b9}
   // 2.0.23: Plain SVG mathematics is ordinary notebook content, rendered at
   // WORLD coordinates in cameraView. Camera zoom/pan acts on it exactly like
   // the triangle. It is always visible, with no panel/overlay or text scroll.
-  // 2.0.27: General four-sector geometry for the crossing of two lines.
+  // 2.0.25: General four-sector geometry for the crossing of two lines.
   // The exterior centers X/Y/Z are intersections of TWO exterior bisectors,
   // and the perpendicular-bisector circumcenter O uses exactly the same model.
   // All angles come from the live ray vectors, never a fixed 45° answer.
@@ -4691,8 +4721,9 @@ html[data-theme="dark"] .saved-shelf-status[data-error="true"]{color:#ffc2b9}
     measure.remove();
     return lines;
   }
+  let exportMathData=null;
   function updateLiveCanvasMath(solution){
-    if(!canvasSize.w||!solution.valid){notebookMath.replaceChildren();notebookBounds=null;return;}
+    if(!canvasSize.w||!solution.valid){notebookMath.replaceChildren();notebookBounds=null;exportMathData=null;return;}
     // Even without selection, ABC has a permanent basic notebook calculation.
     const name=visualSelection&&relationSpecs[visualSelection]?visualSelection:'ABC';
     const spec=relationSpecs[name];
@@ -4727,6 +4758,15 @@ html[data-theme="dark"] .saved-shelf-status[data-error="true"]{color:#ffc2b9}
       ?`Aktivni ugao: ${exteriorAngleNames[name]}`
       :`Aktivni trougao: ${regionNameLabel(name)}`);
     notebookTitle=heading;notebookResult=numeric;
+    // Semantic content for the independent 2.0.28 export compositor.
+    // It does not depend on SVG screen coordinates, current zoom or DOM screenshots.
+    const exportRelated=(intersectionExplanation?.sources || spec.sources || [])
+      .filter(target=>Boolean(relationSpecs[target]));
+    const exportExtra=[observeSentence(name),displayMathText(byId('relationNote').textContent||'')]
+      .filter(Boolean).filter((line,i,arr)=>arr.indexOf(line)===i);
+    exportExtra.push('Zbir unutrašnjih uglova svakog trougla iznosi 180°. Simetrala deli ugao na dva jednaka dela.');
+    if(intersectionExplanation)exportExtra.push('Unakrsni uglovi su jednaki; susedni uporedni uglovi zajedno imaju 180°.');
+    exportMathData={heading,origin,steps:[...steps],numeric,related:exportRelated.map(regionNameLabel),extra:exportExtra};
     const titleInk=add(heading,'note-title',16,25);
     titleInk.setAttribute('data-notebook-title','');
     titleInk.setAttribute('aria-label','Povuci naslov da pomeriš matematički zapis');
@@ -6109,7 +6149,7 @@ html[data-theme="dark"] .saved-shelf-status[data-error="true"]{color:#ffc2b9}
     const scale=Math.max(1,unit());
     const visibleCenter=cameraWorldPoint({x:canvasSize.w/2,y:canvasSize.h/2});
     return {
-      format:PROJECT_FORMAT,schemaVersion:PROJECT_SCHEMA,appVersion:'2.0.27',
+      format:PROJECT_FORMAT,schemaVersion:PROJECT_SCHEMA,appVersion:'2.0.28',
       savedAt:new Date().toISOString(),state:{
         vertices:model.map(p=>({x:p.x,y:p.y})),
         givens:[...angleGiven.entries()],equalSides,givenCircumAngle,
@@ -6387,6 +6427,344 @@ html[data-theme="dark"] .saved-shelf-status[data-error="true"]{color:#ffc2b9}
       projectMessage(`Uvezen i otvoren „${entry.name}“.`);
     });
   });
+
+  // 2.0.28 — Dedicated vector-to-raster export pipeline. We deliberately do
+  // not capture the stage, browser viewport, canvas bitmap, UI, notebook
+  // screen coordinates, or camera transform. All layout is assembled anew.
+  const exportToggle=document.createElement('button');
+  exportToggle.id='imageExportToggle';exportToggle.type='button';exportToggle.textContent='▧';
+  exportToggle.title='Izvezi geometriju i matematiku kao PNG';
+  exportToggle.setAttribute('aria-label','Izvezi trougao i matematiku kao sliku');
+  exportToggle.setAttribute('aria-controls','imageExportShelf');
+  exportToggle.setAttribute('aria-expanded','false');
+  workspaceActions.insertBefore(exportToggle,savedToggle);
+  const exportShelf=document.createElement('section');
+  exportShelf.id='imageExportShelf';exportShelf.hidden=true;
+  exportShelf.setAttribute('aria-label','Izvoz slike');
+  exportShelf.innerHTML=`<div class="saved-shelf-head"><span>▧ Izvoz slike · PNG</span>
+      <button type="button" class="saved-shelf-close" id="imageExportClose" aria-label="Zatvori izvoz slike">×</button></div>
+    <form id="imageExportForm" class="export-shelf-body">
+      <p class="export-shelf-hint">Čist izvoz crteža i matematičkog postupka. Ne zavisi od zumiranja, pomeranja platna ili veličine ekrana.</p>
+      <div class="export-shelf-field"><span>Rezolucija</span>
+        <div class="export-resolution" role="radiogroup" aria-label="Rezolucija PNG slike">
+          <label><input name="imageExportScale" type="radio" value="1"/>1×</label>
+          <label><input name="imageExportScale" type="radio" value="2" checked/>2×</label>
+          <label><input name="imageExportScale" type="radio" value="4"/>4×</label>
+        </div></div>
+      <label class="export-shelf-checkbox"><input type="checkbox" id="imageExportDetails"/> Uključi detaljnije objašnjenje</label>
+      <p class="export-shelf-hint">Bela podloga, čitljive jednačine i aktivne konstrukcije. Izbor 4× može koristiti više memorije na telefonu.</p>
+      <button class="saved-shelf-action primary" id="imageExportDownload" type="submit">↓ Sačuvaj PNG sliku</button>
+      <div class="export-shelf-output" id="imageExportStatus" role="status" aria-live="polite"></div>
+    </form>`;
+  stage.append(exportShelf);
+  const exportStatus=exportShelf.querySelector('#imageExportStatus');
+  const exportForm=exportShelf.querySelector('#imageExportForm');
+  const exportButton=exportShelf.querySelector('#imageExportDownload');
+  let exportBusy=false;
+  function exportMessage(message,error=false){exportStatus.textContent=message;exportStatus.dataset.error=String(error)}
+  function openExportShelf(open){
+    if(open && !savedShelf.hidden)openSavedShelf(false);
+    exportShelf.hidden=!open;exportToggle.setAttribute('aria-expanded',String(open));
+    if(open){exportShelf.querySelector('#imageExportDetails').checked=notebookDetailsExpanded;
+      exportMessage('');}
+  }
+  exportToggle.addEventListener('click',()=>openExportShelf(exportShelf.hidden));
+  exportShelf.querySelector('#imageExportClose').addEventListener('click',()=>openExportShelf(false));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!exportShelf.hidden){openExportShelf(false);exportToggle.focus();}});
+  // The project shelf is the other anchored tool, never overlap both.
+  savedToggle.addEventListener('click',()=>{if(!exportShelf.hidden)openExportShelf(false)},true);
+
+  const EXP_W=1280,EXP_MIN_H=850;
+  const exportSvgNS='http://www.w3.org/2000/svg';
+  function exEl(tag,attrs={},content){
+    const node=document.createElementNS(exportSvgNS,tag);
+    for(const [key,val] of Object.entries(attrs))node.setAttribute(key,String(val));
+    if(content!==undefined)node.textContent=String(content);
+    return node;
+  }
+  // Copy the semantic *geometry primitives* provided by the geometry engine,
+  // not the screenshot or camera. Resolve computed paint to explicit SVG
+  // attributes so PNG rendering never depends on application CSS.
+  const EXPORT_PAINT=['fill','fill-opacity','fill-rule','stroke','stroke-opacity',
+    'stroke-width','stroke-linejoin','stroke-linecap','stroke-dasharray',
+    'stroke-dashoffset','opacity','vector-effect','font-family','font-size',
+    'font-weight','font-style','letter-spacing','text-anchor','dominant-baseline',
+    'paint-order','visibility'];
+  const EXPORT_TAGS=new Set(['g','polygon','polyline','path','circle','ellipse','line','rect','text','tspan']);
+  function copyExportGeometry(source,textScale=1){
+    if(!EXPORT_TAGS.has(source.localName))return null;
+    if(source.matches?.('[data-vertex],[data-extension-handle],[data-excenter-select],'+
+      '[data-exterior-angle-select],[data-side-pick],[data-context-angle]'))return null;
+    if(source.classList?.contains('vertex-hit')||source.classList?.contains('extension-handle')||
+      source.classList?.contains('intersection-sector'))return null;
+    // Infinite lines get rebuilt against the export's OWN crop rectangle.
+    if(source.hasAttribute('data-side-bisector')||source.hasAttribute('data-outer-bisector'))return null;
+    const cs=getComputedStyle(source);
+    if(cs.display==='none'||cs.visibility==='hidden'||cs.visibility==='collapse')return null;
+    const tag=source.localName,out=exEl(tag);
+    for(const att of source.attributes){
+      if(/^(class|id|data-|role|tabindex|aria-|pointer-events|style|on)/.test(att.name))continue;
+      if(['href','xlink:href'].includes(att.name))continue;
+      // The live UI sometimes inverse-scales labels/handles by camera zoom.
+      // That is interaction-only state: strip it from the independent export.
+      if(att.name==='transform'&&/translate\(0 0\) translate\(/.test(att.value))continue;
+      out.setAttribute(att.name,att.value);
+    }
+    for(const prop of EXPORT_PAINT){
+      const val=cs.getPropertyValue(prop);
+      if(val && val!=='normal' && val!=='auto' && val!=='visible' && val!=='none' ||
+        (prop==='fill'&&val==='none') || (prop==='stroke'&&val==='none')){
+        out.setAttribute(prop,val.trim());
+      }
+    }
+    // Annotations in the live renderer use fixed screen-pixel dimensions;
+    // normalize their size into the export coordinate system so mobile and
+    // desktop produce the same-sized mathematical labels and vertex markers.
+    if(tag==='circle'&&source.hasAttribute('r')){
+      const radius=Number(source.getAttribute('r'));
+      if(Number.isFinite(radius))out.setAttribute('r',String(radius*textScale));
+    }
+    if(tag==='path'&&textScale!==1){
+      // Angle arcs are the single-arc SVG primitives generated by arcPath().
+      // Their true centre is always a constructed point, not a viewport point.
+      const d=source.getAttribute('d')||'';
+      const m=d.match(/^\s*M\s*([+\-\deE.]+)[ ,]+([+\-\deE.]+)\s*A\s*([+\-\deE.]+)[ ,]+([+\-\deE.]+)\s+0\s+0\s+([01])\s*([+\-\deE.]+)[ ,]+([+\-\deE.]+)\s*$/);
+      if(m){
+        const [x1,y1,rX,rY,sweep,x2,y2]=m.slice(1).map(Number);
+        const dx=x2-x1,dy=y2-y1,chord=Math.hypot(dx,dy),r=(rX+rY)/2;
+        if(chord>1e-8&&chord<=2*r+1e-6&&Math.abs(rX-rY)<1e-7){
+          const mid={x:(x1+x2)/2,y:(y1+y2)/2};
+          const h=Math.sqrt(Math.max(0,r*r-chord*chord/4)),nx=-dy/chord,ny=dx/chord;
+          const candidates=[{x:mid.x+nx*h,y:mid.y+ny*h},{x:mid.x-nx*h,y:mid.y-ny*h}];
+          const points=[...Object.values(visiblePointPositions||{}),...screenPoints()];
+          let best=null,bestDistance=Infinity;
+          for(const c of candidates)for(const p of points){
+            if(!p)continue;
+            const dst=Math.hypot(c.x-p.x,c.y-p.y);
+            if(dst<bestDistance){bestDistance=dst;best=c;}
+          }
+          if(best&&bestDistance<3){
+            const ax=best.x+(x1-best.x)*textScale,ay=best.y+(y1-best.y)*textScale;
+            const bx=best.x+(x2-best.x)*textScale,by=best.y+(y2-best.y)*textScale;
+            const nr=r*textScale;
+            out.setAttribute('d',`M ${ax} ${ay} A ${nr} ${nr} 0 0 ${sweep} ${bx} ${by}`);
+          }
+        }
+      }
+    }
+    if(tag==='text'||tag==='tspan'){
+      const fontSize=parseFloat(cs.fontSize);
+      if(Number.isFinite(fontSize))out.setAttribute('font-size',String(fontSize*textScale));
+      out.textContent=source.textContent;
+      if(tag==='text'&&source.classList.contains('vertex-text')){
+        const hit=Object.keys(visiblePointPositions||{}).find(key=>displayPoint(key)===source.textContent);
+        const anchor=hit&&visiblePointPositions[hit];
+        const ox=Number(source.getAttribute('x')),oy=Number(source.getAttribute('y'));
+        if(anchor&&Number.isFinite(ox)&&Number.isFinite(oy)&&Math.hypot(ox-anchor.x,oy-anchor.y)<70){
+          out.setAttribute('x',String(anchor.x+(ox-anchor.x)*textScale));
+          out.setAttribute('y',String(anchor.y+(oy-anchor.y)*textScale));
+        }
+      }
+    }else for(const child of source.children){const copy=copyExportGeometry(child,textScale);if(copy)out.appendChild(copy)}
+    return out;
+  }
+  function exportGeometryBounds(){
+    const centerX=canvasSize.w/2,centerY=canvasSize.h/2,u=Math.max(1,unit());
+    const points=[...screenPoints()];
+    for(const [key,p] of Object.entries(visiblePointPositions||{})){
+      if(!p || !Number.isFinite(p.x)||!Number.isFinite(p.y))continue;
+      if(['O','X','Y','Z'].includes(key)){
+        // Keep a distant auxiliary centre if its actual construction is enabled.
+        const active=key==='O'?sidePerpRender?.center?.valid:
+          Object.prototype.hasOwnProperty.call(outerBisectorRender?.centers||{},key);
+        if(!active)continue;
+      }
+      points.push(p);
+    }
+    const normalized=points.map(p=>({x:(p.x-centerX)/u,y:(p.y-centerY)/u}))
+      .filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y));
+    let minX=Math.min(...normalized.map(p=>p.x)),maxX=Math.max(...normalized.map(p=>p.x));
+    let minY=Math.min(...normalized.map(p=>p.y)),maxY=Math.max(...normalized.map(p=>p.y));
+    if(!Number.isFinite(minX)||!Number.isFinite(minY))throw Error('Geometrija nije spremna za izvoz.');
+    const pad=Math.max(.12,Math.min(1.2,Math.max(maxX-minX,maxY-minY)*.12));
+    minX-=pad;maxX+=pad;minY-=pad;maxY+=pad;
+    return {minX,maxX,minY,maxY};
+  }
+  function renderExportGeometry(root,geom){
+    const bounds=exportGeometryBounds(),u=Math.max(1,unit());
+    const w=geom.w,h=geom.h;
+    const actualW=bounds.maxX-bounds.minX,actualH=bounds.maxY-bounds.minY;
+    const scale=Math.min(w/Math.max(.04,actualW),h/Math.max(.04,actualH));
+    const tx=geom.x+(w-scale*actualW)/2-scale*bounds.minX;
+    const ty=geom.y+(h-scale*actualH)/2-scale*bounds.minY;
+    const toScreenScale=scale/u;
+    const sourceToUnit=`translate(${tx} ${ty}) scale(${toScreenScale}) translate(${-canvasSize.w/2} ${-canvasSize.h/2})`;
+    const clipId='triangleExportGeometryClip';
+    const defs=exEl('defs'),clip=exEl('clipPath',{id:clipId});
+    clip.append(exEl('rect',{x:geom.x,y:geom.y,width:w,height:h,rx:8}));defs.append(clip);root.append(defs);
+    const layer=exEl('g',{'clip-path':`url(#${clipId})`});
+    const transformed=exEl('g',{transform:sourceToUnit});
+    const textScale=Math.max(.15,Math.min(8,1/toScreenScale));
+    const base=copyExportGeometry(drawing,textScale);if(base)transformed.append(base);
+    // Redraw infinite construction lines using the export frame, so panning
+    // the live canvas cannot change the PNG line lengths or endpoints.
+    const worldRect={
+      x0:canvasSize.w/2+(bounds.minX-0.05)*u,x1:canvasSize.w/2+(bounds.maxX+0.05)*u,
+      y0:canvasSize.h/2+(bounds.minY-0.05)*u,y1:canvasSize.h/2+(bounds.maxY+0.05)*u};
+    function addExportInfiniteLine(p,d,selector){
+      if(!p||!d||!Number.isFinite(p.x)||!Number.isFinite(p.y))return;
+      const original=drawing.querySelector(selector);
+      if(!original)return;
+      const paint=getComputedStyle(original);
+      // Live view can hide an infinite line outside its current camera crop.
+      // In export it remains present and is clipped against export bounds instead.
+      let low=-Infinity,high=Infinity;
+      for(const [at,v,a,b] of [[p.x,d.x,worldRect.x0,worldRect.x1],[p.y,d.y,worldRect.y0,worldRect.y1]]){
+        if(Math.abs(v)<1e-12){if(at<a||at>b)return;continue;}
+        const l=(a-at)/v,r=(b-at)/v;
+        low=Math.max(low,Math.min(l,r));high=Math.min(high,Math.max(l,r));
+      }
+      if(!(low<high)||!Number.isFinite(low)||!Number.isFinite(high))return;
+      const line=exEl('line',{x1:p.x+d.x*low,y1:p.y+d.y*low,
+        x2:p.x+d.x*high,y2:p.y+d.y*high});
+      for(const key of ['stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-opacity','vector-effect','opacity']){
+        const v=paint.getPropertyValue(key);if(v)line.setAttribute(key,v);
+      }
+      // Construction strokes stay below point labels and above the triangle fill.
+      transformed.append(line);
+    }
+    for(const [key,item] of Object.entries(sidePerpRender?.items||{}))
+      addExportInfiniteLine(item.midpoint,item.dir,`line[data-side-bisector="${key}"]`);
+    for(const [key,item] of Object.entries(outerBisectorRender?.rays||{}))
+      addExportInfiniteLine(item.origin,item.dir,`line[data-outer-bisector="${key}"]`);
+    const handlesLayer=copyExportGeometry(handles,textScale);if(handlesLayer)transformed.append(handlesLayer);
+    layer.append(transformed);root.append(layer);
+    return bounds;
+  }
+  function exportTextMeasure(){
+    const ctx=document.createElement('canvas').getContext('2d');
+    return (value,size,weight=400)=>{
+      ctx.font=`${weight} ${size}px system-ui,Segoe UI,Arial,sans-serif`;
+      return ctx.measureText(value).width;
+    };
+  }
+  function buildExportSVG(includeDetails=false){
+    if(!exportMathData||!canvasSize.w||!canvasSize.h)throw Error('Nema ispravnog trougla za izvoz.');
+    const math=exportMathData,measure=exportTextMeasure();
+    const ink='#334f49',teal='#237965',muted='#506d65';
+    const content=[],rightX=730,rightWidth=500;
+    let y=162;
+    function row(value,opts={}){
+      const {size=18,weight=450,color=ink,spacing=6,indent=0,wrap=true}=opts;
+      const words=String(value||'').trim().split(/\s+/).filter(Boolean);
+      if(!words.length){y+=spacing;return;}
+      const maxW=rightWidth-indent;
+      let lines=[],str='';
+      for(const word of words){
+        const candidate=str?str+' '+word:word;
+        if(str && measure(candidate,size,weight)>maxW){lines.push(str);str=word;}else str=candidate;
+      }
+      if(str)lines.push(str);
+      for(const l of lines){
+        const t=exEl('text',{x:rightX+indent,y,fill:color,'font-size':size,'font-weight':weight,
+          'font-family':'system-ui,Segoe UI,Arial,sans-serif'},l);
+        content.push(t);y+=Math.ceil(size*1.43);
+      }
+      y+=spacing;
+    }
+    const heading=(value)=>row(value,{size:19,weight:780,color:teal,spacing:10});
+    row(math.heading,{size:23,weight:800,color:teal,spacing:15});
+    if(math.origin)row(math.origin,{size:16,color:muted,spacing:15});
+    if(math.related?.length){heading('Povezani trouglovi');row(math.related.join('   ·   '),
+      {size:16,weight:700,color:teal,spacing:19});}
+    heading('Sistem i redosled zamene');
+    for(let i=0;i<math.steps.length;i++)row(`${i+1}. ${math.steps[i]}`,
+      {size:17,spacing:10});
+    y+=8;
+    content.push(exEl('line',{x1:rightX,y1:y,x2:rightX+rightWidth,y2:y,stroke:'#b4d1c5','stroke-width':1.3}));
+    y+=30;heading('Rezultat');
+    row(math.numeric,{size:19,weight:750,color:'#197c61',spacing:20});
+    if(includeDetails){
+      y+=8;heading('Detaljnije objašnjenje');
+      for(const extra of math.extra||[])row(extra,{size:16,color:muted,spacing:12});
+      heading('Provera');row(math.numeric,{size:17,weight:680,color:teal,spacing:8});
+    }
+    const height=Math.max(EXP_MIN_H,Math.ceil((y+95)/20)*20);
+    const root=exEl('svg',{xmlns:exportSvgNS,width:EXP_W,height,viewBox:`0 0 ${EXP_W} ${height}`,
+      role:'img','aria-label':'Izvezeni trougao sa matematičkim objašnjenjem'});
+    root.append(exEl('rect',{x:0,y:0,width:EXP_W,height,fill:'#fffefd'}));
+    root.append(exEl('text',{x:49,y:59,fill:teal,'font-size':24,'font-weight':800,
+      'font-family':'system-ui,Segoe UI,Arial,sans-serif'},'SIMULATOR TROUGLA'));
+    root.append(exEl('text',{x:50,y:85,fill:muted,'font-size':15,
+      'font-family':'system-ui,Segoe UI,Arial,sans-serif'},'Geometrijska konstrukcija i matematički postupak'));
+    root.append(exEl('line',{x1:49,y1:108,x2:1232,y2:108,stroke:'#cfdfd8','stroke-width':1.5}));
+    const geom={x:48,y:135,w:624,h:Math.max(620,Math.min(780,height-260))};
+    root.append(exEl('rect',{x:geom.x-8,y:geom.y-8,width:geom.w+16,height:geom.h+16,
+      rx:13,fill:'#f7fbfa',stroke:'#d6e7df','stroke-width':1}));
+    // Neutral light export palette even when the student's workspace is dark.
+    // This is a synchronous, paint-free style read; the user's theme is restored
+    // before this function returns and never written to persistent storage.
+    const userTheme=document.documentElement.dataset.theme;
+    try{
+      if(userTheme==='dark')document.documentElement.dataset.theme='light';
+      renderExportGeometry(root,geom);
+    }finally{document.documentElement.dataset.theme=userTheme;}
+    for(const child of content)root.append(child);
+    root.append(exEl('line',{x1:49,y1:height-54,x2:1232,y2:height-54,stroke:'#d9e8e1'}));
+    root.append(exEl('text',{x:49,y:height-30,fill:'#698378','font-size':13,
+      'font-family':'system-ui,Segoe UI,Arial,sans-serif'},'Simulator trougla · izvezeni matematički zapis'));
+    return {svg:new XMLSerializer().serializeToString(root),width:EXP_W,height};
+  }
+  async function renderPNG(scale,details){
+    if(![1,2,4].includes(scale))throw Error('Nepoznata rezolucija.');
+    await document.fonts?.ready;
+    const result=buildExportSVG(details);
+    const blob=new Blob([result.svg],{type:'image/svg+xml;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    let bitmap;
+    try{
+      bitmap=new Image();bitmap.decoding='sync';
+      await new Promise((resolve,reject)=>{
+        bitmap.onload=resolve;bitmap.onerror=()=>reject(new Error('Vektorska slika nije mogla da se pripremi.'));
+        bitmap.src=url;
+      });
+      const canvas=document.createElement('canvas');
+      canvas.width=result.width*scale;canvas.height=result.height*scale;
+      const ctx=canvas.getContext('2d',{alpha:false});
+      if(!ctx)throw Error('Pregledač ne podržava potreban grafički kontekst.');
+      ctx.fillStyle='#fffefd';ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+      ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
+      const output=await new Promise((resolve,reject)=>canvas.toBlob(
+        b=>b?resolve(b):reject(new Error('PNG nije mogao da se sačuva.')),'image/png'));
+      canvas.width=canvas.height=0;
+      return {blob:output,width:result.width*scale,height:result.height*scale};
+    }finally{bitmap&&(bitmap.src='');URL.revokeObjectURL(url);}
+  }
+  function pngDownload(result){
+    const selected=visualSelection&&relationSpecs[visualSelection]?visualSelection:'ABC';
+    const safe=String(regionNameLabel(selected)).replace(/[^A-Za-z0-9_-]/g,'_')||'ABC';
+    const href=URL.createObjectURL(result.blob),a=document.createElement('a');
+    a.href=href;a.download=`Trougao_${safe}_${result.width}x${result.height}.png`;
+    document.body.append(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(href),10000);
+  }
+  exportForm.addEventListener('submit',async e=>{
+    e.preventDefault();if(exportBusy)return;
+    exportBusy=true;exportButton.disabled=true;exportMessage('Pripremam PNG sliku…');
+    try{
+      const scale=Number(new FormData(exportForm).get('imageExportScale')||'2');
+      const details=exportShelf.querySelector('#imageExportDetails').checked;
+      const result=await renderPNG(scale,details);
+      pngDownload(result);
+      exportMessage(`PNG ${result.width} × ${result.height} je pripremljen za čuvanje.`);
+    }catch(err){exportMessage(err?.message||'Izvoz nije uspeo.',true);console.error('PNG export:',err)}
+    finally{exportBusy=false;exportButton.disabled=false;}
+  });
+  // Read-only API for independent automated verification of actual PNG pixels.
+  window.TriangleSimulatorImageExport=Object.freeze({buildSVG:buildExportSVG,renderPNG,
+    get ready(){return Boolean(exportMathData)},get opened(){return !exportShelf.hidden}});
+
   let restoreAttempted=false;
   function restoreSessionOnFirstPaint(){
     if(restoreAttempted||!canvasSize.w)return;restoreAttempted=true;
@@ -6475,77 +6853,6 @@ html[data-theme="dark"] .saved-shelf-status[data-error="true"]{color:#ffc2b9}
     if(userChoice()!=='light'&&userChoice()!=='dark')applyTheme(event.matches?'dark':'light');
   });
   window.TriangleSimulatorTheme=Object.freeze({get current(){return html.dataset.theme},set:applyTheme});
-})();
-</script>
-<div id="pwaUpdateNotice" hidden role="status" aria-live="polite">Nova verzija simulatora je dostupna.
-  <button id="pwaUpdateNow" type="button">Ažuriraj</button>
-  <button id="pwaUpdateLater" type="button">Kasnije</button>
-</div>
-<script id="pwa-registration">
-// Only the HTTPS/localhost edition registers a service worker; portable HTML does not.
-(() => {
-  if (!('serviceWorker' in navigator) || !window.isSecureContext) return;
-  const notice = document.getElementById('pwaUpdateNotice');
-  const updateButton = document.getElementById('pwaUpdateNow');
-  const laterButton = document.getElementById('pwaUpdateLater');
-  let registration = null;
-  let refreshing = false;
-  let updateApproved = false;
-  let waiting = null;
-  let deferred = false;
-
-  function showWaiting(worker) {
-    if (!worker || !navigator.serviceWorker.controller || deferred) return;
-    waiting = worker;
-    notice.hidden = false;
-  }
-  updateButton.addEventListener('click', () => {
-    const worker = waiting || registration?.waiting;
-    if (worker) {
-      updateApproved = true;
-      updateButton.disabled = true;
-      updateButton.textContent = 'Učitavanje…';
-      worker.postMessage({type:'SKIP_WAITING'});
-    }
-  });
-  laterButton.addEventListener('click', () => {
-    deferred = true;
-    notice.hidden = true;
-  });
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    // A first-time service worker activation is NOT an app update.
-    if (refreshing || !updateApproved) return;
-    refreshing = true;
-    window.location.reload();
-  });
-
-  function onInstalling(worker) {
-    if (!worker) return;
-    worker.addEventListener('statechange', () => {
-      if (worker.state === 'installed') showWaiting(worker);
-    });
-  }
-
-  window.addEventListener('load', async () => {
-    try {
-      registration = await navigator.serviceWorker.register('./sw.js', {updateViaCache:'none'});
-      if (registration.waiting) showWaiting(registration.waiting);
-      if (registration.installing) onInstalling(registration.installing);
-      registration.addEventListener('updatefound', () => onInstalling(registration.installing));
-      // Check when reopening the installed app or returning online.
-      const checkUpdate = () => {
-        if (navigator.onLine && registration) registration.update().catch(() => {});
-      };
-      window.addEventListener('online', checkUpdate);
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) checkUpdate();
-      });
-      checkUpdate();
-    } catch (err) {
-      // Even if offline setup fails, the mathematical simulator still works.
-      console.warn('Offline instalacija nije dostupna:', err);
-    }
-  });
 })();
 </script>
 </body>

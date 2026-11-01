@@ -1,5 +1,5 @@
-/* Triangle Simulator 2.0.27: offline application-shell and explicit updates. */
-const RELEASE = '2.0.27';
+/* Triangle Simulator 2.0.28: offline application-shell and explicit updates. */
+const RELEASE = '2.0.28';
 const CACHE_PREFIX = 'triangle-simulator:' + new URL(self.registration.scope).pathname + ':';
 const CACHE_NAME = CACHE_PREFIX + RELEASE;
 const CORE = [
