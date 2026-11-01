@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Visual First 2.0.10</title>
+<title>Simulator trougla — Visual First 2.0.11</title>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
     *{box-sizing:border-box} html{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink)}
@@ -667,6 +667,62 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
  .camera-controls{top:auto!important;bottom:7px!important;right:6px!important;left:auto!important}
  .observe-dock{top:44px;max-height:calc(100% - 50px)}
 }
+
+/* 2.0.11 — Entire viewport belongs to the triangle; no empty masthead/sidebar.
+   The three floating panels have one predictable absolute positioning system. */
+html,body{width:100%;height:100%;overflow:hidden;margin:0}
+body .page{margin:0!important;padding:0!important;width:100vw!important;max-width:none!important;height:100vh!important;height:100dvh!important;overflow:hidden!important}
+body .masthead{display:none!important}
+body .layout,body.has-selection .layout,body.tools-visible .layout{height:100%!important;width:100%!important;min-height:0!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;gap:0!important;padding:0!important;margin:0!important}
+body .drawing-workspace,body.has-selection .drawing-workspace,body.tools-visible .drawing-workspace{height:100%!important;min-height:0!important;width:100%!important;max-height:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;margin:0!important}
+body .drawing-workspace .stage{height:100%!important;min-height:0!important;flex:1 1 auto!important;border:0!important;border-radius:0!important;overflow:hidden!important}
+body .drawing-workspace .stage-note{display:none!important}
+body .drawing-workspace .warning:not([hidden]){position:absolute;bottom:5px;left:8px;z-index:38;max-width:min(320px,80%);font-size:.72rem;padding:7px}
+/* Fixed navigation lane: not an empty full-width header, just a tiny control cluster. */
+.workspace-actions{position:absolute;right:max(7px,env(safe-area-inset-right));top:max(7px,env(safe-area-inset-top));z-index:27;display:flex;align-items:center;gap:5px;pointer-events:auto;max-width:calc(100% - 100px)}
+.workspace-actions .camera-controls{position:static!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;display:flex;gap:1px;padding:2px;margin:0;border-radius:8px;box-shadow:0 2px 10px #284b6517;background:rgba(255,255,255,.93)}
+.workspace-actions .camera-controls #cameraFitTriangle,.workspace-actions .camera-controls #cameraFit,.workspace-actions .camera-controls #reset{display:none!important}
+.workspace-actions .camera-controls button{height:31px!important;min-height:31px!important;min-width:31px!important;border-radius:6px!important;padding:1px 5px!important;font-size:1rem!important}
+.workspace-actions #toolsButton{position:static!important;display:flex;justify-content:center;align-items:center;min-width:35px;min-height:35px;width:35px;height:35px;padding:2px!important;font-size:1.13rem!important;line-height:1!important;border:1px solid #cbdce6!important;border-radius:9px!important;background:rgba(255,255,255,.94)!important;color:#315b70!important;box-shadow:0 2px 10px #284b6517!important}
+.filter-dock{top:max(7px,env(safe-area-inset-top));left:max(7px,env(safe-area-inset-left));right:auto!important;bottom:auto!important;z-index:21;max-height:calc(100% - 70px);overflow:auto;scrollbar-width:thin}
+.filter-dock>summary,.observe-dock>summary,.floating-drag-handle{cursor:grab!important;touch-action:none!important;user-select:none!important;-webkit-user-select:none!important}
+.filter-dock.dragging-ui>summary,.observe-dock.dragging-ui>summary,.advanced-dock.dragging-ui .floating-drag-handle{cursor:grabbing!important}
+.filter-dock, .observe-dock, .advanced-dock{transition:none!important;transform:none!important}
+.observe-dock,.observe-dock.dock-left,.observe-dock.dock-bottom,.advanced-dock{right:auto!important;bottom:auto!important;left:auto;top:auto;box-sizing:border-box}
+.observe-dock{z-index:23;width:min(318px,calc(100% - 16px));max-height:min(440px,calc(100% - 116px));}
+.observe-dock:not([open]){width:max-content;max-width:calc(100% - 16px)}
+.observe-dock-body{max-height:min(400px,calc(100dvh - 150px));overflow-y:auto;overscroll-behavior:contain}
+.advanced-dock{z-index:23;width:min(380px,calc(100% - 16px));max-height:calc(100% - 118px);overflow-y:auto;overscroll-behavior:contain}
+.floating-drag-handle{position:sticky;top:0;z-index:2;background:rgba(255,255,255,.99);min-height:32px;padding:6px 8px;display:flex;align-items:center;gap:8px;justify-content:space-between;border-bottom:1px solid #e2eaf1;border-radius:9px 9px 0 0;font-size:.76rem;font-weight:760;color:#315b70}
+.floating-drag-handle .drag-dots{letter-spacing:-2px;color:#8aa1b2;margin-right:7px;font-size:1rem}
+.floating-close{cursor:pointer;border:0;background:#f1f6fa;color:#43617a;border-radius:5px;min-width:27px;min-height:26px;font-size:1rem}
+.advanced-navigation{display:flex;align-items:center;gap:4px;flex-wrap:wrap;padding:5px 7px;margin:2px 1px 7px;border:1px solid #e5ecf2;border-radius:7px;background:#f7fafc}
+.advanced-navigation>span{font-size:.67rem;color:#5a7589;margin-right:3px}
+.advanced-navigation button{position:static!important;display:inline-block!important;border:1px solid #cbdae5!important;border-radius:6px!important;min-height:29px;min-width:30px;font-size:.79rem!important;padding:4px 6px!important;background:white!important;color:#345b73!important;cursor:pointer}
+.advanced-navigation #cameraFit span{display:inline!important}
+.advanced-dock>.advanced-tools{overflow:visible}
+/* The region chooser uses its OWN reserved bottom lane. Never push it into
+   the top row of Prikaz, navigation, or a dragged learning panel. */
+.region-chooser,.region-chooser.single{top:auto!important;bottom:max(7px,env(safe-area-inset-bottom))!important;left:7px!important;right:7px!important;z-index:32!important;max-width:min(510px,calc(100% - 14px));margin-inline:auto!important}
+.region-chooser.single{max-width:min(355px,calc(100% - 14px))}
+.region-chooser:not([hidden]){pointer-events:auto}
+@media(max-width:700px){
+ .observe-dock,.observe-dock.dock-bottom{width:min(289px,calc(100% - 14px));max-height:calc(100% - 155px)!important;}
+ .observe-dock:not([open]){width:max-content;max-width:calc(100% - 14px)}
+ .observe-dock-body{max-height:min(390px,calc(100dvh - 155px))}
+ .advanced-dock{width:min(328px,calc(100% - 14px));max-height:calc(100% - 155px)}
+ .region-chooser{max-height:74px;overflow-y:auto;overscroll-behavior:contain}
+ .region-chooser .region-choices{max-height:44px;overflow-y:auto}
+}
+@media(orientation:landscape) and (max-height:600px){
+ .observe-dock,.observe-dock.dock-bottom{width:min(255px,calc(100% - 14px));max-height:calc(100% - 110px)!important;}
+ .observe-dock:not([open]){width:max-content}
+ .observe-dock-body{max-height:calc(100dvh - 135px)}
+ .advanced-dock{width:min(315px,calc(100% - 14px));max-height:calc(100% - 110px)}
+ .region-chooser{max-height:61px;overflow-y:auto;padding:3px 5px}
+ .region-chooser .region-equation{font-size:.63rem}
+}
+
 </style>
 <link rel="manifest" href="./manifest.webmanifest"/>
 <link rel="icon" href="./icons/icon-192.png" type="image/png" sizes="192x192"/>
@@ -698,7 +754,7 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
 <g id="cameraView"><g id="drawing"></g><g aria-hidden="true" id="hoverLayer"></g><g id="handles"></g></g><g id="contextAnnotations" aria-hidden="true" pointer-events="none"></g>
 </svg>
 <span aria-live="polite" class="active-pill current-selection" hidden="" id="activeTriangleBadge">△ ABC</span>
-<div class="camera-controls" role="group" aria-label="Zum, uklapanje i vraćanje trougla">
+<div id="cameraControls" class="camera-controls" role="group" aria-label="Zum, uklapanje i vraćanje trougla">
   <button type="button" id="cameraZoomOut" title="Umanji prikaz" aria-label="Umanji prikaz">−</button>
   <button type="button" id="cameraZoomIn" title="Uvećaj prikaz" aria-label="Uvećaj prikaz">+</button>
   <button type="button" id="cameraFitTriangle" title="Uklopi osnovni trougao (F)" aria-label="Uklopi osnovni trougao">△</button>
@@ -2267,21 +2323,9 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
   observeDockBody.append(document.getElementById('discoveryCard'),document.getElementById('mathPane'));
   advancedDock.append(document.getElementById('advancedTools'));
   let lastObservedRegion='';
-  // Favor free canvas space; keep chosen side stable during pan/zoom.
+  // 2.0.11: geometry selections never arbitrarily reposition a learning window.
   function placeObservationDock(){
-    const region=selectableRegions.find(item=>item.name===visualSelection);
-    if(!region||!canvasSize.w||!canvasSize.h)return;
-    const center=region.vertices.reduce((p,q)=>({x:p.x+q.x,y:p.y+q.y}),{x:0,y:0});
-    const sx=center.x/region.vertices.length*camera.zoom+camera.x;
-    const sy=center.y/region.vertices.length*camera.zoom+camera.y;
-    const filter=document.getElementById('filterDock');
-    const filterOpen=filter?.open;
-    const portrait=window.matchMedia('(max-width:700px) and (orientation:portrait)').matches;
-    const preferLeft=sx>canvasSize.w*.53 && canvasSize.w>440 && !(filterOpen&&canvasSize.h<430);
-    const preferBottom=portrait&&sy<canvasSize.h*.56;
-    observeDock.classList.toggle('dock-left',preferLeft);
-    observeDock.classList.toggle('dock-bottom',preferBottom);
-    observeDock.style.top=(preferLeft&&filterOpen)?`${Math.min(canvasSize.h-80,filter.offsetHeight+15)}px`:'';
+    if(window.TriangleSimulatorPanelLayout)requestAnimationFrame(()=>window.dispatchEvent(new Event('triangle-panels-layout')));
   }
 
   let canvasSize={w:0,h:0};
@@ -3880,7 +3924,7 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
     const selected=Boolean(visualSelection);
     // Selecting another actual geometric region reopens its contextual observer.
     // Closing Posmatraj only folds the panel: it does not erase selection or values.
-    observeDock.hidden=!selected;
+    observeDock.hidden=!selected||toolsOpened;
     if(selected){
       document.getElementById('observeDockSelection').textContent=regionNameLabel(visualSelection);
       if(lastObservedRegion!==visualSelection){
@@ -3948,11 +3992,15 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
     toolsOpened=!toolsOpened;
     const details=byId('advancedTools');details.hidden=!toolsOpened;details.open=toolsOpened;
     advancedDock.hidden=!toolsOpened;
+    if(toolsOpened && window.innerWidth<700)document.getElementById('filterDock').open=false;
     // Two expanded overlays would hide the drawing; keep the observer ready
     // as a small selectable header while advanced controls are in use.
     if(toolsOpened)observeDock.open=false;
+    else if(visualSelection)observeDock.open=true;
     byId('toolsButton').setAttribute('aria-expanded',String(toolsOpened));
-    byId('toolsButton').textContent=toolsOpened?'✕  Zatvori alate':'⚙  Više alata';
+    byId('toolsButton').textContent=toolsOpened?'✕':'⚙';
+    byId('toolsButton').setAttribute('aria-label',toolsOpened?'Zatvori alate':'Otvori dodatne alate');
+    byId('toolsButton').title=toolsOpened?'Zatvori alate':'Otvori dodatne alate';
     updateVisualDiscovery();
   });
   byId('showMathButton').addEventListener('click',()=>{
@@ -3985,11 +4033,169 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
   const filterDock=byId('filterDock');
   // Start collapsed on short landscape screens so geometry has maximum visibility;
   // students can open it with one tap. Preserve user changes during rotation.
-  if(mobileLandscapeQuery.matches)filterDock.open=false;
+  if(window.matchMedia('(max-width:700px)').matches)filterDock.open=false;
   window.TriangleSimulatorLayout=Object.freeze({
     get mode(){return mobileLandscapeQuery.matches?'landscape-side-by-side':'standard';},
     get switchPanel(){return 'canvas-overlay';},
     get filterOpen(){return filterDock.open;}
+  });
+
+
+  // 2.0.11 — The canvas fills the screen. Each floating UI surface has ONE
+  // absolute x/y position. A header drag is a drag, a tap is a toggle.
+  const workspaceActions=document.createElement('div');
+  workspaceActions.id='workspaceActions';workspaceActions.className='workspace-actions';
+  stage.append(workspaceActions);
+  const originalToolsButton=byId('toolsButton');
+  workspaceActions.append(byId('cameraControls'),originalToolsButton);
+  originalToolsButton.textContent='⚙';
+  originalToolsButton.title='Otvori dodatne alate';
+  originalToolsButton.setAttribute('aria-label','Otvori dodatne alate');
+  const advancedHead=document.createElement('div');
+  advancedHead.className='floating-drag-handle';advancedHead.id='advancedDockHandle';
+  advancedHead.setAttribute('aria-label','Prevuci prozor Više alata');
+  advancedHead.innerHTML='<span><span class="drag-dots" aria-hidden="true">⠿</span> Više alata</span><button type="button" class="floating-close" id="advancedClose" aria-label="Zatvori Više alata" title="Zatvori">×</button>';
+  advancedDock.prepend(advancedHead);
+  const advancedNavigation=document.createElement('div');advancedNavigation.className='advanced-navigation';
+  advancedNavigation.innerHTML='<span>Prikaz:</span>';
+  for(const id of ['cameraFitTriangle','cameraFit','reset'])advancedNavigation.append(byId(id));
+  advancedHead.after(advancedNavigation);
+  byId('advancedClose').addEventListener('click',()=>{if(toolsOpened)originalToolsButton.click();});
+
+  const controlledPanels={filter:byId('filterDock'),observe:observeDock,advanced:advancedDock};
+  const panelHandles={filter:byId('filterDock').querySelector('summary'),observe:observeDock.querySelector('summary'),advanced:advancedHead};
+  const panelGeometry={filter:null,observe:null,advanced:null};
+  const currentOrientation=()=>window.innerWidth>window.innerHeight?'landscape':'portrait';
+  let panelTop=25;let managerFrame=0;
+  const uiStorageKey='triangle-simulator-panel-layout-v2';
+  let panelStore={portrait:{},landscape:{}};
+  try{const saved=JSON.parse(localStorage.getItem(uiStorageKey)||'null');if(saved?.portrait&&saved?.landscape)panelStore=saved;}catch(e){}
+  function savePanelLayout(){try{localStorage.setItem(uiStorageKey,JSON.stringify(panelStore));}catch(e){}}
+  function panelStageRect(){const r=stage.getBoundingClientRect();return {width:r.width,height:r.height};}
+  function boxAt(el,x,y){return {x,y,w:el.offsetWidth,h:el.offsetHeight};}
+  function intersects(a,b,pad=5){return a.x<b.x+b.w+pad&&a.x+a.w+pad>b.x&&a.y<b.y+b.h+pad&&a.y+a.h+pad>b.y;}
+  function clampPos(el,x,y){const r=panelStageRect();return {
+    x:Math.max(5,Math.min(Math.max(5,r.width-el.offsetWidth-5),x)),
+    y:Math.max(5,Math.min(Math.max(5,r.height-el.offsetHeight-5),y))
+  };}
+  function visiblePanel(el){return el&&!el.hidden&&getComputedStyle(el).display!=='none'&&el.offsetWidth>0&&el.offsetHeight>0;}
+  function stageBox(el){if(!visiblePanel(el))return null;const a=el.getBoundingClientRect(),s=stage.getBoundingClientRect();return {x:a.left-s.left,y:a.top-s.top,w:a.width,h:a.height};}
+  function otherObstacles(id){
+    const o=[];
+    // Stable navigation controls are never covered by movable panels.
+    const actions=stageBox(workspaceActions);if(actions)o.push(actions);
+    for(const [key,el] of Object.entries(controlledPanels))if(key!==id){const rect=stageBox(el);if(rect)o.push(rect);}
+    // The triangle-selection chooser is a context strip, not a free-floating window.
+    const chooser=stageBox(regionChooser);if(chooser)o.push(chooser);
+    return o;
+  }
+  function canUse(el,id,x,y){const b=boxAt(el,x,y);return !otherObstacles(id).some(o=>intersects(b,o));}
+  function posPanel(id,x,y,avoid=true){
+    const el=controlledPanels[id];if(!visiblePanel(el))return;
+    let p=clampPos(el,x,y);
+    if(avoid&&!canUse(el,id,p.x,p.y)){
+      // First try sliding minimally from the student's requested position,
+      // then predictable left/right and lower slots. Never jump on selection.
+      const r=panelStageRect(),w=el.offsetWidth,h=el.offsetHeight;
+      let options=[p,{x:6,y:48},{x:r.width-w-6,y:48},{x:6,y:58},{x:r.width-w-6,y:58},
+        {x:6,y:r.height-h-74},{x:r.width-w-6,y:r.height-h-74},
+        {x:6,y:r.height-h-6},{x:r.width-w-6,y:r.height-h-6}];
+      for(const o of otherObstacles(id)){
+        options.push({x:o.x+o.w+7,y:p.y},{x:o.x-w-7,y:p.y},{x:p.x,y:o.y+o.h+7},{x:p.x,y:o.y-h-7});
+      }
+      // Sample grid to find a collision-free alternative on narrow screens.
+      for(let xx=6;xx<=r.width-w-5;xx+=28)for(let yy=48;yy<=r.height-h-5;yy+=24)options.push({x:xx,y:yy});
+      let best=null,dist=Infinity;
+      for(const option of options){const q=clampPos(el,option.x,option.y);
+        if(!canUse(el,id,q.x,q.y))continue;
+        const d=Math.abs(q.x-p.x)+Math.abs(q.y-p.y)*1.1;
+        if(d<dist){best=q;dist=d;}
+      }
+      if(best)p=best;
+    }
+    panelGeometry[id]=p;
+    el.style.setProperty('left',p.x+'px','important');
+    el.style.setProperty('top',p.y+'px','important');
+    el.style.setProperty('right','auto','important');
+    el.style.setProperty('bottom','auto','important');
+    el.classList.remove('dock-left','dock-bottom');
+  }
+  function defaultPanelPos(id){
+    const r=panelStageRect(),el=controlledPanels[id];
+    if(id==='filter')return {x:7,y:7};
+    if(id==='observe')return {x:r.width-el.offsetWidth-7,y:53};
+    return {x:r.width-el.offsetWidth-7,y:53};
+  }
+  function storedPanelPos(id){return panelStore[currentOrientation()]?.[id]||null;}
+  function queuePanelLayout(){if(managerFrame)return;managerFrame=requestAnimationFrame(()=>{managerFrame=0;layoutPanels();});}
+  let layoutInProgress=false;
+  function layoutPanels(){
+    if(layoutInProgress)return;layoutInProgress=true;
+    try{
+      for(const id of ['filter','observe','advanced']){
+        if(!visiblePanel(controlledPanels[id]))continue;
+        const saved=storedPanelPos(id),prev=panelGeometry[id];
+        const candidate=saved||prev||defaultPanelPos(id);
+        posPanel(id,candidate.x,candidate.y,true);
+      }
+    }finally{layoutInProgress=false;}
+  }
+  function saveMovedPosition(id){
+    panelStore[currentOrientation()][id]={...panelGeometry[id]};savePanelLayout();
+  }
+  for(const [id,handle] of Object.entries(panelHandles)){
+    const panel=controlledPanels[id];let drag=null,ignoreClick=false;
+    handle.addEventListener('pointerdown',e=>{
+      if(e.button!==0||e.target.closest('button,input,select,a'))return;
+      const box=stageBox(panel);if(!box)return;
+      drag={pointerId:e.pointerId,x:e.clientX,y:e.clientY,startX:box.x,startY:box.y,moved:false};
+      try{handle.setPointerCapture(e.pointerId);}catch(err){}
+      panel.style.zIndex=String(++panelTop);
+    });
+    handle.addEventListener('pointermove',e=>{
+      if(!drag||e.pointerId!==drag.pointerId)return;
+      const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+      if(!drag.moved&&Math.hypot(dx,dy)<7)return;
+      drag.moved=true;panel.classList.add('dragging-ui');
+      const next=clampPos(panel,drag.startX+dx,drag.startY+dy);
+      // Collision is rejected rather than hiding other controls under the panel.
+      if(canUse(panel,id,next.x,next.y))posPanel(id,next.x,next.y,false);
+      e.preventDefault();
+    });
+    function finishDrag(e){
+      if(!drag||e.pointerId!==drag.pointerId)return;
+      if(drag.moved){ignoreClick=true;saveMovedPosition(id);queuePanelLayout();
+        // On some mobile browsers a drag has no synthetic click afterward.
+        // Do not swallow the student's NEXT intentional tap.
+        setTimeout(()=>{ignoreClick=false;},120);}
+      panel.classList.remove('dragging-ui');drag=null;
+      try{if(handle.hasPointerCapture(e.pointerId))handle.releasePointerCapture(e.pointerId);}catch(err){}
+    }
+    handle.addEventListener('pointerup',finishDrag);
+    handle.addEventListener('pointercancel',finishDrag);
+    // Prevent a finished drag from also opening/closing a native <details>.
+    handle.addEventListener('click',e=>{if(ignoreClick){e.preventDefault();e.stopImmediatePropagation();ignoreClick=false;}},true);
+  }
+  byId('filterDock').addEventListener('toggle',()=>{
+    if(window.innerWidth<500 && byId('filterDock').open && observeDock.open)observeDock.open=false;
+    queuePanelLayout();
+  });
+  observeDock.addEventListener('toggle',queuePanelLayout);
+  new MutationObserver(queuePanelLayout).observe(observeDock,{attributes:true,attributeFilter:['hidden']});
+  new MutationObserver(queuePanelLayout).observe(advancedDock,{attributes:true,attributeFilter:['hidden']});
+  new MutationObserver(queuePanelLayout).observe(regionChooser,{attributes:true,attributeFilter:['hidden','class']});
+  const panelResize=new ResizeObserver(()=>queuePanelLayout());
+  panelResize.observe(stage);
+  for(const p of Object.values(controlledPanels))panelResize.observe(p);
+  panelResize.observe(regionChooser);
+  window.addEventListener('orientationchange',()=>{for(const key of Object.keys(panelGeometry))panelGeometry[key]=null;queuePanelLayout();});
+  window.addEventListener('resize',queuePanelLayout);
+  window.addEventListener('triangle-panels-layout',queuePanelLayout);
+  queuePanelLayout();
+  window.TriangleSimulatorPanelLayout=Object.freeze({
+    get mode(){return currentOrientation();},
+    get panels(){return Object.fromEntries(Object.entries(controlledPanels).map(([key,el])=>[key,{visible:visiblePanel(el),open:el.open||false,x:parseFloat(el.style.left)||0,y:parseFloat(el.style.top)||0}]));},
+    reset(){panelStore[currentOrientation()]={};for(const key of Object.keys(panelGeometry))panelGeometry[key]=null;savePanelLayout();queuePanelLayout();}
   });
 
   const observer=new ResizeObserver(entries=>{
