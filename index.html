@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Visual First 2.0.15</title>
+<title>Simulator trougla — Visual First 2.0.16</title>
 <script id="theme-startup">(()=>{let mode=null;try{mode=localStorage.getItem('triangle-simulator-theme')}catch(_){}if(mode!=='light'&&mode!=='dark')mode=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=mode;})();</script>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
@@ -725,7 +725,7 @@ body .drawing-workspace .warning:not([hidden]){position:absolute;bottom:5px;left
 }
 
 
-/* 2.0.15 — Theme controls replace permanent zoom buttons; geometry and camera are untouched. */
+/* 2.0.16 — Theme controls replace permanent zoom buttons; geometry and camera are untouched. */
 .workspace-actions .theme-controls .theme-choice[aria-pressed="true"]{background:#dceef8!important;border-color:#a6cde3!important;color:#18597f!important}
 .workspace-actions .theme-controls .theme-choice[aria-pressed="false"]{opacity:.72}
 .workspace-actions .theme-controls .theme-choice:focus-visible{outline:2px solid #538eb7;outline-offset:1px}
@@ -903,7 +903,6 @@ html[data-theme="dark"] .vertex-dot,
 html[data-theme="dark"] .intersection-point,
 html[data-theme="dark"] .outer-center-point,
 html[data-theme="dark"] .side-perp-midpoint{stroke:#202020}
-
 html[data-theme="dark"] .angle-symbol[fill="#c65c61"]{fill:#ff8d9d!important}
 html[data-theme="dark"] .angle-symbol[fill="#3677a8"]{fill:#8dcaff!important}
 html[data-theme="dark"] .angle-symbol[fill="#2b8b78"]{fill:#77dfbc!important}
@@ -914,7 +913,7 @@ html[data-theme="dark"] .edit-msg,
 html[data-theme="dark"] .extended-active .extended-note{color:#c5c5c5!important}
 
 
-/* 2.0.15 — Semantic accents only on interaction/selection surfaces.
+/* 2.0.16 — Semantic accents only on interaction/selection surfaces.
    Canvas/grid/panels stay ACHROMATIC. Colored construction strokes are unchanged.
    Use :is() to target both tablet and phone layouts without affecting light theme. */
 html[data-theme="dark"] {
@@ -981,11 +980,60 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
   accent-color:#67d0b3!important;
 }
 
-/* 2.0.15 — Vertex-matched exterior labels; neutral canvas/grid untouched. */
+/* 2.0.16 — Vertex-matched exterior labels; neutral canvas/grid untouched. */
 html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="A"]{fill:#f49ba0}
 html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="B"]{fill:#8bc4f0}
 html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78debd}
+
+/* 2.0.16 — Mobile overlapping-triangle carousel. Desktop hover chooser unchanged. */
+.region-track-shell{position:relative;min-width:0}
+.region-chooser.touch-carousel{gap:4px;max-height:none!important;overflow:visible!important;padding:7px 7px 6px!important}
+.region-chooser.touch-carousel .region-chooser-head{display:none!important}
+.region-chooser.touch-carousel .region-track-shell{position:relative;overflow:hidden;border-radius:9px}
+.region-chooser.touch-carousel .region-track-shell::after{
+ content:"";position:absolute;left:50%;top:0;bottom:0;width:108px;
+ transform:translateX(-50%);border:2px solid #3180a8;border-radius:9px;
+ pointer-events:none;box-sizing:border-box;z-index:1;
+}
+.region-chooser.touch-carousel .region-choices{
+ display:flex;align-items:stretch;gap:0;overflow-x:auto;overflow-y:hidden;
+ overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+ scroll-padding-inline:0;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+ touch-action:pan-x;max-height:none!important;padding:2px 0!important;
+}
+.region-chooser.touch-carousel .region-choices::-webkit-scrollbar{display:none}
+.region-chooser.touch-carousel .region-choices::before,
+.region-chooser.touch-carousel .region-choices::after{
+ content:"";flex:0 0 calc(50% - 54px);pointer-events:none;
+}
+.region-chooser.touch-carousel .region-choice{
+ box-sizing:border-box;flex:0 0 108px;min-width:108px;min-height:34px;
+ padding:5px 5px!important;border-radius:7px;border:1px solid transparent;
+ background:transparent;color:#647d8d;font-size:.77rem;
+ scroll-snap-align:center;scroll-snap-stop:normal;touch-action:pan-x;
+}
+.region-chooser.touch-carousel .region-choice.previewing{
+ background:#317fa6;color:white;border-color:#317fa6;
+}
+.region-chooser.touch-carousel .region-choice.current{box-shadow:none}
+.region-chooser.touch-carousel .region-equation{
+ text-align:center;font-size:.69rem;line-height:1.2;min-height:15px;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.region-chooser.touch-carousel .region-equation::before{content:"PRELISTAJ ZA PREGLED  ·  ";font-size:.57rem;letter-spacing:.02em;color:#68889b}
+html[data-theme="dark"] .region-chooser.touch-carousel .region-choice{color:#aaa;background:transparent!important;border-color:transparent!important}
+html[data-theme="dark"] .region-chooser.touch-carousel .region-choice.previewing{color:#fff!important;background:#397e9f!important;border-color:#397e9f!important}
+html[data-theme="dark"] .region-chooser.touch-carousel .region-track-shell::after{border-color:#8ac4de}
+html[data-theme="dark"] .region-chooser.touch-carousel .region-equation::before{color:#aaa}
+@media (max-height:410px) and (orientation:landscape){
+ .region-chooser.touch-carousel{padding:3px 5px!important;gap:1px}
+ .region-chooser.touch-carousel .region-choice{min-height:29px;padding:3px 5px!important}
+ .region-chooser.touch-carousel .region-equation{font-size:.65rem;min-height:13px}
+}
 </style>
+
+
+
 <link rel="manifest" href="./manifest.webmanifest"/>
 <link rel="icon" href="./icons/icon-192.png" type="image/png" sizes="192x192"/>
 <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png"/>
@@ -993,6 +1041,7 @@ html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78de
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
 <meta name="apple-mobile-web-app-title" content="Trouglovi"/>
 <meta name="application-name" content="Simulator trougla"/>
+
 <style id="pwa-lifecycle-styles">
 /* Invisible until an updated offline release is cached. */
 #pwaUpdateNotice[hidden]{display:none!important}
@@ -1033,7 +1082,7 @@ html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78de
 <div class="advanced-dock" id="advancedDock" hidden aria-label="Dodatni alati za trougao"></div>
 <div class="region-chooser" id="regionChooser" hidden aria-label="Izaberi preklopljeni trougao">
   <div class="region-chooser-head"><span id="regionChooserHint">Više trouglova je na ovom mestu — izaberi jedan</span><button type="button" id="closeRegionChooser" aria-label="Zatvori izbor trougla">×</button></div>
-  <div class="region-choices" id="regionChoices" role="group" aria-label="Dostupni trouglovi"></div>
+  <div class="region-track-shell"><div class="region-choices" id="regionChoices" role="group" aria-label="Dostupni trouglovi"></div></div>
   <div class="region-equation" id="regionEquation" aria-live="polite"></div>
 </div>
 </div>
@@ -2453,6 +2502,56 @@ html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78de
   const regionChoices=document.getElementById('regionChoices');
   const regionEquation=document.getElementById('regionEquation');
   let pickerNames=[],previewRegionName='',pickerPinned=false;
+  // The touch picker has one fixed visual selection field; scrolling previews,
+  // while an explicit tap on the centered tab confirms the mathematical focus.
+  let pickerTouchInput=false,carouselScrollFrame=0,carouselMoved=false;
+  let carouselPointerStart=null,carouselTouchClick=false;
+  const touchPickerPreferred=()=>window.matchMedia('(pointer:coarse) and (hover:none)').matches;
+  function nearestCarouselChoice(){
+    const buttons=Array.from(regionChoices.querySelectorAll('.region-choice'));
+    if(!buttons.length)return null;
+    const center=regionChoices.getBoundingClientRect().left+regionChoices.clientWidth/2;
+    return buttons.reduce((best,b)=>{
+      const r=b.getBoundingClientRect();
+      return !best||Math.abs(r.left+r.width/2-center)<best.distance
+        ?{element:b,distance:Math.abs(r.left+r.width/2-center)}:best;
+    },null).element;
+  }
+  function centerCarouselChoice(button,behavior='smooth'){
+    if(!button||regionChooser.hidden||!regionChooser.classList.contains('touch-carousel'))return;
+    const port=regionChoices.getBoundingClientRect(),r=button.getBoundingClientRect();
+    const target=regionChoices.scrollLeft+(r.left+r.width/2-port.left-port.width/2);
+    regionChoices.scrollTo({left:target,behavior});
+  }
+  function updateCarouselPreview(){
+    carouselScrollFrame=0;
+    if(regionChooser.hidden||!regionChooser.classList.contains('touch-carousel'))return;
+    const button=nearestCarouselChoice();
+    const name=button?.dataset.regionChoice;
+    if(name&&name!==previewRegionName)previewRegion(name);
+  }
+  regionChoices.addEventListener('scroll',()=>{
+    if(!regionChooser.classList.contains('touch-carousel'))return;
+    if(!carouselScrollFrame)carouselScrollFrame=requestAnimationFrame(updateCarouselPreview);
+  },{passive:true});
+  regionChoices.addEventListener('pointerdown',e=>{
+    if(e.pointerType!=='touch')return;
+    carouselTouchClick=true;
+    carouselMoved=false;
+    carouselPointerStart={id:e.pointerId,x:e.clientX,y:e.clientY};
+  });
+  regionChoices.addEventListener('pointermove',e=>{
+    if(carouselPointerStart?.id===e.pointerId&&Math.abs(e.clientX-carouselPointerStart.x)>7)carouselMoved=true;
+  },{passive:true});
+  regionChoices.addEventListener('pointerup',()=>{carouselPointerStart=null;},{passive:true});
+  regionChoices.addEventListener('pointercancel',()=>{carouselPointerStart=null;carouselMoved=true;},{passive:true});
+  window.addEventListener('resize',()=>{
+    if(regionChooser.hidden||!regionChooser.classList.contains('touch-carousel'))return;
+    requestAnimationFrame(()=>{
+      const current=Array.from(regionChoices.children).find(b=>b.dataset.regionChoice===previewRegionName);
+      centerCarouselChoice(current,'instant');
+    });
+  });
   const exteriorAngleNames=Object.freeze({EXA:'α₁',EXB:'β₁',EXC:'γ₁'});
   const regionNameLabel=name=>exteriorAngleNames[name]?`∠${exteriorAngleNames[name]}`:`△${name}`;
   const signedArea=(p,q,r)=>(q.x-p.x)*(r.y-p.y)-(q.y-p.y)*(r.x-p.x);
@@ -2518,6 +2617,9 @@ html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78de
   }
   function hideRegionChooser(){
     regionChooser.hidden=true;pickerNames=[];pickerPinned=false;
+    regionChooser.classList.remove('touch-carousel');
+    if(carouselScrollFrame)cancelAnimationFrame(carouselScrollFrame);
+    carouselScrollFrame=0;carouselMoved=false;carouselPointerStart=null;carouselTouchClick=false;pickerTouchInput=false;
     regionChoices.replaceChildren();hoverLayer.replaceChildren();
     hoveredRegionName='';previewRegionName='';hoverPoint=null;
     refreshScreenAnnotations();
@@ -2527,17 +2629,36 @@ html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78de
     if(!names.length){hideRegionChooser();return;}
     const same=names.length===pickerNames.length&&names.every((n,i)=>n===pickerNames[i]);
     pickerPinned=pinned||pickerPinned;
+    const mobileCarousel=(pickerTouchInput||touchPickerPreferred())&&names.length>1;
+    const wasCarousel=regionChooser.classList.contains('touch-carousel');
+    regionChooser.classList.toggle('touch-carousel',mobileCarousel);
     if(!same){
       pickerNames=names;
       regionChoices.replaceChildren();
       for(const name of names){
         const button=document.createElement('button');
         button.type='button';button.className='region-choice';button.dataset.regionChoice=name;
-        button.textContent=regionNameLabel(name);button.setAttribute('aria-label',`Istakni ${regionNameLabel(name)}`);
-        button.addEventListener('pointerenter',()=>previewRegion(name));
-        button.addEventListener('focus',()=>previewRegion(name));
+        button.textContent=regionNameLabel(name);button.setAttribute('aria-label',`Pregledaj ${regionNameLabel(name)}, dodirni u sredini za izbor`);
+        button.addEventListener('pointerenter',event=>{
+          if(regionChooser.classList.contains('touch-carousel')||event.pointerType==='touch')return;
+          previewRegion(name);
+        });
+        button.addEventListener('focus',()=>{
+          if(!regionChooser.classList.contains('touch-carousel'))previewRegion(name);
+        });
         button.addEventListener('click',event=>{
-          event.stopPropagation();hideRegionChooser();navigateToLinkedTriangle(name);
+          event.stopPropagation();
+          if(regionChooser.classList.contains('touch-carousel')){
+            const centered=nearestCarouselChoice()?.dataset.regionChoice;
+            // A neighboring tab is a preview action, not an accidental selection.
+            if(carouselMoved){carouselMoved=false;return;}
+            if(name!==centered){
+              previewRegion(name);
+              centerCarouselChoice(button);
+              return;
+            }
+          }
+          hideRegionChooser();navigateToLinkedTriangle(name);
         });
         regionChoices.append(button);
       }
@@ -2545,11 +2666,19 @@ html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78de
     regionChooser.hidden=false;
     regionChooser.classList.toggle('single',names.length===1);
     document.getElementById('regionChooserHint').textContent=names.length>1
-      ?`Ovde se preklapa ${names.length} trouglova — pogledaj i izaberi`
+      ?`Ovde se preklapa ${names.length} trouglova — pregledaj, pa izaberi`
       :'Pogledaj trougao, pa ga izaberi';
     // Retain user's explicit preview choice when moving between the canvas and chips.
     const name=names.includes(previewRegionName)?previewRegionName:names[0];
     previewRegion(name);
+    if(mobileCarousel&&(!same||!wasCarousel)){
+      // Initial candidate is centered immediately; further movement is user-driven.
+      requestAnimationFrame(()=>{
+        if(regionChooser.hidden)return;
+        const b=Array.from(regionChoices.children).find(x=>x.dataset.regionChoice===name);
+        centerCarouselChoice(b,'instant');
+      });
+    }
   }
   function renderHoverRegion(p){
     if(pickerPinned)return;
@@ -4029,7 +4158,7 @@ html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78de
           const vertices=screenPoints();
           if(!vertices.some(q=>distance(q,p)<24/camera.zoom)){
             const matches=regionsAt(p);
-            if(matches.length>1){pickerPinned=true;openRegionChooser(matches,p,true);}
+            if(matches.length>1){pickerTouchInput=true;pickerPinned=true;openRegionChooser(matches,p,true);}
             else if(matches.length===1){hideRegionChooser();navigateToLinkedTriangle(matches[0].name);}
             else hideRegionChooser();
           }
@@ -4070,6 +4199,7 @@ html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78de
     e.preventDefault();hideRegionChooser();navigateToLinkedTriangle(name);
   });
   svg.addEventListener('pointerdown',e=>{
+    if(e.pointerType==='touch')pickerTouchInput=true;
     if(!e.isPrimary || e.target.closest('[data-vertex],[data-extension-handle]'))return;
     const p=toSvgPoint(e);if(!p)return;
     const physical=screenPoints();
@@ -4514,6 +4644,8 @@ html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78de
   window.TriangleSimulatorMath=Object.freeze({perpendicularBisector,circumcenter,clipInfiniteLine,clampRayAtViewport,extensionGeometry,solveTriangle,solveWithOneAngle,solveWithTwoAngles,analyzeSides,sideDisplayPrecision,classifyTriangle,bisectAngleA,bisectAngleB,bisectAngleC,intersectAngleBisectors,outerAngleBisector,outerBisectorGeometry,lineIntersection,anglesAtBisectorIntersection,intersectionAngleFromDisplayedMinutes,halfAngleFromDisplayedMinutes,solveASBFromMinutes,solveOtherFocusFromMinutes,solveAMSubtriangleFromMinutes,solveBNSubtriangleFromMinutes,solveCPSubtriangleFromMinutes,extensionTriangleGeometry,extendedTriangleSpecs,relationSpecs,secondsToAngle,runMathChecks});
 })();
 </script>
+
+
 <aside id="pwaUpdateNotice" hidden role="status" aria-live="polite">
 <span>Nova verzija simulatora je spremna.</span>
 <button id="pwaUpdateNow" type="button">Ažuriraj</button>

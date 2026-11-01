@@ -1,29 +1,25 @@
-# Triangle Simulator 2.0.15 — Separate Exterior Angle Filters
+# Triangle Simulator 2.0.16 — Mobile Triangle Carousel and Live Preview
 
-## Functional change
-The floating **Prikaz** menu now has SIX independent visual filters:
-1. Uglovi — interior angles α, β, γ
-2. Stranice — side labels a, b, c
-3. Simetrale uglova — three interior angle bisectors
-4. Simetrale stranica — three perpendicular side bisectors
-5. **Spoljašnji uglovi** — three exterior angles α₁, β₁, γ₁ and their adjacent straight-line extensions, independently selectable with Posmatraj
-6. **Simetrale spoljašnjih uglova** — three exterior angle bisectors and their intersection centers X, Y, Z
+## What's new
 
-The geometry/calculator remains always active. Each switch only controls visibility/constructions. Selecting an exterior angle without its bisector shows a whole-angle annotation and the supplementary-angle relationship; turn on exterior bisectors to see their half-angles and the additional equations. The six switches have the same compact layout as before.
+- On touch devices, tapping an overlapping triangle region opens a horizontal snap-to-center chooser.
+- Swipe tabs left and right; the tab nearest the center previews its triangle on the canvas without committing a selection.
+- The centered preview remains after scrolling. Tap the centered tab to confirm and show **Posmatraj**.
+- Tapping an off-center tab moves it to the center for preview, instead of accidentally selecting it.
+- Mouse hover previews and clicking remain unchanged on desktop.
+- Existing geometry, math, visual filters, light/dark styling, and camera interactions remain intact.
 
-No new mathematics or PWA architecture has been added. Theme, camera, movable panels and geometry interactions are inherited from 2.0.14.
+## Update an existing GitHub Pages PWA
 
-## Updating GitHub Pages
-1. Extract `Triangle_Simulator_2_0_15_Installable_PWA.zip`.
-2. In the **same repository**, replace the existing root `index.html`, `sw.js`, `manifest.webmanifest` and other matching files from the extracted folder. Do not upload the containing folder as an extra level.
-3. Commit and wait for your existing GitHub Pages deployment.
-4. Refresh the hosted page or choose **Ažuriraj** when the installed PWA offers an update. Complete any current work before updating because the triangle is not session-persisted yet.
+1. Extract `Triangle_Simulator_2_0_16_Installable_PWA.zip`.
+2. Upload **the contents of the ZIP** to the root of your existing repository, replacing files with matching names. Preserve the `icons/` folder.
+3. Commit. The app's public URL stays the same.
+4. Open the site online. Choose **Ažuriraj** when the updated offline version is ready, after finishing any current exercise.
 
-## Manual acceptance tests
-- Toggle only Spoljašnji uglovi: three exterior angle arcs, labels, and ray extensions should appear; no purple exterior bisectors or X/Y/Z.
-- Select α₁ with a tap: Posmatraj should show α + α₁ = 180°, without requiring any bisectors.
-- Toggle only Simetrale spoljašnjih uglova: three bisectors and centers X/Y/Z should appear, but exterior-angle arcs and symbols should remain hidden.
-- Toggle both: the exterior bisectors split the visible exterior angles, with the same mathematical relationships.
-- Test small-screen dark and light themes, selection, zoom/pan, Fit Constructions, mobile rotation, and the updated PWA.
+## Offline
 
-Status: **testing candidate** until manually accepted.
+Install from HTTPS (e.g. GitHub Pages) and allow the first online visit to cache the application shell. The portable HTML can be opened directly offline.
+
+## Manual phone acceptance
+
+Enable multiple geometric constructions, tap where triangles overlap, swipe through the carousel and compare live highlights. Let go to keep the preview, then tap the centered triangle to confirm. Rotate the phone and repeat. Test dark theme, pinch zoom, and Posmatraj explanations.
