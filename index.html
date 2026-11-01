@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Visual First 2.0.14</title>
+<title>Simulator trougla — Visual First 2.0.15</title>
 <script id="theme-startup">(()=>{let mode=null;try{mode=localStorage.getItem('triangle-simulator-theme')}catch(_){}if(mode!=='light'&&mode!=='dark')mode=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=mode;})();</script>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
@@ -445,17 +445,17 @@ body.has-selection .welcome-quiet,body.tools-visible .welcome-quiet{display:none
 .advanced-tools>.extensions-panel,.advanced-tools>.control-cabinet,.advanced-tools>.tool-accordion{margin:8px 10px}
 .advanced-tools>.tool-accordion>summary,.advanced-tools>.control-cabinet>summary{padding:10px;font-size:.79rem}
 .advanced-tools .extensions-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-body.visual-first:not(.quick-show-outer) .outer-arc,body.visual-first:not(.quick-show-outer) .outer-symbol,body.visual-first:not(.quick-show-outer) .default-outer-line{display:none}
-body.visual-first.quick-show-outer .outer-arc{stroke-opacity:.76;stroke-width:1.8}
-body.visual-first.quick-show-outer .default-outer-line{stroke:#a07bb5;stroke-opacity:.8;stroke-dasharray:4 5}
-body.visual-first.quick-show-outer .outer-symbol{font-size:13px;opacity:.92}
+body.visual-first:not(.quick-show-outer-angles) .outer-arc,body.visual-first:not(.quick-show-outer-angles) .outer-symbol,body.visual-first:not(.quick-show-outer-angles) .default-outer-line{display:none}
+body.visual-first.quick-show-outer-angles .outer-arc{stroke-opacity:.90;stroke-width:2.1}
+body.visual-first.quick-show-outer-angles .default-outer-line{stroke:#a07bb5;stroke-opacity:.92;stroke-dasharray:4 5}
+body.visual-first.quick-show-outer-angles .outer-symbol{font-size:13px;opacity:1}
 body.visual-first .external-half-arc{fill:none;stroke:#955cba;stroke-width:2.3;stroke-linecap:round;stroke-dasharray:4 3;vector-effect:non-scaling-stroke;pointer-events:none}
 body.visual-first .external-half-label{fill:#854da3;font-size:12px;font-weight:700;pointer-events:none}
-body.visual-first:not(.quick-show-outer) .external-half-arc,body.visual-first:not(.quick-show-outer) .external-half-label{display:none}
+body.visual-first:not(.quick-show-outer-angles) .external-half-arc,body.visual-first:not(.quick-show-outer-angles) .external-half-label{display:none}
 body.visual-first .outer-bisector-line{stroke-opacity:.63;stroke-width:1.8}
 body.visual-first .outer-center-label{font-size:13px}
 body.visual-first .external-half-label{display:none} /* 2.0.7: contextual fixed-size labels appear on selection */
-body.camera-overview .side-text,body.camera-overview .side-perp-label,body.camera-overview .outer-symbol{display:none}
+body.camera-overview .side-text,body.camera-overview .side-perp-label{display:none}
 body.quick-hide-angles .arc:not(.outer-arc),body.quick-hide-angles .angle-symbol,body.quick-hide-angles .bisector-text,body.quick-hide-angles .bisector-b-text,body.quick-hide-angles .bisector-c-text{display:none}
 body.quick-hide-sides .side-text{display:none}
 /* Visual simplicity: lines carry the construction; half-angle names live in the
@@ -725,7 +725,7 @@ body .drawing-workspace .warning:not([hidden]){position:absolute;bottom:5px;left
 }
 
 
-/* 2.0.14 — Theme controls replace permanent zoom buttons; geometry and camera are untouched. */
+/* 2.0.15 — Theme controls replace permanent zoom buttons; geometry and camera are untouched. */
 .workspace-actions .theme-controls .theme-choice[aria-pressed="true"]{background:#dceef8!important;border-color:#a6cde3!important;color:#18597f!important}
 .workspace-actions .theme-controls .theme-choice[aria-pressed="false"]{opacity:.72}
 .workspace-actions .theme-controls .theme-choice:focus-visible{outline:2px solid #538eb7;outline-offset:1px}
@@ -914,7 +914,7 @@ html[data-theme="dark"] .edit-msg,
 html[data-theme="dark"] .extended-active .extended-note{color:#c5c5c5!important}
 
 
-/* 2.0.14 — Semantic accents only on interaction/selection surfaces.
+/* 2.0.15 — Semantic accents only on interaction/selection surfaces.
    Canvas/grid/panels stay ACHROMATIC. Colored construction strokes are unchanged.
    Use :is() to target both tablet and phone layouts without affecting light theme. */
 html[data-theme="dark"] {
@@ -980,6 +980,11 @@ html[data-theme="dark"] .filter-dock .simple-switch:has(input:checked) {
 html[data-theme="dark"] .filter-dock .simple-switch input {
   accent-color:#67d0b3!important;
 }
+
+/* 2.0.15 — Vertex-matched exterior labels; neutral canvas/grid untouched. */
+html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="A"]{fill:#f49ba0}
+html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="B"]{fill:#8bc4f0}
+html[data-theme="dark"] .outer-symbol[data-exterior-angle-symbol="C"]{fill:#78debd}
 </style>
 <link rel="manifest" href="./manifest.webmanifest"/>
 <link rel="icon" href="./icons/icon-192.png" type="image/png" sizes="192x192"/>
@@ -1007,7 +1012,7 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
 <h2 id="drawingHeading" class="visually-hidden">Geometrija</h2>
 <div class="stage" id="stage">
 <details class="filter-dock" id="filterDock" open><summary title="Prikaži ili sakrij filtere geometrije"><span>☷ Prikaz</span></summary>
-<div aria-label="Vizuelni filteri geometrije" class="quick-switches" role="group"><label class="simple-switch" for="quickAngles"><input checked="" id="quickAngles" type="checkbox"/><span class="switch-copy"><strong>Uglovi</strong><small>α β γ</small></span></label><label class="simple-switch" for="quickSides"><input checked="" id="quickSides" type="checkbox"/><span class="switch-copy"><strong>Stranice</strong><small>a b c</small></span></label><label class="simple-switch" for="quickAngleBisectors"><input id="quickAngleBisectors" type="checkbox"/><span class="switch-copy"><strong>Simetrale uglova</strong><small>sve tri</small></span></label><label class="simple-switch" for="quickSideBisectors"><input id="quickSideBisectors" type="checkbox"/><span class="switch-copy"><strong>Simetrale stranica</strong><small>sve tri</small></span></label><label class="simple-switch outer-quick-switch" for="quickOuterBisectors"><input id="quickOuterBisectors" type="checkbox"/><span class="switch-copy"><strong>Spoljašnji uglovi i simetrale</strong><small>α₁ β₁ γ₁ · sve tri</small></span></label></div></details>
+<div aria-label="Vizuelni filteri geometrije" class="quick-switches" role="group"><label class="simple-switch" for="quickAngles"><input checked="" id="quickAngles" type="checkbox"/><span class="switch-copy"><strong>Uglovi</strong><small>α β γ</small></span></label><label class="simple-switch" for="quickSides"><input checked="" id="quickSides" type="checkbox"/><span class="switch-copy"><strong>Stranice</strong><small>a b c</small></span></label><label class="simple-switch" for="quickAngleBisectors"><input id="quickAngleBisectors" type="checkbox"/><span class="switch-copy"><strong>Simetrale uglova</strong><small>sve tri</small></span></label><label class="simple-switch" for="quickSideBisectors"><input id="quickSideBisectors" type="checkbox"/><span class="switch-copy"><strong>Simetrale stranica</strong><small>sve tri</small></span></label><label class="simple-switch outer-quick-switch" for="quickOuterAngles"><input id="quickOuterAngles" type="checkbox"/><span class="switch-copy"><strong>Spoljašnji uglovi</strong><small>α₁ β₁ γ₁</small></span></label><label class="simple-switch outer-quick-switch" for="quickOuterBisectors"><input id="quickOuterBisectors" type="checkbox"/><span class="switch-copy"><strong>Simetrale spoljašnjih uglova</strong><small>sve tri</small></span></label></div></details>
 <svg aria-label="Interaktivni trougao sa temenima A, B i C; prevucite obeležene tačke" id="triangle" role="group" xmlns="http://www.w3.org/2000/svg">
 <g id="cameraView"><g id="drawing"></g><g aria-hidden="true" id="hoverLayer"></g><g id="handles"></g></g><g id="contextAnnotations" aria-hidden="true" pointer-events="none"></g>
 </svg>
@@ -2744,8 +2749,10 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
     if(!region)return [];
     if(['EXA','EXB','EXC'].includes(name)){
       const at=region.vertices[0];
-      return [{at,dir1:null,dir2:null,label:contextNotation[name][0],exterior:true},
-        {at,dir1:null,dir2:null,label:contextNotation[name][1],exterior:true,secondary:true}];
+      const whole={at,dir1:null,dir2:null,label:contextNotation[name][0],exterior:true};
+      return outerBisectorRender.rays[name.slice(-1)]
+        ?[whole,{at,dir1:null,dir2:null,label:contextNotation[name][1],exterior:true,secondary:true}]
+        :[whole];
     }
     const labels=contextNotation[name]||[];
     return region.vertices.map((at,i)=>({at,
@@ -2783,11 +2790,12 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
         const pa=plus(at,dir1,r),pb=plus(at,dir2,r),sweep=cross(dir1,dir2)>=0?1:0;
         contextAnnotations.append(element('path',{d:`M${pa.x} ${pa.y} A${r} ${r} 0 0 ${sweep} ${pb.x} ${pb.y}`,class:'context-arc','data-context-arc':kind}));
       };
-      arc(u,dir,arcRadius,labels[0].label);
-      arc(dir,v,arcRadius,labels[1].label);
-      const mids=[dir,normalize(plus(u,dir))];
+      const split=labels.length>1;
+      if(split){arc(u,dir,arcRadius,labels[0].label);arc(dir,v,arcRadius,labels[1].label);}
+      else arc(u,v,arcRadius,labels[0].label);
+      const mids=split?[dir,normalize(plus(u,dir))]:[dir];
       const names=labels.map(item=>item.label);
-      const distances=[arcRadius+35,arcRadius+22];
+      const distances=split?[arcRadius+35,arcRadius+22]:[arcRadius+35];
       names.forEach((label,i)=>{
         const target=plus(at,mids[i],distances[i]);
         const x=Math.max(22,Math.min(canvasSize.w-24,target.x));
@@ -2990,14 +2998,13 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
     if(outerBisectorRender.centers.X)selectableRegions.push({name:'BCX',vertices:[B,C,outerBisectorRender.centers.X.point]});
     if(outerBisectorRender.centers.Y)selectableRegions.push({name:'CAY',vertices:[C,A,outerBisectorRender.centers.Y.point]});
     if(outerBisectorRender.centers.Z)selectableRegions.push({name:'ABZ',vertices:[A,B,outerBisectorRender.centers.Z.point]});
-    if(Object.keys(outerBisectorRender.rays).length){
+    if(byId('quickOuterAngles').checked){
       const outerSpecs=[
         {id:'A',name:'EXA',p:A,first:sub(B,A),last:sub(A,C)},
         {id:'B',name:'EXB',p:B,first:sub(C,B),last:sub(B,A)},
         {id:'C',name:'EXC',p:C,first:sub(A,C),last:sub(C,B)}
       ];
       for(const spec of outerSpecs){
-        if(!outerBisectorRender.rays[spec.id])continue;
         const span=Math.max(90,Math.min(125,canvasSize.h*.22));
         const a=Math.atan2(spec.first.y,spec.first.x);
         let delta=Math.atan2(spec.last.y,spec.last.x)-a;
@@ -3152,7 +3159,7 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
           const pos=angleLabel(v.p,...v.inside,r+17);
           addText(group,pos.x,pos.y,letters[i],'angle-symbol',colors[i]);
         }
-        const exteriorVisible=byId('quickOuterBisectors').checked||Object.values(outerBisectorToggles).some(x=>x.checked);
+        const exteriorVisible=byId('quickOuterAngles').checked;
         const outsideRadius=r+14;
         if(exteriorVisible&&outerBisectorRender.rays[ids[i]]){
           const outerDir=outerBisectorRender.rays[ids[i]].dir;
@@ -3172,7 +3179,8 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
           ?exteriorAngleLabelPosition(v.p,v.outside[0],v.outside[1],points,Object.values(outerBisectorRender.centers))
           :angleLabel(v.p,...v.outside,r+40);
         addText(group,out.x,out.y,outer[i],'outer-symbol',colors[i]);
-        if(exteriorVisible&&outerBisectorRender.rays[ids[i]]){
+        group.lastChild.setAttribute('data-exterior-angle-symbol',ids[i]);
+        if(exteriorVisible){
           exteriorAngleHotspots.push({name:'EX'+ids[i],x:out.x,y:out.y});
         }
         const outward=normalize(sub(v.p,centroid));
@@ -3571,6 +3579,9 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
       if(spec.needs)byId(spec.needs).checked=true;
       Object.values(focusToggles).forEach(el=>el.checked=false);
       extendedTriangleChoice.value=target;
+    }else if(exteriorAngleNames[target]){
+      quickOuterAngles.checked=true;
+      document.body.classList.add('quick-show-outer-angles');
     }else if(customTriangleRequirements[target]){
       extendedTriangleChoice.value='';
       Object.values(focusToggles).forEach(el=>el.checked=false);
@@ -3611,7 +3622,10 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
     details.hidden=false;
     status.textContent=`Aktivan je ${regionNameLabel(name)}. Povezane jednačine se automatski usklađuju sa crtežom.`;
     byId('relationTitle').textContent=exteriorAngleNames[name]?`Aktivni spoljašnji ugao: ${exteriorAngleNames[name]}`:`Aktivni trougao: △${name}`;
-    byId('relationOrigin').textContent=spec.origin;
+    const exteriorKey=exteriorAngleNames[name]?name.slice(-1):'';
+    const selectedHasExteriorBisector=Boolean(exteriorKey&&outerBisectorRender.rays[exteriorKey]);
+    byId('relationOrigin').textContent=exteriorKey&&!selectedHasExteriorBisector
+      ?`Spoljašnji ugao ${exteriorAngleNames[name]} susedan je unutrašnjem uglu kod istog temena.`:spec.origin;
     const links=byId('relationLinks');links.replaceChildren();
     for(const target of spec.sources){
       if(!relationSpecs[target])continue;
@@ -3623,7 +3637,7 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
       links.append(button);
     }
     const steps=byId('relationSteps');steps.replaceChildren();
-    for(const statement of spec.steps){
+    for(const statement of (exteriorKey&&!selectedHasExteriorBisector?spec.steps.slice(0,2):spec.steps)){
       const li=document.createElement('li');li.textContent=statement;steps.append(li);
     }
     const minutes=solution.minutes;
@@ -3639,7 +3653,9 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
         byId('relationNumeric').textContent=`${spec.derived} ≈ ${expression} = ${secondsToAngle(nums.reduce((a,b)=>a+b,0))}`;
       }else byId('relationNumeric').textContent='Za ovo računanje potrebno je više podataka.';
       byId('relationNote').textContent=exteriorAngleNames[name]
-        ?`Polovina spoljašnjeg ugla ${exteriorAngleNames[name]} iznosi ${secondsToAngle(324000-sectionOfMinutes(minutes,['α/2','β/2','γ/2'][['EXA','EXB','EXC'].indexOf(name)]))}. Simetrala deli taj ugao na dva jednaka dela.`
+        ?(selectedHasExteriorBisector
+          ?`Polovina spoljašnjeg ugla ${exteriorAngleNames[name]} iznosi ${secondsToAngle(324000-sectionOfMinutes(minutes,['α/2','β/2','γ/2'][['EXA','EXB','EXC'].indexOf(name)]))}. Simetrala deli taj ugao na dva jednaka dela.`
+          :`Za prikaz polovina ugla uključi „Simetrale spoljašnjih uglova“ u meniju Prikaz.`)
         :'Numerički primer koristi uglove ABC zaokružene na minute; polovine ugla mogu imati i 30″.';
     }else if(renderedExtendedTriangle.valid&&name===renderedExtendedTriangle.name){
       const tri=renderedExtendedTriangle,knownName=tri.notation(tri.known),otherName=tri.notation(tri.remaining),unknownName=tri.notation(tri.unknown);
@@ -4141,7 +4157,8 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
   // --- VISUAL-FIRST PRESENTATION LAYER (all original math remains untouched) ---
   document.body.classList.add('visual-first');
   const quickAngles=byId('quickAngles'),quickSides=byId('quickSides');
-  const quickAngleBis=byId('quickAngleBisectors'),quickSideBis=byId('quickSideBisectors'),quickOuterBis=byId('quickOuterBisectors');
+  const quickAngleBis=byId('quickAngleBisectors'),quickSideBis=byId('quickSideBisectors');
+  const quickOuterAngles=byId('quickOuterAngles'),quickOuterBis=byId('quickOuterBisectors');
   const bisectors=[angleBisectorToggle,angleBisectorToggleB,angleBisectorToggleC];
   const perps=Object.values(sidePerpToggles);
   const outerBisectors=Object.values(outerBisectorToggles);
@@ -4165,12 +4182,16 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
     BCX:'Dve spoljašnje simetrale i jedna unutrašnja određuju spoljašnji centar X.',
     CAY:'Ovde je aktivan spoljašnji centar Y i trougao sa jednom stranicom osnovnog trougla.',
     ABZ:'Ovde je aktivan spoljašnji centar Z, dobijen iz dve spoljašnje i jedne unutrašnje simetrale.',
-    EXA:'α₁ je spoljašnji ugao uz α. Zajedno čine 180°. Spoljašnja simetrala deli α₁ na dva jednaka dela.',
-    EXB:'β₁ je spoljašnji ugao uz β. Zajedno čine 180°. Spoljašnja simetrala deli β₁ na dva jednaka dela.',
-    EXC:'γ₁ je spoljašnji ugao uz γ. Zajedno čine 180°. Spoljašnja simetrala deli γ₁ na dva jednaka dela.'
+    EXA:'α₁ je spoljašnji ugao uz α. Zajedno čine 180°.',
+    EXB:'β₁ je spoljašnji ugao uz β. Zajedno čine 180°.',
+    EXC:'γ₁ je spoljašnji ugao uz γ. Zajedno čine 180°.'
   };
   function observeSentence(name){
-    if(observationText[name])return observationText[name];
+    if(observationText[name]){
+      const base=observationText[name];
+      return exteriorAngleNames[name]&&outerBisectorRender.rays[name.slice(-1)]
+        ?base+' Njegova spoljašnja simetrala deli ga na dva jednaka dela.' :base;
+    }
     const spec=relationSpecs[name];
     if(spec && name.length===3)return 'Ovaj trougao nastao je produžavanjem jedne linije. Uoči zajedničke uglove sa susednim trouglovima.';
     return 'Pogledaj koje linije i uglovi grade ovaj trougao.';
@@ -4216,7 +4237,7 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
     quickSideBis.indeterminate=perps.some(x=>x.checked)&&!perps.every(x=>x.checked);
     quickOuterBis.checked=outerBisectors.every(x=>x.checked);
     quickOuterBis.indeterminate=outerBisectors.some(x=>x.checked)&&!outerBisectors.every(x=>x.checked);
-    document.body.classList.toggle('quick-show-outer',outerBisectors.some(x=>x.checked));
+    document.body.classList.toggle('quick-show-outer-angles',quickOuterAngles.checked);
   }
   function updateGroupToggles(){
     quickAngleBis.checked=bisectors.every(x=>x.checked);
@@ -4225,7 +4246,7 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
     quickSideBis.indeterminate=perps.some(x=>x.checked)&&!perps.every(x=>x.checked);
     quickOuterBis.checked=outerBisectors.every(x=>x.checked);
     quickOuterBis.indeterminate=outerBisectors.some(x=>x.checked)&&!outerBisectors.every(x=>x.checked);
-    document.body.classList.toggle('quick-show-outer',outerBisectors.some(x=>x.checked));
+    document.body.classList.toggle('quick-show-outer-angles',quickOuterAngles.checked);
   }
   quickAngles.addEventListener('change',()=>document.body.classList.toggle('quick-hide-angles',!quickAngles.checked));
   quickSides.addEventListener('change',()=>document.body.classList.toggle('quick-hide-sides',!quickSides.checked));
@@ -4240,6 +4261,10 @@ html[data-theme="dark"] .filter-dock .simple-switch input {
   quickSideBis.addEventListener('change',()=>{
     for(const el of perps)el.checked=quickSideBis.checked;
     updateGroupToggles();redraw(false);
+  });
+  quickOuterAngles.addEventListener('change',()=>{
+    document.body.classList.toggle('quick-show-outer-angles',quickOuterAngles.checked);
+    redraw(false);
   });
   quickOuterBis.addEventListener('change',()=>{
     for(const el of outerBisectors)el.checked=quickOuterBis.checked;

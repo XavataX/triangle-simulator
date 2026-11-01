@@ -1,18 +1,29 @@
-# Triangle Simulator 2.0.14 — Semantic UI Accents
+# Triangle Simulator 2.0.15 — Separate Exterior Angle Filters
 
-## Visual refinement
-- The dark canvas, background, grid and floating panel surfaces remain neutral gray.
-- The active triangle badge inside **Posmatraj** uses an unmistakable blue accent.
-- The related-triangle navigation tabs inside **Posmatraj** use a green accent, with clear hover/focus states.
-- Triangle-overlap preview tabs have a blue active/preview state.
-- Checked geometry filters and selected construction focus tools gain restrained green accents.
-- No geometric calculations, shapes, gestures, panel positioning or light theme were changed.
+## Functional change
+The floating **Prikaz** menu now has SIX independent visual filters:
+1. Uglovi — interior angles α, β, γ
+2. Stranice — side labels a, b, c
+3. Simetrale uglova — three interior angle bisectors
+4. Simetrale stranica — three perpendicular side bisectors
+5. **Spoljašnji uglovi** — three exterior angles α₁, β₁, γ₁ and their adjacent straight-line extensions, independently selectable with Posmatraj
+6. **Simetrale spoljašnjih uglova** — three exterior angle bisectors and their intersection centers X, Y, Z
 
-## Updating your existing GitHub Pages site
-1. Extract the PWA ZIP.
-2. Upload all its **contents** to the root of the existing repository, replacing matching files (not the enclosing folder).
-3. Commit and let GitHub Pages publish the updated `index.html` and `sw.js`.
-4. In the installed application, choose **Ažuriraj** when offered, preferably between exercises.
-5. Test Posmatraj in dark theme by selecting a subtriangle and pressing **Pokaži matematiku**; the active triangle badge and related-triangle buttons should now stand out.
+The geometry/calculator remains always active. Each switch only controls visibility/constructions. Selecting an exterior angle without its bisector shows a whole-angle annotation and the supplementary-angle relationship; turn on exterior bisectors to see their half-angles and the additional equations. The six switches have the same compact layout as before.
 
-The portable HTML file is a separate standalone version and does not need hosting.
+No new mathematics or PWA architecture has been added. Theme, camera, movable panels and geometry interactions are inherited from 2.0.14.
+
+## Updating GitHub Pages
+1. Extract `Triangle_Simulator_2_0_15_Installable_PWA.zip`.
+2. In the **same repository**, replace the existing root `index.html`, `sw.js`, `manifest.webmanifest` and other matching files from the extracted folder. Do not upload the containing folder as an extra level.
+3. Commit and wait for your existing GitHub Pages deployment.
+4. Refresh the hosted page or choose **Ažuriraj** when the installed PWA offers an update. Complete any current work before updating because the triangle is not session-persisted yet.
+
+## Manual acceptance tests
+- Toggle only Spoljašnji uglovi: three exterior angle arcs, labels, and ray extensions should appear; no purple exterior bisectors or X/Y/Z.
+- Select α₁ with a tap: Posmatraj should show α + α₁ = 180°, without requiring any bisectors.
+- Toggle only Simetrale spoljašnjih uglova: three bisectors and centers X/Y/Z should appear, but exterior-angle arcs and symbols should remain hidden.
+- Toggle both: the exterior bisectors split the visible exterior angles, with the same mathematical relationships.
+- Test small-screen dark and light themes, selection, zoom/pan, Fit Constructions, mobile rotation, and the updated PWA.
+
+Status: **testing candidate** until manually accepted.
