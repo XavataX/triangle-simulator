@@ -1,68 +1,24 @@
-# Simulator trougla 2.0.8 — Installable PWA
+# Triangle Simulator 2.0.10 — Unified Canvas Workspace
 
-This is the **same mathematical and visual application** as the single-file
-portable HTML edition. This ZIP adds only installable-app packaging and offline
-update support. All content is local; no account, external API, or CDN is needed.
+The geometry canvas is the single persistent workspace. **Prikaz** remains a compact filter overlay. Selecting a triangle or exterior angle opens **Posmatraj**, a collapsible contextual observer WITHIN the canvas. **Pokaži matematiku** reveals all original equations and worked steps inside the scrollable observer; the drawing never shrinks. **Više alata** opens all original construction and precision-input controls as a scrollable overlay over the canvas, without a separate sidebar. All geometric and mathematical source code is retained from 2.0.9.
 
-## Deploy — the correct way to install on phones
+## GitHub Pages upgrade (existing installation)
 
-1. Unzip this package. Upload the **contents** (not merely the ZIP) to a web
-   server with HTTPS. Keep `index.html`, `sw.js`, `manifest.webmanifest`,
-   `.nojekyll`, and `icons/` at the same relative locations.
-2. Open the HTTPS URL in your phone browser **once while online**.
-3. **Android:** in Chrome's menu choose Install app / Add to Home screen
-   (wording depends on browser). **iPhone:** use Share → Add to Home Screen,
-   with Open as Web App enabled if offered. **Desktop:** use the install option
-   in a supporting browser.
-4. Launch via the new app icon. Once cached, it works without internet.
+1. Unzip the 2.0.10 PWA ZIP.
+2. Upload **the contents** of this folder to the **root** of your existing GitHub Pages repository (the same location where `index.html` and `sw.js` already exist). Overwrite the previous `index.html`, `sw.js`, and `manifest.webmanifest`. Icons can remain identical; all are bundled.
+3. Commit changes to `main`. Keep GitHub Pages `Settings > Pages > Deploy from a branch > main > /(root)`.
+4. Open your existing published URL. On an already installed PWA, a new version is detected by the service worker; select `Ažuriraj` when prompted. If it does not show promptly, refresh the site online once. Cached app versions may take time to update depending on the browser.
+5. Open the home-screen app and test again with Wi-Fi disabled AFTER its updated files have loaded.
 
-The PWA will **not install via file://** or an HTML preview attachment.
-`localhost` / `127.0.0.1` is allowed for local desktop development.
+The ZIP directory must **not** be nested one level inside the repository. HTTPS is required for the installable PWA; the portable HTML works directly from your files.
 
-## GitHub Pages (no paid server required)
+## Controls
 
-1. Create a repository, e.g. `triangle-simulator`.
-2. Upload all extracted files from this package to the repository root.
-3. In the repository settings open Pages and publish the main branch from `/ (root)`.
-4. Use the displayed HTTPS `https://<username>.github.io/triangle-simulator/`
-   address. Project names and exact Pages URLs depend on your repository.
-5. Open on each device while online and use the browser's install option.
+- `Prikaz`: view filters only. The calculator computes everything all the time.
+- Tap a region: opens the contextual `Posmatraj` panel. Tap its header to collapse/expand it without losing selection.
+- `Pokaži matematiku`: reveal or hide detailed steps, vertically scroll inside the panel.
+- `Zatvori`: clears the selected focus while retaining constructions and the current camera.
+- `Više alata`: opens the existing angle input, constructions, classifications and relations over the canvas. Tap again to close.
+- Camera, zoom, pan, pinch, Fit Triangle and Fit Constructions are unchanged.
 
-If the repository is private, check hosting/account limitations. The published
-website is publicly accessible on a public GitHub Pages site; do not include
-student personal data. A repository or publishing step is required: this ZIP is
-not already hosted.
-
-## Version-aware updates (important for future features)
-
-- For each release, update both `index.html` and `sw.js` and change `RELEASE`
-  in `sw.js` to the new version. This causes the browser to detect a new worker
-  and cache the new version. Replace other changed assets at the same time.
-- An online device checks for a new worker when the app opens and when the
-  browser returns to the app or comes online. The app displays a small Serbian
-  update banner. Choose **Ažuriraj** to activate and reload, or **Kasnije**
-  to keep the current working session undisturbed.
-- A device that stays offline cannot receive updates until it reconnects.
-- The activation step clears only previous caches for the same application
-  scope, not unrelated sites/apps.
-- Do not remove or rename `sw.js` on future releases; it is the browser's
-  service-worker update entry point.
-- The code has no save/resume feature yet. **Refreshing for an update resets
-  the current geometry session.** Explain this to students before updating.
-
-## Local developer testing
-
-From the extracted directory run:
-
-    python -m http.server 8000
-
-Open `http://localhost:8000/` in Chromium or another supporting browser. In
-DevTools → Application inspect Manifest, Service Workers, and Cache Storage.
-Check offline reload only **after** the first online visit has completed and
-its service worker has activated.
-
-## Portable version
-
-`Triangle_Simulator_2_0_8_Portable.html` is distributed separately. It works
-from a local file and contains no service-worker registration. Both builds
-share the same simulator source at this milestone.
+**Status: candidate until manually accepted.** Updating may reload the current lesson; session persistence was not part of this milestone.

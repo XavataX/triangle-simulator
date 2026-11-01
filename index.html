@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Visual First 2.0.8</title>
+<title>Simulator trougla — Visual First 2.0.10</title>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
     *{box-sizing:border-box} html{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink)}
@@ -539,6 +539,134 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
   .discovery-card,.math-pane{padding:9px 10px}
   .region-chooser{max-width:calc(100% - 10px)}
 }
+
+/* 2.0.9 — Calculator-first workspace: five checkboxes are view filters, not a toolbar. */
+.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}
+.drawing-workspace>.card-top{display:none!important}
+.drawing-workspace>.stage-note{display:none!important}
+.drawing-workspace{min-height:0}
+.drawing-workspace .stage{position:relative;flex:1;min-height:0}
+.filter-dock{position:absolute;top:8px;left:8px;z-index:15;width:192px;max-width:calc(100% - 18px);margin:0;padding:0;background:rgba(255,255,255,.95);border:1px solid #cbdce6;border-radius:9px;box-shadow:0 3px 14px rgba(28,57,82,.10);backdrop-filter:blur(6px)}
+.filter-dock:not([open]){width:max-content;max-width:none}
+.filter-dock>summary{display:flex;align-items:center;justify-content:space-between;gap:6px;cursor:pointer;list-style:none;min-height:30px;padding:5px 10px;font-weight:750;font-size:.74rem;color:#365a75;user-select:none;touch-action:manipulation}
+.filter-dock>summary::-webkit-details-marker{display:none}
+.filter-dock>summary:after{content:'⌄';font-size:.92rem;line-height:1;color:#607d90;transition:transform .12s}
+.filter-dock[open]>summary:after{transform:rotate(180deg)}
+.filter-dock>summary:focus-visible{outline:2px solid #317baf;outline-offset:2px;border-radius:8px}
+.filter-dock .quick-switches{display:flex!important;flex-direction:column!important;grid-template-columns:none!important;flex-wrap:nowrap!important;gap:0!important;padding:2px 5px 6px!important;background:transparent!important;border:0!important;border-top:1px solid #e7edf3!important;border-radius:0!important}
+.filter-dock .simple-switch{display:flex!important;flex-direction:row!important;justify-content:flex-start!important;align-items:center!important;flex:0 0 auto!important;max-width:none!important;width:100%!important;min-height:27px!important;padding:3px 5px!important;gap:7px!important;border:1px solid transparent!important;border-radius:5px!important;background:transparent!important;cursor:pointer}
+.filter-dock .simple-switch:has(input:checked){background:#eaf5fa!important;border-color:#deedf5!important}
+.filter-dock .simple-switch:has(input:focus-visible){outline:2px solid #3483b4;outline-offset:1px}
+.filter-dock .simple-switch input{appearance:auto!important;-webkit-appearance:checkbox!important;display:block!important;width:15px!important;height:15px!important;flex:0 0 15px!important;margin:0!important;accent-color:#327eaa;cursor:pointer;border:0!important;border-radius:2px!important;background:initial!important}
+.filter-dock .simple-switch input:before{display:none!important}
+.filter-dock .switch-copy{display:block!important;align-items:initial!important;text-align:left!important;min-width:0!important}
+.filter-dock .switch-copy strong{display:block;font-size:.688rem!important;line-height:1.15!important;font-weight:650!important;white-space:normal!important;color:#36516a}
+.filter-dock .switch-copy small{display:none!important}
+.camera-controls{left:auto!important;right:8px!important;top:8px;bottom:auto;z-index:7;gap:2px;padding:3px;border-radius:9px}
+.camera-controls output{display:none!important}
+.camera-controls button{min-width:29px;min-height:29px;font-size:.9rem;padding:2px 5px}
+.camera-controls #cameraFit{border:0;border-radius:6px;min-width:29px;font-size:1.1rem;padding:2px 5px}
+.camera-controls #cameraFitTriangle{min-width:29px;border:0;border-radius:6px;font-size:16px;padding:2px 5px}
+.camera-controls .reset{border:0;background:transparent;min-width:29px;min-height:29px;color:#4e7089;font-size:1.12rem;font-weight:750;padding:2px 5px}
+.current-selection{position:absolute;top:50px;right:9px;left:auto;z-index:6;pointer-events:none;margin:0}
+@media(max-width:900px) and (orientation:portrait){
+ .drawing-workspace{flex:0 0 min(64dvh,560px)!important;max-height:73dvh!important;min-height:240px!important}
+ .filter-dock{top:5px;left:5px;width:184px;max-width:calc(100% - 10px)}
+ .camera-controls{right:5px!important;top:5px;padding:2px;gap:1px}
+ .camera-controls button,.camera-controls .reset{min-width:27px;min-height:28px}
+}
+@media(orientation:landscape) and (max-width:1024px) and (max-height:600px){
+ .drawing-workspace{flex:none!important;min-height:0!important;max-height:none!important;height:100%!important}
+ .filter-dock{top:5px;left:5px;width:177px;max-width:calc(100% - 10px)}
+ .filter-dock .simple-switch{min-height:25px!important}
+ .camera-controls{top:5px;right:5px!important}
+ .camera-controls button,.camera-controls .reset{min-width:26px;min-height:27px}
+ .current-selection{top:44px;right:5px;font-size:.67rem}
+}
+@media(max-width:400px){.camera-controls{left:auto!important;right:5px!important;top:5px!important;bottom:auto;padding:2px}.camera-controls button{min-width:27px}.filter-dock[open]{z-index:16}}
+@media(max-width:460px){.filter-dock[open] ~ .camera-controls{opacity:.22;pointer-events:none}}
+
+/* 2.0.10 — Single continuous geometry canvas; all inspectors are contextual overlays.
+   Older breakpoints and selection rules deliberately cannot resize the stage. */
+.layout,body.has-selection .layout,body.tools-visible .layout{
+ display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+ grid-template-rows:minmax(0,1fr)!important;gap:0!important;
+ min-height:0!important;overflow:hidden!important;align-items:stretch!important;
+}
+.drawing-workspace,body.has-selection .drawing-workspace,body.tools-visible .drawing-workspace{
+ display:flex!important;flex-direction:column!important;flex:1 1 auto!important;
+ width:100%!important;height:100%!important;min-height:0!important;
+ max-height:none!important;position:relative!important;overflow:hidden!important;
+}
+.drawing-workspace .stage{height:100%!important;min-height:0!important;flex:1 1 auto!important;position:relative!important}
+.tools-workspace,body.has-selection .tools-workspace,body.tools-visible .tools-workspace{display:none!important}
+.current-selection{display:none!important} /* selected label now belongs to Posmatraj header */
+.observe-dock,.advanced-dock{position:absolute;box-sizing:border-box;background:rgba(255,255,255,.97);
+ border:1px solid #cbdae5;border-radius:10px;box-shadow:0 5px 20px rgba(32,63,87,.16);
+ backdrop-filter:blur(7px);color:#28465c}
+.observe-dock{top:48px;right:8px;z-index:17;width:min(330px,calc(100% - 16px));max-height:calc(100% - 56px);overflow:hidden}
+.observe-dock:not([open]){width:max-content;max-width:calc(100% - 16px)}
+.observe-dock.dock-left{left:8px;right:auto}
+.observe-dock[hidden],.advanced-dock[hidden]{display:none!important}
+.observe-dock>summary{display:flex;gap:12px;align-items:center;justify-content:space-between;
+ min-height:32px;cursor:pointer;padding:6px 11px;list-style:none;font-size:.77rem;font-weight:790;
+ color:#315b70;touch-action:manipulation;user-select:none}
+.observe-dock>summary::-webkit-details-marker{display:none}
+.observe-dock>summary::after{content:'⌄';font-size:.9rem;margin-left:auto;color:#6c8495}
+.observe-dock[open]>summary::after{transform:rotate(180deg)}
+.observe-dock>summary:focus-visible{outline:2px solid #3580ab;outline-offset:-3px;border-radius:9px}
+.observe-dock-selection{font-size:.75rem;font-weight:800;color:#2b758b;background:#e8f5f8;border-radius:8px;padding:3px 6px;white-space:nowrap}
+.observe-dock-body{max-height:min(430px,calc(100dvh - 146px));overflow-y:auto;overscroll-behavior:contain;
+ border-top:1px solid #e3eaf0;padding:7px 9px 10px;scrollbar-width:thin;touch-action:pan-y}
+.observe-dock .discovery-card,.observe-dock .math-pane{display:block;box-shadow:none;border:0;border-radius:0;
+ padding:4px 2px;background:transparent;margin:0}
+.observe-dock .discovery-card[hidden],.observe-dock .math-pane[hidden]{display:none!important}
+.observe-dock .discovery-top,.observe-dock .discovery-card h2{display:none}
+.observe-dock .discovery-card p{font-size:.82rem;line-height:1.43;max-width:none}
+.observe-dock .discovery-choices{gap:5px;margin-top:9px}
+.observe-dock .show-math-button,.observe-dock .close-discovery{min-height:32px;padding:6px 9px;font-size:.74rem;border-radius:7px}
+.observe-dock .math-pane{border-top:1px solid #e8eef2;padding-top:10px;margin-top:8px}
+.observe-dock .math-intro{padding:0 1px 6px;margin-bottom:4px}
+.observe-dock .math-intro strong{font-size:.79rem}
+.observe-dock .math-intro p{font-size:.7rem}
+.observe-dock .relation-panel{border:0;margin:0;padding:0;background:transparent}
+.observe-dock .relation-panel>summary{font-size:.76rem;min-height:26px}
+.observe-dock .relation-active{padding:4px 1px}
+.observe-dock .relation-active ol{font-size:.77rem;line-height:1.45}
+.observe-dock .relation-active li{padding:2px 0}
+.observe-dock .relation-links{flex-wrap:wrap}
+.advanced-dock{z-index:24;top:47px;right:8px;width:min(405px,calc(100% - 16px));
+ max-height:calc(100% - 55px);overflow-y:auto;overscroll-behavior:contain;
+ padding:5px;scrollbar-width:thin;touch-action:pan-y}
+.advanced-dock>.advanced-tools{padding:0!important;border:0;box-shadow:none;background:transparent}
+.advanced-dock>.advanced-tools>summary{padding:8px 11px;font-size:.8rem}
+.advanced-dock .control-cabinet,.advanced-dock .tool-accordion{max-width:100%}
+@media (max-width:700px){
+ .observe-dock{top:8px;right:6px;width:min(298px,calc(100% - 12px));max-height:calc(100% - 16px)}
+ .observe-dock:not([open]){max-width:calc(100% - 92px)}
+ .observe-dock.dock-bottom{top:auto!important;bottom:51px;max-height:min(48%,380px)}
+ .observe-dock.dock-bottom .observe-dock-body{max-height:min(250px,calc(100dvh - 160px))}
+ .observe-dock-body{max-height:min(340px,calc(100dvh - 130px))}
+ .advanced-dock{top:7px;right:6px;width:min(360px,calc(100% - 12px));max-height:calc(100% - 16px)}
+}
+@media (orientation:landscape) and (max-width:1024px) and (max-height:600px){
+ .observe-dock{top:41px;right:5px;width:min(265px,58%);max-height:calc(100% - 47px)}
+ .observe-dock:not([open]){width:max-content;max-width:calc(100% - 92px)}
+ .observe-dock-body{max-height:calc(100dvh - 120px);padding:5px 7px}
+ .observe-dock .discovery-card p{font-size:.73rem}
+ .observe-dock .math-intro p{display:none}
+ .advanced-dock{top:5px;right:5px;width:min(350px,65%);max-height:calc(100% - 10px)}
+}
+@media(max-width:380px){
+ .observe-dock{width:min(272px,calc(100% - 12px))}
+ .observe-dock .discovery-card p{font-size:.76rem}
+}
+/* Explicit mobile camera placement. Do not inherit the old 2.0.9
+   max-width:400px top:5px !important rule, which intersects Posmatraj. */
+@media(max-width:700px){
+ .camera-controls{top:auto!important;bottom:7px!important;right:6px!important;left:auto!important}
+ .observe-dock{top:44px;max-height:calc(100% - 50px)}
+}
 </style>
 <link rel="manifest" href="./manifest.webmanifest"/>
 <link rel="icon" href="./icons/icon-192.png" type="image/png" sizes="192x192"/>
@@ -562,18 +690,26 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
 <header class="masthead"><div class="simple-brand"><div aria-hidden="true" class="brand-symbol">△</div><div><h1>Simulator trougla</h1><p>Istraži crtež. Otkrij pravilo.</p></div></div><button aria-controls="advancedTools" aria-expanded="false" class="tools-button" id="toolsButton" type="button">⚙  Više alata</button></header>
 <div class="layout">
 <section aria-labelledby="drawingHeading" class="card drawing-workspace">
-<div class="card-top"><h2 id="drawingHeading">Geometrija</h2><div class="drawing-actions"><span aria-live="polite" class="active-pill" hidden="" id="activeTriangleBadge">△ ABC</span><button class="reset" id="reset" type="button">Vrati</button></div></div><div aria-label="Jednostavne opcije prikaza" class="quick-switches" role="group"><label class="simple-switch" for="quickAngles"><input checked="" id="quickAngles" type="checkbox"/><span class="switch-copy"><strong>Uglovi</strong><small>α β γ</small></span></label><label class="simple-switch" for="quickSides"><input checked="" id="quickSides" type="checkbox"/><span class="switch-copy"><strong>Stranice</strong><small>a b c</small></span></label><label class="simple-switch" for="quickAngleBisectors"><input id="quickAngleBisectors" type="checkbox"/><span class="switch-copy"><strong>Simetrale uglova</strong><small>sve tri</small></span></label><label class="simple-switch" for="quickSideBisectors"><input id="quickSideBisectors" type="checkbox"/><span class="switch-copy"><strong>Simetrale stranica</strong><small>sve tri</small></span></label><label class="simple-switch outer-quick-switch" for="quickOuterBisectors"><input id="quickOuterBisectors" type="checkbox"/><span class="switch-copy"><strong>Spoljašnji uglovi i simetrale</strong><small>α₁ β₁ γ₁ · sve tri</small></span></label></div>
+<h2 id="drawingHeading" class="visually-hidden">Geometrija</h2>
 <div class="stage" id="stage">
+<details class="filter-dock" id="filterDock" open><summary title="Prikaži ili sakrij filtere geometrije"><span>☷ Prikaz</span></summary>
+<div aria-label="Vizuelni filteri geometrije" class="quick-switches" role="group"><label class="simple-switch" for="quickAngles"><input checked="" id="quickAngles" type="checkbox"/><span class="switch-copy"><strong>Uglovi</strong><small>α β γ</small></span></label><label class="simple-switch" for="quickSides"><input checked="" id="quickSides" type="checkbox"/><span class="switch-copy"><strong>Stranice</strong><small>a b c</small></span></label><label class="simple-switch" for="quickAngleBisectors"><input id="quickAngleBisectors" type="checkbox"/><span class="switch-copy"><strong>Simetrale uglova</strong><small>sve tri</small></span></label><label class="simple-switch" for="quickSideBisectors"><input id="quickSideBisectors" type="checkbox"/><span class="switch-copy"><strong>Simetrale stranica</strong><small>sve tri</small></span></label><label class="simple-switch outer-quick-switch" for="quickOuterBisectors"><input id="quickOuterBisectors" type="checkbox"/><span class="switch-copy"><strong>Spoljašnji uglovi i simetrale</strong><small>α₁ β₁ γ₁ · sve tri</small></span></label></div></details>
 <svg aria-label="Interaktivni trougao sa temenima A, B i C; prevucite obeležene tačke" id="triangle" role="group" xmlns="http://www.w3.org/2000/svg">
 <g id="cameraView"><g id="drawing"></g><g aria-hidden="true" id="hoverLayer"></g><g id="handles"></g></g><g id="contextAnnotations" aria-hidden="true" pointer-events="none"></g>
 </svg>
-<div class="camera-controls" role="group" aria-label="Prikaz i zum platna">
+<span aria-live="polite" class="active-pill current-selection" hidden="" id="activeTriangleBadge">△ ABC</span>
+<div class="camera-controls" role="group" aria-label="Zum, uklapanje i vraćanje trougla">
   <button type="button" id="cameraZoomOut" title="Umanji prikaz" aria-label="Umanji prikaz">−</button>
-  <output id="cameraZoomValue" aria-live="off">100%</output>
   <button type="button" id="cameraZoomIn" title="Uvećaj prikaz" aria-label="Uvećaj prikaz">+</button>
   <button type="button" id="cameraFitTriangle" title="Uklopi osnovni trougao (F)" aria-label="Uklopi osnovni trougao">△</button>
-  <button type="button" id="cameraFit" title="Uklopi sve aktivne konstrukcije (Shift+F)" aria-label="Uklopi sve aktivne konstrukcije">⤢ <span>Sve</span></button>
+  <button type="button" id="cameraFit" title="Uklopi sve aktivne konstrukcije (Shift+F)" aria-label="Uklopi sve aktivne konstrukcije">⤢</button>
+  <button type="button" class="reset" id="reset" title="Vrati početni trougao" aria-label="Vrati početni trougao">↺</button>
 </div>
+<details class="observe-dock" id="observeDock" hidden aria-label="Posmatraj izabranu geometriju">
+  <summary><span class="observe-dock-label">◉ Posmatraj</span><span id="observeDockSelection" class="observe-dock-selection">△ABC</span></summary>
+  <div class="observe-dock-body" id="observeDockBody"></div>
+</details>
+<div class="advanced-dock" id="advancedDock" hidden aria-label="Dodatni alati za trougao"></div>
 <div class="region-chooser" id="regionChooser" hidden aria-label="Izaberi preklopljeni trougao">
   <div class="region-chooser-head"><span id="regionChooserHint">Više trouglova je na ovom mestu — izaberi jedan</span><button type="button" id="closeRegionChooser" aria-label="Zatvori izbor trougla">×</button></div>
   <div class="region-choices" id="regionChoices" role="group" aria-label="Dostupni trouglovi"></div>
@@ -2123,16 +2259,39 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
   const extendedTriangleChoice=document.getElementById('extendedTriangleChoice');
 
   const byId=id=>document.getElementById(id);
+  // 2.0.10 — Move the SAME existing controls; preserve every calculator input,
+  // mathematical output ID, internal value, event listener and equation.
+  const observeDock=document.getElementById('observeDock');
+  const observeDockBody=document.getElementById('observeDockBody');
+  const advancedDock=document.getElementById('advancedDock');
+  observeDockBody.append(document.getElementById('discoveryCard'),document.getElementById('mathPane'));
+  advancedDock.append(document.getElementById('advancedTools'));
+  let lastObservedRegion='';
+  // Favor free canvas space; keep chosen side stable during pan/zoom.
+  function placeObservationDock(){
+    const region=selectableRegions.find(item=>item.name===visualSelection);
+    if(!region||!canvasSize.w||!canvasSize.h)return;
+    const center=region.vertices.reduce((p,q)=>({x:p.x+q.x,y:p.y+q.y}),{x:0,y:0});
+    const sx=center.x/region.vertices.length*camera.zoom+camera.x;
+    const sy=center.y/region.vertices.length*camera.zoom+camera.y;
+    const filter=document.getElementById('filterDock');
+    const filterOpen=filter?.open;
+    const portrait=window.matchMedia('(max-width:700px) and (orientation:portrait)').matches;
+    const preferLeft=sx>canvasSize.w*.53 && canvasSize.w>440 && !(filterOpen&&canvasSize.h<430);
+    const preferBottom=portrait&&sy<canvasSize.h*.56;
+    observeDock.classList.toggle('dock-left',preferLeft);
+    observeDock.classList.toggle('dock-bottom',preferBottom);
+    observeDock.style.top=(preferLeft&&filterOpen)?`${Math.min(canvasSize.h-80,filter.offsetHeight+15)}px`:'';
+  }
+
   let canvasSize={w:0,h:0};
   const cameraView=document.getElementById('cameraView');
-  const cameraZoomValue=document.getElementById('cameraZoomValue');
   const camera={zoom:1,x:0,y:0,minimum:.025,maximum:12};
   function setCamera(zoom,x,y){
     camera.zoom=Math.max(camera.minimum,Math.min(camera.maximum,zoom));
     camera.x=Number.isFinite(x)?x:0;
     camera.y=Number.isFinite(y)?y:0;
     cameraView.setAttribute('transform',`translate(${camera.x} ${camera.y}) scale(${camera.zoom})`);
-    cameraZoomValue.textContent=`${Math.round(camera.zoom*100)}%`;
     // Fit All at phone size is an overview, not a place to read every label.
     // The active-angle context layer remains visible and mathematically complete.
     document.body.classList.toggle('camera-overview',camera.zoom<.68);
@@ -3719,6 +3878,18 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
       visualSelection=null;mathRevealed=false;
     }
     const selected=Boolean(visualSelection);
+    // Selecting another actual geometric region reopens its contextual observer.
+    // Closing Posmatraj only folds the panel: it does not erase selection or values.
+    observeDock.hidden=!selected;
+    if(selected){
+      document.getElementById('observeDockSelection').textContent=regionNameLabel(visualSelection);
+      if(lastObservedRegion!==visualSelection){
+        observeDock.open=true;lastObservedRegion=visualSelection;
+        placeObservationDock();
+      }
+    }else{
+      observeDock.open=false;lastObservedRegion='';
+    }
     document.body.classList.toggle('has-selection',selected);
     document.body.classList.toggle('exterior-context',Boolean(exteriorAngleNames[visualSelection]));
     document.body.classList.toggle('tools-visible',toolsOpened);
@@ -3776,6 +3947,10 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
   byId('toolsButton').addEventListener('click',()=>{
     toolsOpened=!toolsOpened;
     const details=byId('advancedTools');details.hidden=!toolsOpened;details.open=toolsOpened;
+    advancedDock.hidden=!toolsOpened;
+    // Two expanded overlays would hide the drawing; keep the observer ready
+    // as a small selectable header while advanced controls are in use.
+    if(toolsOpened)observeDock.open=false;
     byId('toolsButton').setAttribute('aria-expanded',String(toolsOpened));
     byId('toolsButton').textContent=toolsOpened?'✕  Zatvori alate':'⚙  Više alata';
     updateVisualDiscovery();
@@ -3803,29 +3978,18 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
   updateGroupToggles();updateVisualDiscovery();
 
 
-  // 2.0.7 — Structural reflow, not merely changing canvas height.
-  // Move the EXISTING five switches, preserving their checkboxes and listeners.
-  // Portrait: switches sit above the fixed canvas. Landscape: left canvas, right tools.
+  // 2.0.9 — Filters control visibility only, independently of the always-on calculator.
+  // The original five checkboxes remain mounted with their existing listeners.
+  // A compact dock overlays the canvas without consuming any of its layout height.
   const mobileLandscapeQuery=window.matchMedia('(orientation: landscape) and (max-width: 1024px) and (max-height: 600px)');
-  const quickSwitchGroup=document.querySelector('.quick-switches');
-  const drawingWorkspace=document.querySelector('.drawing-workspace');
-  const toolWorkspace=document.querySelector('.tools-workspace');
-  function synchronizeWorkspaceOrientation(){
-    if(mobileLandscapeQuery.matches){
-      if(quickSwitchGroup.parentElement!==toolWorkspace){
-        toolWorkspace.insertBefore(quickSwitchGroup,toolWorkspace.firstChild);
-      }
-    }else if(quickSwitchGroup.parentElement!==drawingWorkspace){
-      drawingWorkspace.insertBefore(quickSwitchGroup,stage);
-    }
-  }
-  synchronizeWorkspaceOrientation();
-  mobileLandscapeQuery.addEventListener('change',synchronizeWorkspaceOrientation);
-  window.addEventListener('resize',synchronizeWorkspaceOrientation);
-  // Safe visibility into responsive state for acceptance testing.
+  const filterDock=byId('filterDock');
+  // Start collapsed on short landscape screens so geometry has maximum visibility;
+  // students can open it with one tap. Preserve user changes during rotation.
+  if(mobileLandscapeQuery.matches)filterDock.open=false;
   window.TriangleSimulatorLayout=Object.freeze({
     get mode(){return mobileLandscapeQuery.matches?'landscape-side-by-side':'standard';},
-    get switchPanel(){return quickSwitchGroup.parentElement===toolWorkspace?'right':'drawing';}
+    get switchPanel(){return 'canvas-overlay';},
+    get filterOpen(){return filterDock.open;}
   });
 
   const observer=new ResizeObserver(entries=>{
@@ -3838,6 +4002,14 @@ body.visual-first .bisector-c-line{stroke-width:2.0;stroke-opacity:.83}
   try{runMathChecks();observer.observe(stage);}
   catch(error){warning.hidden=false;warning.textContent=`Greška u matematičkoj proveri: ${error.message}`;console.error(error);}
   // Dostupno za nezavisne provere u browser konzoli.
+  window.TriangleSimulatorWorkspace=Object.freeze({
+    get selected(){return visualSelection;},
+    get observerVisible(){return !observeDock.hidden;},
+    get observerOpen(){return observeDock.open;},
+    get advancedVisible(){return !advancedDock.hidden;},
+    get observerParent(){return observeDock.parentElement?.id;},
+    get geometryArea(){const r=stage.getBoundingClientRect();return {width:r.width,height:r.height};}
+  });
   window.TriangleSimulatorCamera=Object.freeze({
     get view(){return {zoom:camera.zoom,x:camera.x,y:camera.y};},
     fitAll,fitTriangle,zoomAt:zoomCameraAt,
