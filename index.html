@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Matematička sveska 2.0.24</title>
+<title>Simulator trougla — Matematička sveska 2.0.26</title>
 <script id="theme-startup">(()=>{let mode=null;try{mode=localStorage.getItem('triangle-simulator-theme')}catch(_){}if(mode!=='light'&&mode!=='dark')mode=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=mode;})();</script>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
@@ -1155,7 +1155,23 @@ html[data-theme="dark"] #triangle .notebook-math .note-result{fill:#8be1c0}
 html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
 
 
-/* 2.0.24 — Portrait selector visibility fix.
+
+/* 2.0.26: Four real sectors at the intersection of two straight construction lines.
+   The sectors and labels are world-space geometry, not an HTML overlay. */
+#triangle .intersection-angles{user-select:none;-webkit-user-select:none}
+#triangle .intersection-angles .intersection-sector{fill:transparent;stroke:none;cursor:pointer;touch-action:manipulation}
+#triangle .intersection-angles .intersection-arc{fill:none;stroke:#cf9d57;stroke-width:2.1;vector-effect:non-scaling-stroke;pointer-events:none;opacity:.85}
+#triangle .intersection-angles .intersection-arc.focused{stroke:#e4b464;stroke-width:4}
+#triangle .intersection-angles .intersection-sector.active-wedge{fill:#e5ad5b;fill-opacity:.16;stroke:none;pointer-events:none}
+#triangle .intersection-angles .intersection-sector-label{font-family:system-ui,sans-serif;font-weight:750;font-size:12.5px;fill:#9e5a20;paint-order:stroke;stroke:#f7f8f5;stroke-width:2.5;stroke-linejoin:round;pointer-events:none}
+#triangle .intersection-angles .intersection-sector-label.focused{font-weight:850;font-size:15px;fill:#ba7624}
+html[data-theme="dark"] #triangle .intersection-angles .intersection-sector-label{fill:#e7bd79;stroke:#242424}
+html[data-theme="dark"] #triangle .intersection-angles .intersection-sector-label.focused{fill:#ffe2a0}
+html[data-theme="dark"] #triangle .intersection-angles .intersection-arc{stroke:#d7a969}
+#triangle .intersection-angles .intersection-hint{font-family:system-ui,sans-serif;fill:#af885c;font-weight:650;font-size:11px;pointer-events:none}
+html[data-theme="dark"] #triangle .intersection-angles .intersection-hint{fill:#e3c59b}
+
+/* 2.0.26 — Portrait selector visibility fix.
    The chooser used to sit 7px above the canvas bottom, underneath mobile
    browser/PWA navigation controls. Keep the whole carousel inside the usable
    portrait viewport, while retaining the independent landscape placement. */
@@ -1174,6 +1190,19 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
     padding:6px 7px!important;
   }
 }
+/* The retired Posmatraj is a hidden backing store for existing live formulas.
+   Only the actual notebook ink is presented to the student. */
+#observeDock{display:none!important}
+/* 2.0.26: The notebook has a world-space drag handle only in its title.
+   It has no window, chrome, scroll region or separate UI coordinate system. */
+#triangle .notebook-math .note-title{pointer-events:all;cursor:grab;touch-action:none}
+#triangle .notebook-math .note-title:hover{filter:brightness(1.15);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:4px}
+#triangle .notebook-math .note-title:active{cursor:grabbing}
+#triangle .notebook-math .note-action{font-weight:750;fill:#237d69;pointer-events:all;cursor:pointer;touch-action:manipulation}
+#triangle .notebook-math .note-action:hover,#triangle .notebook-math .note-action:focus-visible{text-decoration:underline;outline:none}
+#triangle .notebook-math .note-detail{font-size:12.5px;fill:#455b54}
+html[data-theme="dark"] #triangle .notebook-math .note-action{fill:#8be1c0}
+html[data-theme="dark"] #triangle .notebook-math .note-detail{fill:#c9d4cd}
 </style>
 
 
@@ -1196,7 +1225,7 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
 <details class="filter-dock" id="filterDock" open><summary title="Prikaži ili sakrij filtere geometrije"><span>☷ Prikaz</span></summary>
 <div aria-label="Vizuelni filteri geometrije" class="quick-switches" role="group"><label class="simple-switch" for="quickAngles"><input checked="" id="quickAngles" type="checkbox"/><span class="switch-copy"><strong>Uglovi</strong><small>α β γ</small></span></label><label class="simple-switch" for="quickSides"><input checked="" id="quickSides" type="checkbox"/><span class="switch-copy"><strong>Stranice</strong><small>a b c</small></span></label><label class="simple-switch" for="quickAngleBisectors"><input id="quickAngleBisectors" type="checkbox"/><span class="switch-copy"><strong>Simetrale uglova</strong><small>sve tri</small></span></label><label class="simple-switch" for="quickSideBisectors"><input id="quickSideBisectors" type="checkbox"/><span class="switch-copy"><strong>Simetrale stranica</strong><small>sve tri</small></span></label><label class="simple-switch outer-quick-switch" for="quickOuterAngles"><input id="quickOuterAngles" type="checkbox"/><span class="switch-copy"><strong>Spoljašnji uglovi</strong><small>α₁ β₁ γ₁</small></span></label><label class="simple-switch outer-quick-switch" for="quickOuterBisectors"><input id="quickOuterBisectors" type="checkbox"/><span class="switch-copy"><strong>Simetrale spoljašnjih uglova</strong><small>sve tri</small></span></label></div></details>
 <svg aria-label="Interaktivni trougao sa temenima A, B i C; prevucite obeležene tačke" id="triangle" role="group" xmlns="http://www.w3.org/2000/svg">
-<g id="cameraView"><g id="drawing"></g><g aria-hidden="true" id="hoverLayer"></g><g id="handles"></g><g id="notebookMath" class="notebook-math" aria-label="Matematički zapis na istom platnu kao trougao"></g></g><g id="contextAnnotations" aria-hidden="true" pointer-events="none"></g>
+<g id="cameraView"><g id="drawing"></g><g aria-hidden="true" id="hoverLayer"></g><g id="handles"></g><g id="intersectionAngles" class="intersection-angles" aria-label="Uglovi između presečenih pravih"></g><g id="notebookMath" class="notebook-math" aria-label="Matematički zapis na istom platnu kao trougao"></g></g><g id="contextAnnotations" aria-hidden="true" pointer-events="none"></g>
 </svg>
 <span aria-live="polite" class="active-pill current-selection" hidden="" id="activeTriangleBadge">△ ABC</span>
 <div id="cameraControls" class="camera-controls theme-controls" role="group" aria-label="Izgled aplikacije">
@@ -3038,7 +3067,13 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
   observeDockBody.append(document.getElementById('discoveryCard'),document.getElementById('mathPane'));
   // Mathematical working is now SVG ink inside cameraView, not a floating HTML panel.
   const notebookMath=document.getElementById('notebookMath');
+  const intersectionLayer=document.getElementById('intersectionAngles');
+  let intersectionFocus=null;
+  let intersectionSectors=[];
+
   let notebookAnchor=null,notebookAnchorViewport='';
+  let notebookOffset={x:0,y:0},notebookDetailsExpanded=false;
+  let notebookDrag=null,notebookDragged=false;
   let notebookBounds=null,notebookTitle='',notebookResult='';
   let notebookLastSelection=null;
   const returnToCanvas=document.createElement('button');
@@ -4235,6 +4270,7 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
   }
   function navigateToLinkedTriangle(target){
     if(!relationSpecs[target])return;
+    intersectionFocus=null;
     const changed=visualSelection!==target;
     visualSelection=target;
     // Changing the selected triangle updates notebook ink, not window state.
@@ -4377,6 +4413,200 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
   // 2.0.23: Plain SVG mathematics is ordinary notebook content, rendered at
   // WORLD coordinates in cameraView. Camera zoom/pan acts on it exactly like
   // the triangle. It is always visible, with no panel/overlay or text scroll.
+  // 2.0.26: General four-sector geometry for the crossing of two lines.
+  // The exterior centers X/Y/Z are intersections of TWO exterior bisectors,
+  // and the perpendicular-bisector circumcenter O uses exactly the same model.
+  // All angles come from the live ray vectors, never a fixed 45° answer.
+  const intersectionDefinitions=Object.freeze({
+    Z:{vertices:['A','B'],opposite:2,angleName:'∠AZB',triangle:'ABZ',bisectors:['A','B']},
+    X:{vertices:['B','C'],opposite:0,angleName:'∠BXC',triangle:'BCX',bisectors:['B','C']},
+    Y:{vertices:['C','A'],opposite:1,angleName:'∠CYA',triangle:'CAY',bisectors:['C','A']}
+  });
+  const rad360=x=>((x%(2*Math.PI))+2*Math.PI)%(2*Math.PI);
+  const degreesDisplay=value=>{
+    const secs=Math.max(0,Math.round(value*3600));
+    return secondsToAngle(secs);
+  };
+  function intersectionSectorDescription(sector,tri){
+    const symbol=['α','β','γ'][sector.opposite];
+    const original=tri.deg[sector.opposite];
+    const small=90-original/2;
+    const obtuse=90+original/2;
+    const measured=sector.deg;
+    return {
+      name:sector.key,
+      title:`Uglovi na preseku simetrala — ${displayPoint(sector.key)}`,
+      origin:`Spoljašnje simetrale u ${sector.bisectors.join(' i ')} seku se u ${displayPoint(sector.key)}. Dve prave obrazuju četiri ugla: dva unakrsna oštra i dva unakrsna tupa.`,
+      steps:[
+        `△ABC: α + β + γ = 180°; ${symbol} = ${degreesDisplay(original)}.`,
+        `Spoljašnji uglovi: ${sector.bisectors.map(v=>({A:'α₁',B:'β₁',C:'γ₁'}[v]+'/2')).join(' i ')} su polovine odgovarajućih spoljašnjih uglova.`,
+        `Ugao u trouglu ${sector.triangle}: θ = 90° − ${symbol}/2.`,
+        `Ugao θ = 90° − ${degreesDisplay(original/2)} = ${degreesDisplay(small)}.`,
+        `Uporedni ugao: 180° − θ = 90° + ${symbol}/2 = ${degreesDisplay(obtuse)}.`,
+        `Unakrsni uglovi su jednaki: ${degreesDisplay(small)}, ${degreesDisplay(obtuse)}, ${degreesDisplay(small)}, ${degreesDisplay(obtuse)}.`
+      ],
+      result:`Izabrani sektor ${sector.index+1}: ${degreesDisplay(measured)}. Oštri uglovi: ${degreesDisplay(small)}; tupi uglovi: ${degreesDisplay(obtuse)}.`,
+      sources:[sector.triangle,'ABC']
+    };
+  }
+  function buildIntersectionSectors(center,key,rayA,rayB,meta){
+    if(!center || !Number.isFinite(center.x) || !Number.isFinite(center.y))return [];
+    const a0=rad360(Math.atan2(rayA.y,rayA.x)),b0=rad360(Math.atan2(rayB.y,rayB.x));
+    const angles=[a0,b0,rad360(a0+Math.PI),rad360(b0+Math.PI)].sort((a,b)=>a-b);
+    const output=[];
+    for(let index=0;index<4;index++){
+      const start=angles[index];
+      const end=(index===3?angles[0]+2*Math.PI:angles[index+1]);
+      const span=end-start;
+      if(span<.002)continue;
+      output.push({...meta,center,key,index,start,end,mid:(start+end)/2,deg:span*180/Math.PI});
+    }
+    return output;
+  }
+  function intersectionArcPath(center,r,start,end){
+    const a={x:center.x+Math.cos(start)*r,y:center.y+Math.sin(start)*r};
+    const b={x:center.x+Math.cos(end)*r,y:center.y+Math.sin(end)*r};
+    return `M ${a.x} ${a.y} A ${r} ${r} 0 ${end-start>Math.PI?1:0} 1 ${b.x} ${b.y}`;
+  }
+  function intersectionWedgePath(center,start,end,r1,r2){
+    const p=(a,r)=>({x:center.x+Math.cos(a)*r,y:center.y+Math.sin(a)*r});
+    const a=p(start,r1),b=p(start,r2),c=p(end,r2),d=p(end,r1);
+    const big=end-start>Math.PI?1:0;
+    return `M ${a.x} ${a.y} L ${b.x} ${b.y} A ${r2} ${r2} 0 ${big} 1 ${c.x} ${c.y} L ${d.x} ${d.y} A ${r1} ${r1} 0 ${big} 0 ${a.x} ${a.y} Z`;
+  }
+  function renderIntersectionSectors(tri){
+    intersectionSectors=[];
+    intersectionLayer.replaceChildren();
+    if(!tri.valid)return;
+    const [A,B,C]=screenPoints();
+    const byVertex={A,B,C};
+    for(const [key,meta] of Object.entries(intersectionDefinitions)){
+      const center=outerBisectorRender.centers[key];
+      if(!center)continue;
+      const centerPoint=center.point;
+      const rayA=sub(byVertex[meta.vertices[0]],centerPoint),rayB=sub(byVertex[meta.vertices[1]],centerPoint);
+      const size=Math.min(len(rayA),len(rayB));
+      if(size<.01)continue;
+      const sectors=buildIntersectionSectors(centerPoint,key,rayA,rayB,meta);
+      intersectionSectors.push(...sectors);
+    }
+    // All perpendicular-bisector lines, not just the excenter case, use the
+    // same four-sector model whenever two distinct side bisectors are enabled.
+    const sidePairs=[['AB','BC'],['AB','CA'],['BC','CA']];
+    const chosen=sidePairs.find(([a,b])=>sidePerpRender.items[a]&&sidePerpRender.items[b]);
+    if(chosen&&sidePerpRender.center.valid){
+      const O=sidePerpRender.center.O;
+      const names=['A','B','C'];
+      const vectors=chosen.map(k=>{
+        const ids=k.split(''),p=byVertex[ids[0]],q=byVertex[ids[1]];
+        return {x:-(q.y-p.y),y:q.x-p.x};
+      });
+      intersectionSectors.push(...buildIntersectionSectors(O,'O',vectors[0],vectors[1],{
+        opposite:null,angleName:'Presek simetrala stranica',triangle:'ABC',bisectors:chosen}));
+    }
+    // A subtle four-sector ring, with touch-friendly hit regions. The arcs
+    // and values are true world-space SVG content and zoom/pan with the drawing.
+    for(const sector of intersectionSectors){
+      const {center,start,end,key,index}=sector;
+      const selected=intersectionFocus?.key===key&&intersectionFocus?.index===index;
+      const arc=element('path',{d:intersectionArcPath(center,33,start,end),
+        class:'intersection-arc'+(selected?' focused':''),'data-sector-arc':`${key}:${index}`});
+      const wedge=element('path',{d:intersectionWedgePath(center,start,end,14,53),
+        class:'intersection-sector','data-intersection-sector':`${key}:${index}`,tabindex:0,role:'button',
+        'aria-label':`Ugao ${index+1} u preseku ${displayPoint(key)}: ${degreesDisplay(sector.deg)}`});
+      if(selected)intersectionLayer.append(element('path',{d:intersectionWedgePath(center,start,end,15,48),
+        class:'intersection-sector active-wedge'}));
+      intersectionLayer.append(arc,wedge);
+      const r=69;
+      const tx=center.x+Math.cos(sector.mid)*r,ty=center.y+Math.sin(sector.mid)*r;
+      // Visible measures make each supplementary and opposite angle discoverable.
+      const label=element('text',{x:tx,y:ty,class:'intersection-sector-label'+(selected?' focused':''),
+        'text-anchor':'middle','dominant-baseline':'central','data-sector-text':`${key}:${index}`},
+        degreesDisplay(sector.deg));
+      intersectionLayer.append(label);
+    }
+    if(intersectionFocus){
+      const fresh=intersectionSectors.find(s=>s.key===intersectionFocus.key&&s.index===intersectionFocus.index);
+      if(!fresh)intersectionFocus=null;
+    }
+  }
+  function pickIntersectionSector(key,index){
+    const sector=intersectionSectors.find(s=>s.key===key&&s.index===index);
+    if(!sector)return;
+    intersectionFocus={key,index};
+    hideRegionChooser();
+    visualSelection=sector.triangle;
+    mathRevealed=false;theoryRequested=false;
+    redraw(false);
+  }
+  // Pointer target detection is needed because mobile camera gestures capture
+  // touch pointers; the original target is remembered in finishCameraPointer.
+  intersectionLayer.addEventListener('pointerdown',e=>{
+    if(e.pointerType==='touch')return;
+    const hit=e.target.closest('[data-intersection-sector]');
+    if(!hit)return;
+    e.preventDefault();e.stopPropagation();
+    const [key,n]=hit.dataset.intersectionSector.split(':');
+    pickIntersectionSector(key,Number(n));
+  });
+  intersectionLayer.addEventListener('click',e=>{
+    if(e.detail===0)return;
+    const target=e.target.closest('[data-intersection-sector]');
+    if(!target)return;
+    e.stopPropagation();
+    const [key,n]=target.getAttribute('data-intersection-sector').split(':');
+    pickIntersectionSector(key,Number(n));
+  });
+  intersectionLayer.addEventListener('keydown',e=>{
+    if(e.key!=='Enter'&&e.key!==' ')return;
+    const target=e.target.closest('[data-intersection-sector]');
+    if(!target)return;
+    e.preventDefault();e.stopPropagation();
+    const [key,n]=target.getAttribute('data-intersection-sector').split(':');
+    pickIntersectionSector(key,Number(n));
+  });
+
+  // 2.0.26: One writing object, one camera. Dragging its title changes only
+  // its world-space anchor; the ink is NOT a floating HTML panel.
+  function notebookWorldFromEvent(e){
+    const point=localTouchPoint(e.clientX,e.clientY);
+    return cameraWorldPoint(point);
+  }
+  notebookMath.addEventListener('pointerdown',e=>{
+    if(e.button!==0||!e.target.closest?.('[data-notebook-title]'))return;
+    e.preventDefault();e.stopPropagation();
+    const p=notebookWorldFromEvent(e);
+    notebookDrag={id:e.pointerId,x:p.x,y:p.y,startX:notebookPosition().x,startY:notebookPosition().y};
+    notebookDragged=false;
+    hideRegionChooser();
+    try{notebookMath.setPointerCapture(e.pointerId)}catch(_){try{svg.setPointerCapture(e.pointerId)}catch(__){}}
+  });
+  function moveNotebookPointer(e){
+    if(!notebookDrag||e.pointerId!==notebookDrag.id)return;
+    const p=notebookWorldFromEvent(e),dx=p.x-notebookDrag.x,dy=p.y-notebookDrag.y;
+    if(Math.hypot(dx,dy)>1.5)notebookDragged=true;
+    const nx=notebookDrag.startX+dx,ny=notebookDrag.startY+dy;
+    notebookOffset.x+=nx-notebookAnchor.x;
+    notebookOffset.y+=ny-notebookAnchor.y;
+    notebookAnchor={x:nx,y:ny};
+    const ink=notebookMath.querySelector('.notebook-writing');
+    if(ink)ink.setAttribute('transform',`translate(${nx} ${ny})`);
+    if(notebookBounds){notebookBounds.x=nx;notebookBounds.y=ny-17;}
+    e.preventDefault();e.stopPropagation();
+  }
+  function endNotebookPointer(e){
+    if(!notebookDrag||e.pointerId!==notebookDrag.id)return;
+    e.preventDefault();e.stopPropagation();
+    notebookDrag=null;
+    try{if(notebookMath.hasPointerCapture(e.pointerId))notebookMath.releasePointerCapture(e.pointerId)}catch(_){}
+  }
+  notebookMath.addEventListener('pointermove',moveNotebookPointer);
+  notebookMath.addEventListener('pointerup',endNotebookPointer);
+  notebookMath.addEventListener('pointercancel',endNotebookPointer);
+  // Also cover browsers that transfer SVG pointer capture to the root.
+  svg.addEventListener('pointermove',e=>{if(notebookDrag)moveNotebookPointer(e)},true);
+  svg.addEventListener('pointerup',e=>{if(notebookDrag)endNotebookPointer(e)},true);
+  svg.addEventListener('pointercancel',e=>{if(notebookDrag)endNotebookPointer(e)},true);
   const notebookWidth=295;
   function notebookPosition(){
     // The note starts to the upper-right of the primary triangle. Its anchor
@@ -4385,7 +4615,7 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
     if(!notebookAnchor||notebookAnchorViewport!==key){
       const pts=screenPoints(),right=Math.max(...pts.map(p=>p.x)),top=Math.min(...pts.map(p=>p.y));
       const left=Math.min(...pts.map(p=>p.x));
-      notebookAnchor={x:right+Math.max(42,(right-left)*.085),y:top+9};
+      notebookAnchor={x:right+Math.max(42,(right-left)*.085)+notebookOffset.x,y:top+9+notebookOffset.y};
       notebookAnchorViewport=key;
     }
     return notebookAnchor;
@@ -4413,9 +4643,20 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
     const name=visualSelection&&relationSpecs[visualSelection]?visualSelection:'ABC';
     const spec=relationSpecs[name];
     if(!spec)return;
-    const origin=displayMathText(byId('relationOrigin').textContent);
-    const steps=[...byId('relationSteps').children].map(li=>displayMathText(li.textContent));
-    const numeric=displayMathText(byId('relationNumeric').textContent||'');
+    const sec=intersectionFocus&&intersectionSectors.find(s=>s.key===intersectionFocus.key&&s.index===intersectionFocus.index);
+    const intersectionExplanation=sec?.opposite===null
+      ?{
+        title:`Uglovi na preseku simetrala stranica — ${displayPoint('O')}`,
+        origin:'Dve simetrale stranica su prave. Njihov presek daje dva para jednakih unakrsnih uglova.',
+        steps:[`Ugao sektora ${sec.index+1}: ${degreesDisplay(sec.deg)}.`,
+          `Njegov uporedni ugao: 180° − ${degreesDisplay(sec.deg)} = ${degreesDisplay(180-sec.deg)}.`,
+          'Naspramni (unakrsni) uglovi imaju jednake mere.'],
+        result:`Izabrani ugao: ${degreesDisplay(sec.deg)}; susedni: ${degreesDisplay(180-sec.deg)}.`,sources:['ABC']
+      }
+      :sec?intersectionSectorDescription(sec,solution):null;
+    const origin=intersectionExplanation?.origin || displayMathText(byId('relationOrigin').textContent);
+    const steps=intersectionExplanation?.steps || [...byId('relationSteps').children].map(li=>displayMathText(li.textContent));
+    const numeric=intersectionExplanation?.result || displayMathText(byId('relationNumeric').textContent||'');
     const pos=notebookPosition(),x=pos.x,y0=pos.y;
     const root=element('g',{transform:`translate(${x} ${y0})`,class:'notebook-writing','data-notebook-selection':name});
     let y=0;const margin=notebookWidth;
@@ -4428,16 +4669,20 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
         for(const line of noteLines(raw,margin,size,cls))add(line,cls,size,step);
       }
     };
-    const heading=exteriorAngleNames[name]
+    const heading=intersectionExplanation?.title || (exteriorAngleNames[name]
       ?`Aktivni ugao: ${exteriorAngleNames[name]}`
-      :`Aktivni trougao: ${regionNameLabel(name)}`;
+      :`Aktivni trougao: ${regionNameLabel(name)}`);
     notebookTitle=heading;notebookResult=numeric;
-    add(heading,'note-title',16,25);
+    const titleInk=add(heading,'note-title',16,25);
+    titleInk.setAttribute('data-notebook-title','');
+    titleInk.setAttribute('aria-label','Povuci naslov da pomeriš matematički zapis');
+    titleInk.setAttribute('role','group');
     if(origin){wrap(origin,'note-caption',12.5,17);y+=7;}
-    if(spec.sources.length){
+    const related=intersectionExplanation?.sources || spec.sources;
+    if(related.length){
       add('Povezani trouglovi:','note-section',13,22);
       let cx=0,ry=y;
-      for(const target of spec.sources){
+      for(const target of related){
         if(!relationSpecs[target])continue;
         const label=regionNameLabel(target),chipW=Math.max(49,label.length*8+14);
         if(cx+chipW>margin && cx>0){cx=0;ry+=23;}
@@ -4465,16 +4710,36 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
     root.appendChild(element('line',{x1:0,y1:y-12,x2:margin-8,y2:y-12,class:'note-hairline'}));
     add('Rezultat:','note-section',13,21);
     wrap(numeric,'note-result',14,20);
-    // Theory is the ONE optional secondary inspector. This is ordinary
-    // clickable writing, not a visible window or an always-on control bar.
+    // Expand the explanation as MORE WRITING IN THE SAME SVG COORDINATE SPACE.
+    // Basic math never folds; only the optional additional theory does.
     y+=12;
-    const theory=add('Detaljnije objašnjenje ↗','note-link',12.5,19);
+    const theory=add(notebookDetailsExpanded?'Detaljnije objašnjenje ▴':'Detaljnije objašnjenje ▾','note-action',12.5,23);
+    theory.setAttribute('data-notebook-action','details');
     theory.setAttribute('tabindex','0');theory.setAttribute('role','button');
-    theory.setAttribute('aria-label','Otvori teoriju i detalje');
+    theory.setAttribute('aria-expanded',String(notebookDetailsExpanded));
+    theory.setAttribute('aria-label',notebookDetailsExpanded?'Sakrij detaljnije objašnjenje':'Prikaži detaljnije objašnjenje');
     theory.addEventListener('pointerdown',ev=>ev.stopPropagation());
-    theory.addEventListener('click',ev=>{ev.stopPropagation();theoryRequested=true;mathRevealed=true;
-      updateVisualDiscovery();updateRelationships(solveTriangle(screenPoints()));observeDock.open=true;placeObservationDock();});
-    theory.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();theory.dispatchEvent(new MouseEvent('click',{bubbles:true}));}});
+    const toggleDetails=()=>{
+      notebookDetailsExpanded=!notebookDetailsExpanded;
+      // Recalculate ONLY the notebook ink; neither pan/zoom nor geometry changes.
+      updateLiveCanvasMath(solveTriangle(screenPoints()));
+    };
+    theory.addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();toggleDetails()});
+    theory.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();ev.stopPropagation();toggleDetails()}});
+    if(notebookDetailsExpanded){
+      y+=7;
+      add('Objašnjenje i pravilo:','note-section',13,23);
+      const extra=[observeSentence(name),displayMathText(byId('relationNote').textContent||'')]
+        .filter(Boolean).filter((line,i,arr)=>arr.indexOf(line)===i);
+      extra.push('Zbir unutrašnjih uglova svakog trougla iznosi 180°. Simetrala deli ugao na dva jednaka dela.');
+      for(const sentence of extra){wrap(sentence,'note-detail',12.5,18);y+=8;}
+      if(intersectionExplanation){
+        wrap('Unakrsni uglovi su jednaki; susedni uporedni uglovi zajedno imaju 180°.','note-detail',12.5,18);
+        y+=8;
+      }
+      add('Provera:','note-section',13,22);
+      wrap(numeric,'note-result',13,19);
+    }
     notebookMath.replaceChildren(root);
     notebookBounds={x,y:y0-17,width:notebookWidth,height:y+18};
   }
@@ -4488,6 +4753,7 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
     updateASBFocus(sol);
     updateOtherSubtriangleFocus(sol);
     drawTriangle(pts,sol);
+    renderIntersectionSectors(sol);
     refreshScreenAnnotations();
     activeTriangleBadge.textContent=regionNameLabel(visualSelection||activeTriangleName()||'ABC');
     updateVisualDiscovery();
@@ -4772,6 +5038,7 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
     suppressRemainingTouchTap=true;
   }
   svg.addEventListener('pointerdown',e=>{
+    if(e.target.closest?.('[data-notebook-title],[data-notebook-action],[data-notebook-link]') && (e.pointerType!=='mouse'||e.button!==1))return;
     if(e.pointerType==='mouse'&&e.button===1){
       e.preventDefault();e.stopImmediatePropagation();
       hideRegionChooser();middlePan={id:e.pointerId,x:e.clientX,y:e.clientY};
@@ -4837,6 +5104,13 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
     e.preventDefault();e.stopImmediatePropagation();
     if(!cancelled&&!touch.moved&&!suppressRemainingTouchTap){
       const original=touch.initialTarget;
+      const directSector=original.closest?.('[data-intersection-sector]');
+      if(directSector){
+        const [key,n]=directSector.dataset.intersectionSector.split(':');
+        pickIntersectionSector(key,Number(n));
+        if(!activeTouchPointers.size)suppressRemainingTouchTap=false;
+        return;
+      }
       const special=original.closest?.('[data-exterior-angle-select],[data-excenter-select]');
       if(special){
         const name=special.getAttribute('data-exterior-angle-select')||special.getAttribute('data-excenter-select');
@@ -4889,7 +5163,7 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
   });
   svg.addEventListener('pointerdown',e=>{
     if(e.pointerType==='touch')pickerTouchInput=true;
-    if(!e.isPrimary || e.target.closest('[data-vertex],[data-extension-handle]'))return;
+    if(!e.isPrimary || e.target.closest('[data-vertex],[data-extension-handle],[data-intersection-sector]'))return;
     const p=toSvgPoint(e);if(!p)return;
     const physical=screenPoints();
     if(physical.some(q=>distance(q,p)<24)||Object.values(renderedExtensions).some(x=>distance(x.point,p)<21))return;
@@ -5037,7 +5311,7 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
       theoryRequested=false;
     }
     if(!selected)notebookLastSelection=null;
-    observeDock.hidden=!selected||toolsOpened||!theoryRequested;
+    observeDock.hidden=true;
     if(selected){
       document.getElementById('observeDockSelection').textContent=regionNameLabel(visualSelection);
       if(lastObservedRegion!==visualSelection){
@@ -5112,8 +5386,7 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
     if(toolsOpened && window.innerWidth<700)document.getElementById('filterDock').open=false;
     // Two expanded overlays would hide the drawing; keep the observer ready
     // as a small selectable header while advanced controls are in use.
-    if(toolsOpened)observeDock.open=false;
-    else if(visualSelection&&theoryRequested)observeDock.open=true;
+    observeDock.open=false; // Posmatraj window retired in 2.0.26
     byId('toolsButton').setAttribute('aria-expanded',String(toolsOpened));
     byId('toolsButton').textContent=toolsOpened?'✕':'⚙';
     byId('toolsButton').setAttribute('aria-label',toolsOpened?'Zatvori alate':'Otvori dodatne alate');
@@ -5744,6 +6017,8 @@ html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
     get liveMathVisible(){return notebookMath.childElementCount>0;},
     get liveMathTitle(){return notebookTitle;},
     get liveMathResult(){return notebookResult;},
+    get notebookDetailsExpanded(){return notebookDetailsExpanded;},
+    get notebookPosition(){return notebookAnchor?{...notebookAnchor}:null;},
     get notebookBounds(){return notebookBounds?{...notebookBounds}:null;},
     get observerVisible(){return !observeDock.hidden;},
     get observerOpen(){return observeDock.open;},
