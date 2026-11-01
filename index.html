@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Matematička sveska 2.0.28</title>
+<title>Simulator trougla — Matematička sveska 2.0.29</title>
 <script id="theme-startup">(()=>{let mode=null;try{mode=localStorage.getItem('triangle-simulator-theme')}catch(_){}if(mode!=='light'&&mode!=='dark')mode=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=mode;})();</script>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
@@ -1258,7 +1258,7 @@ html[data-theme="dark"] .saved-shelf-status[data-error="true"]{color:#ffc2b9}
  .saved-shelf-buttons{max-width:none;width:100%;justify-content:flex-start}
 }
 
-/* 2.0.28 — Anchored export controls; no separate window or screenshot dependency. */
+/* 2.0.29 — Anchored export controls; no separate window or screenshot dependency. */
 #imageExportToggle{font-size:1.03rem!important;width:35px;min-height:35px;border:1px solid #cbdce6;
  background:rgba(255,255,255,.94);border-radius:9px;color:#2b6c71;cursor:pointer;
  box-shadow:0 2px 10px #284b6517;touch-action:manipulation}
@@ -1288,6 +1288,20 @@ html[data-theme="dark"] .export-resolution label:has(input:checked){background:#
 html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
 @media(max-width:600px){#imageExportShelf{top:max(47px,calc(env(safe-area-inset-top) + 47px));right:6px;
  width:calc(100% - 12px);max-height:calc(100% - 70px)}}
+
+
+/* 2.0.29 — image format toggle in the same anchored canvas control. */
+.export-formats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.export-formats label{display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:9px 6px;border:1px solid #b9d1c8;border-radius:9px;background:#f2f9f5;
+  min-height:40px;font-weight:650;cursor:pointer}
+.export-formats label:has(input:checked){background:#d0ecdf;border-color:#6aaf91;color:#155e49}
+.export-formats input{accent-color:#2d826b}
+html[data-theme="dark"] #imageExportToggle{background:#2d3b33;color:#b1eed1;border-color:#617d6c}
+html[data-theme="dark"] #imageExportToggle[aria-expanded="true"]{background:#235441;border-color:#86c4a0}
+html[data-theme="dark"] .export-formats label{background:#354239;border-color:#587666}
+html[data-theme="dark"] .export-formats label:has(input:checked){background:#245c47;color:#e2fff0;border-color:#72b795}
+#imageExportResolutionField[hidden]{display:none!important}
 
 </style>
 
@@ -4758,7 +4772,7 @@ html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
       ?`Aktivni ugao: ${exteriorAngleNames[name]}`
       :`Aktivni trougao: ${regionNameLabel(name)}`);
     notebookTitle=heading;notebookResult=numeric;
-    // Semantic content for the independent 2.0.28 export compositor.
+    // Semantic content for the independent 2.0.29 export compositor.
     // It does not depend on SVG screen coordinates, current zoom or DOM screenshots.
     const exportRelated=(intersectionExplanation?.sources || spec.sources || [])
       .filter(target=>Boolean(relationSpecs[target]));
@@ -6149,7 +6163,7 @@ html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
     const scale=Math.max(1,unit());
     const visibleCenter=cameraWorldPoint({x:canvasSize.w/2,y:canvasSize.h/2});
     return {
-      format:PROJECT_FORMAT,schemaVersion:PROJECT_SCHEMA,appVersion:'2.0.28',
+      format:PROJECT_FORMAT,schemaVersion:PROJECT_SCHEMA,appVersion:'2.0.29',
       savedAt:new Date().toISOString(),state:{
         vertices:model.map(p=>({x:p.x,y:p.y})),
         givens:[...angleGiven.entries()],equalSides,givenCircumAngle,
@@ -6428,12 +6442,12 @@ html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
     });
   });
 
-  // 2.0.28 — Dedicated vector-to-raster export pipeline. We deliberately do
+  // 2.0.29 — Dedicated vector-to-raster export pipeline. We deliberately do
   // not capture the stage, browser viewport, canvas bitmap, UI, notebook
   // screen coordinates, or camera transform. All layout is assembled anew.
   const exportToggle=document.createElement('button');
   exportToggle.id='imageExportToggle';exportToggle.type='button';exportToggle.textContent='▧';
-  exportToggle.title='Izvezi geometriju i matematiku kao PNG';
+  exportToggle.title='Izvezi trougao i matematiku kao PNG ili SVG';
   exportToggle.setAttribute('aria-label','Izvezi trougao i matematiku kao sliku');
   exportToggle.setAttribute('aria-controls','imageExportShelf');
   exportToggle.setAttribute('aria-expanded','false');
@@ -6441,18 +6455,24 @@ html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
   const exportShelf=document.createElement('section');
   exportShelf.id='imageExportShelf';exportShelf.hidden=true;
   exportShelf.setAttribute('aria-label','Izvoz slike');
-  exportShelf.innerHTML=`<div class="saved-shelf-head"><span>▧ Izvoz slike · PNG</span>
+  exportShelf.innerHTML=`<div class="saved-shelf-head"><span>▧ Izvoz crteža · PNG / SVG</span>
       <button type="button" class="saved-shelf-close" id="imageExportClose" aria-label="Zatvori izvoz slike">×</button></div>
     <form id="imageExportForm" class="export-shelf-body">
-      <p class="export-shelf-hint">Čist izvoz crteža i matematičkog postupka. Ne zavisi od zumiranja, pomeranja platna ili veličine ekrana.</p>
-      <div class="export-shelf-field"><span>Rezolucija</span>
-        <div class="export-resolution" role="radiogroup" aria-label="Rezolucija PNG slike">
+      <p class="export-shelf-hint">Vektorski crtež i matematički postupak, bez elemenata za uređivanje. Izvoz prati trenutnu svetlu ili tamnu temu.</p>
+      <div class="export-shelf-field"><span>Format</span>
+        <div class="export-formats" role="radiogroup" aria-label="Format izvoza">
+          <label><input name="imageExportFormat" type="radio" value="png" checked/>PNG · slika</label>
+          <label><input name="imageExportFormat" type="radio" value="svg"/>SVG · vektor</label>
+        </div></div>
+      <div class="export-shelf-field" id="imageExportResolutionField"><span>Rezolucija PNG slike</span>
+        <div class="export-resolution" role="radiogroup" aria-label="Uvećanje PNG slike">
           <label><input name="imageExportScale" type="radio" value="1"/>1×</label>
           <label><input name="imageExportScale" type="radio" value="2" checked/>2×</label>
           <label><input name="imageExportScale" type="radio" value="4"/>4×</label>
         </div></div>
       <label class="export-shelf-checkbox"><input type="checkbox" id="imageExportDetails"/> Uključi detaljnije objašnjenje</label>
-      <p class="export-shelf-hint">Bela podloga, čitljive jednačine i aktivne konstrukcije. Izbor 4× može koristiti više memorije na telefonu.</p>
+      <p class="export-shelf-hint" id="imageExportThemeHint" aria-live="polite">Tema izvoza: trenutna tema aplikacije.</p>
+      <p class="export-shelf-hint" id="imageExportFormatHint">PNG je pogodan za deljenje; 4× troši više memorije. SVG ostaje oštar pri svakom uvećanju i može se uređivati u vektorskom editoru.</p>
       <button class="saved-shelf-action primary" id="imageExportDownload" type="submit">↓ Sačuvaj PNG sliku</button>
       <div class="export-shelf-output" id="imageExportStatus" role="status" aria-live="polite"></div>
     </form>`;
@@ -6462,11 +6482,12 @@ html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
   const exportButton=exportShelf.querySelector('#imageExportDownload');
   let exportBusy=false;
   function exportMessage(message,error=false){exportStatus.textContent=message;exportStatus.dataset.error=String(error)}
+  let exportOpenedBefore=false;
   function openExportShelf(open){
     if(open && !savedShelf.hidden)openSavedShelf(false);
     exportShelf.hidden=!open;exportToggle.setAttribute('aria-expanded',String(open));
-    if(open){exportShelf.querySelector('#imageExportDetails').checked=notebookDetailsExpanded;
-      exportMessage('');}
+    if(open){if(!exportOpenedBefore){exportShelf.querySelector('#imageExportDetails').checked=notebookDetailsExpanded;exportOpenedBefore=true;}
+      refreshExportOptions();exportMessage('');}
   }
   exportToggle.addEventListener('click',()=>openExportShelf(exportShelf.hidden));
   exportShelf.querySelector('#imageExportClose').addEventListener('click',()=>openExportShelf(false));
@@ -6648,10 +6669,20 @@ html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
       return ctx.measureText(value).width;
     };
   }
-  function buildExportSVG(includeDetails=false){
+  function buildExportSVG(includeDetails=false,chosenTheme=null){
+    const theme=chosenTheme==='dark'||chosenTheme==='light'?chosenTheme:(document.documentElement.dataset.theme==='dark'?'dark':'light');
     if(!exportMathData||!canvasSize.w||!canvasSize.h)throw Error('Nema ispravnog trougla za izvoz.');
     const math=exportMathData,measure=exportTextMeasure();
-    const ink='#334f49',teal='#237965',muted='#506d65';
+    const palette=theme==='dark'?{
+      background:'#202522',panel:'#29352e',panelStroke:'#526c5c',
+      mathPanel:'#252f29',ink:'#e3eee6',teal:'#94e2c0',muted:'#becfc4',
+      divider:'#567361',result:'#9bf3cd',footer:'#b4c7ba',header:'#a7ead0'
+    }:{
+      background:'#fffefd',panel:'#f7fbfa',panelStroke:'#d6e7df',
+      mathPanel:'#fbfdfb',ink:'#334f49',teal:'#237965',muted:'#506d65',
+      divider:'#b4d1c5',result:'#197c61',footer:'#698378',header:'#237965'
+    };
+    const {ink,teal,muted}=palette;
     const content=[],rightX=730,rightWidth=500;
     let y=162;
     function row(value,opts={}){
@@ -6665,6 +6696,17 @@ html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
         if(str && measure(candidate,size,weight)>maxW){lines.push(str);str=word;}else str=candidate;
       }
       if(str)lines.push(str);
+      // Extra-long expressions/labels without spaces must stay inside the page.
+      lines=lines.flatMap(line=>{
+        if(measure(line,size,weight)<=maxW)return [line];
+        const parts=[];let current='';
+        for(const char of line){
+          if(current&&measure(current+char,size,weight)>maxW){parts.push(current);current=char;}
+          else current+=char;
+        }
+        if(current)parts.push(current);
+        return parts;
+      });
       for(const l of lines){
         const t=exEl('text',{x:rightX+indent,y,fill:color,'font-size':size,'font-weight':weight,
           'font-family':'system-ui,Segoe UI,Arial,sans-serif'},l);
@@ -6681,9 +6723,9 @@ html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
     for(let i=0;i<math.steps.length;i++)row(`${i+1}. ${math.steps[i]}`,
       {size:17,spacing:10});
     y+=8;
-    content.push(exEl('line',{x1:rightX,y1:y,x2:rightX+rightWidth,y2:y,stroke:'#b4d1c5','stroke-width':1.3}));
+    content.push(exEl('line',{x1:rightX,y1:y,x2:rightX+rightWidth,y2:y,stroke:palette.divider,'stroke-width':1.3}));
     y+=30;heading('Rezultat');
-    row(math.numeric,{size:19,weight:750,color:'#197c61',spacing:20});
+    row(math.numeric,{size:19,weight:750,color:palette.result,spacing:20});
     if(includeDetails){
       y+=8;heading('Detaljnije objašnjenje');
       for(const extra of math.extra||[])row(extra,{size:16,color:muted,spacing:12});
@@ -6692,33 +6734,32 @@ html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
     const height=Math.max(EXP_MIN_H,Math.ceil((y+95)/20)*20);
     const root=exEl('svg',{xmlns:exportSvgNS,width:EXP_W,height,viewBox:`0 0 ${EXP_W} ${height}`,
       role:'img','aria-label':'Izvezeni trougao sa matematičkim objašnjenjem'});
-    root.append(exEl('rect',{x:0,y:0,width:EXP_W,height,fill:'#fffefd'}));
-    root.append(exEl('text',{x:49,y:59,fill:teal,'font-size':24,'font-weight':800,
+    root.append(exEl('rect',{x:0,y:0,width:EXP_W,height,fill:palette.background}));
+    root.append(exEl('rect',{x:706,y:125,width:548,height:height-205,rx:13,
+      fill:palette.mathPanel,stroke:palette.panelStroke,'stroke-width':1}));
+    root.append(exEl('text',{x:49,y:59,fill:palette.header,'font-size':24,'font-weight':800,
       'font-family':'system-ui,Segoe UI,Arial,sans-serif'},'SIMULATOR TROUGLA'));
     root.append(exEl('text',{x:50,y:85,fill:muted,'font-size':15,
       'font-family':'system-ui,Segoe UI,Arial,sans-serif'},'Geometrijska konstrukcija i matematički postupak'));
-    root.append(exEl('line',{x1:49,y1:108,x2:1232,y2:108,stroke:'#cfdfd8','stroke-width':1.5}));
+    root.append(exEl('line',{x1:49,y1:108,x2:1232,y2:108,stroke:palette.divider,'stroke-width':1.5}));
     const geom={x:48,y:135,w:624,h:Math.max(620,Math.min(780,height-260))};
     root.append(exEl('rect',{x:geom.x-8,y:geom.y-8,width:geom.w+16,height:geom.h+16,
-      rx:13,fill:'#f7fbfa',stroke:'#d6e7df','stroke-width':1}));
-    // Neutral light export palette even when the student's workspace is dark.
-    // This is a synchronous, paint-free style read; the user's theme is restored
-    // before this function returns and never written to persistent storage.
-    const userTheme=document.documentElement.dataset.theme;
-    try{
-      if(userTheme==='dark')document.documentElement.dataset.theme='light';
-      renderExportGeometry(root,geom);
-    }finally{document.documentElement.dataset.theme=userTheme;}
+      rx:13,fill:palette.panel,stroke:palette.panelStroke,'stroke-width':1}));
+    // Copy the active live geometry's computed styles without mutating the
+    // student's theme, camera, constructions, project, or visible notebook.
+    // Export snapshots the current theme at the caller boundary.
+    renderExportGeometry(root,geom);
     for(const child of content)root.append(child);
-    root.append(exEl('line',{x1:49,y1:height-54,x2:1232,y2:height-54,stroke:'#d9e8e1'}));
-    root.append(exEl('text',{x:49,y:height-30,fill:'#698378','font-size':13,
+    root.append(exEl('line',{x1:49,y1:height-54,x2:1232,y2:height-54,stroke:palette.divider}));
+    root.append(exEl('text',{x:49,y:height-30,fill:palette.footer,'font-size':13,
       'font-family':'system-ui,Segoe UI,Arial,sans-serif'},'Simulator trougla · izvezeni matematički zapis'));
-    return {svg:new XMLSerializer().serializeToString(root),width:EXP_W,height};
+    return {svg:new XMLSerializer().serializeToString(root),width:EXP_W,height,theme};
   }
   async function renderPNG(scale,details){
+    const theme=document.documentElement.dataset.theme==='dark'?'dark':'light';
     if(![1,2,4].includes(scale))throw Error('Nepoznata rezolucija.');
     await document.fonts?.ready;
-    const result=buildExportSVG(details);
+    const result=buildExportSVG(details,theme);
     const blob=new Blob([result.svg],{type:'image/svg+xml;charset=utf-8'});
     const url=URL.createObjectURL(blob);
     let bitmap;
@@ -6732,7 +6773,7 @@ html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
       canvas.width=result.width*scale;canvas.height=result.height*scale;
       const ctx=canvas.getContext('2d',{alpha:false});
       if(!ctx)throw Error('Pregledač ne podržava potreban grafički kontekst.');
-      ctx.fillStyle='#fffefd';ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle=theme==='dark'?'#202522':'#fffefd';ctx.fillRect(0,0,canvas.width,canvas.height);
       ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
       ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
       const output=await new Promise((resolve,reject)=>canvas.toBlob(
@@ -6741,28 +6782,54 @@ html[data-theme="dark"] .export-shelf-output[data-error="true"]{color:#ffc2b9}
       return {blob:output,width:result.width*scale,height:result.height*scale};
     }finally{bitmap&&(bitmap.src='');URL.revokeObjectURL(url);}
   }
-  function pngDownload(result){
+  function downloadExport(blob,filename){
+    const url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=filename;
+    document.body.append(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),10000);
+  }
+  function exportBaseName(){
     const selected=visualSelection&&relationSpecs[visualSelection]?visualSelection:'ABC';
     const safe=String(regionNameLabel(selected)).replace(/[^A-Za-z0-9_-]/g,'_')||'ABC';
-    const href=URL.createObjectURL(result.blob),a=document.createElement('a');
-    a.href=href;a.download=`Trougao_${safe}_${result.width}x${result.height}.png`;
-    document.body.append(a);a.click();a.remove();
-    setTimeout(()=>URL.revokeObjectURL(href),10000);
+    return `Trougao_${safe}`;
   }
+  function renderSVG(details){
+    const result=buildExportSVG(details);
+    return {...result,blob:new Blob([result.svg],{type:'image/svg+xml;charset=utf-8'})};
+  }
+  function refreshExportOptions(){
+    const format=exportForm.querySelector('input[name="imageExportFormat"]:checked')?.value||'png';
+    const isSvg=format==='svg';
+    exportShelf.querySelector('#imageExportResolutionField').hidden=isSvg;
+    exportButton.textContent=isSvg?'↓ Sačuvaj SVG vektor':'↓ Sačuvaj PNG sliku';
+    exportShelf.querySelector('#imageExportThemeHint').textContent=
+      'Tema izvoza: '+(document.documentElement.dataset.theme==='dark'?'tamna ☾':'svetla ☀')+
+      ' (trenutna tema aplikacije).';
+  }
+  exportForm.querySelectorAll('input[name="imageExportFormat"]').forEach(input=>
+    input.addEventListener('change',refreshExportOptions));
   exportForm.addEventListener('submit',async e=>{
     e.preventDefault();if(exportBusy)return;
-    exportBusy=true;exportButton.disabled=true;exportMessage('Pripremam PNG sliku…');
+    exportBusy=true;exportButton.disabled=true;
+    const format=exportForm.querySelector('input[name="imageExportFormat"]:checked')?.value||'png';
+    exportMessage(format==='svg'?'Pripremam SVG vektor…':'Pripremam PNG sliku…');
     try{
-      const scale=Number(new FormData(exportForm).get('imageExportScale')||'2');
       const details=exportShelf.querySelector('#imageExportDetails').checked;
-      const result=await renderPNG(scale,details);
-      pngDownload(result);
-      exportMessage(`PNG ${result.width} × ${result.height} je pripremljen za čuvanje.`);
-    }catch(err){exportMessage(err?.message||'Izvoz nije uspeo.',true);console.error('PNG export:',err)}
+      if(format==='svg'){
+        const result=renderSVG(details);
+        downloadExport(result.blob,`${exportBaseName()}_${result.theme}.svg`);
+        exportMessage(`SVG ${result.width} × ${result.height} je spreman za čuvanje.`);
+      }else{
+        const scale=Number(new FormData(exportForm).get('imageExportScale')||'2');
+        const result=await renderPNG(scale,details);
+        downloadExport(result.blob,`${exportBaseName()}_${result.width}x${result.height}.png`);
+        exportMessage(`PNG ${result.width} × ${result.height} je spreman za čuvanje.`);
+      }
+    }catch(err){exportMessage(err?.message||'Izvoz nije uspeo.',true);console.error('Image export:',err)}
     finally{exportBusy=false;exportButton.disabled=false;}
   });
-  // Read-only API for independent automated verification of actual PNG pixels.
-  window.TriangleSimulatorImageExport=Object.freeze({buildSVG:buildExportSVG,renderPNG,
+  // Read-only API for verification of both independent vector formats.
+  window.TriangleSimulatorImageExport=Object.freeze({buildSVG:buildExportSVG,renderPNG,renderSVG,
     get ready(){return Boolean(exportMathData)},get opened(){return !exportShelf.hidden}});
 
   let restoreAttempted=false;

@@ -1,18 +1,10 @@
-# Triangle Simulator 2.0.28 — Save, Load & Session Recovery
+# Simulator trougla 2.0.29 — offline PWA
 
-## Install or update
-Unzip and upload the **contents** to the root of the existing GitHub Pages repository. The URL and PWA identity remain the same. Open the hosted site, then use the built-in update prompt. Existing named projects are kept in IndexedDB on the same origin; the service-worker cache is replaced but never clears project data.
+Install by hosting this folder via HTTPS at the **same origin and path** as 2.0.28.
+Keep `manifest.webmanifest` ID `./` and the existing path unchanged to preserve the local named triangle library.
+The service worker caches the new application shell as 2.0.29 without automatically reloading an active session.
 
-## What is new
-- Canvas-anchored **Moji trouglovi** shelf (▣) at the upper right, no separate window.
-- Save multiple named setups, open or deliberately update an existing entry, confirm deletion inline.
-- Auto-recover the latest session after reopening the PWA/browser.
-- Import and export portable versioned JSON project files; import validates geometry and construction state first.
-- Named projects persist in IndexedDB, with a localStorage fallback when IndexedDB is not available.
-- Each project saves vertices, givens, equality constraints, point names, construction switches, extension positions, selected region, notebook offset/expanded state, camera, visibility filters and theme.
-- No changes to the independent image export renderer yet; that is planned for 2.0.28.
+Changes: native SVG download; current-theme PNG and SVG export (including geometry, text and explanations); refinements to long math lines and page layout.
+PNG: 1×/2×/4×. SVG: resolution-independent and self-contained.
 
-## Limits
-On browser data clearing or uninstallation, origin-scoped saved projects can be lost; export JSON backups. The portable file:// origin can be isolated from the installed PWA origin. The browser must allow local storage for auto recovery. This is a candidate awaiting physical-device acceptance.
-
-2.0.28: Izvoz PNG slike pomoću nezavisnog SVG prikaza i viših rezolucija; lokalna biblioteka i ID PWA su očuvani.
+Do not clear site data or uninstall the old PWA before backing up your named projects with JSON export.
