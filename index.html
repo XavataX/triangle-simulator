@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Matematička sveska 2.0.23</title>
+<title>Simulator trougla — Matematička sveska 2.0.24</title>
 <script id="theme-startup">(()=>{let mode=null;try{mode=localStorage.getItem('triangle-simulator-theme')}catch(_){}if(mode!=='light'&&mode!=='dark')mode=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=mode;})();</script>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
@@ -1154,6 +1154,26 @@ html[data-theme="dark"] #triangle .notebook-math .note-link,
 html[data-theme="dark"] #triangle .notebook-math .note-result{fill:#8be1c0}
 html[data-theme="dark"] #triangle .notebook-math .note-hairline{stroke:#8bc5ad}
 
+
+/* 2.0.24 — Portrait selector visibility fix.
+   The chooser used to sit 7px above the canvas bottom, underneath mobile
+   browser/PWA navigation controls. Keep the whole carousel inside the usable
+   portrait viewport, while retaining the independent landscape placement. */
+@media (orientation:portrait) and (max-width:900px){
+  .stage > #regionChooser:not([hidden]){
+    top:auto!important;
+    bottom:calc(clamp(88px,13dvh,138px) + env(safe-area-inset-bottom,0px))!important;
+    left:8px!important;
+    right:8px!important;
+    width:auto!important;
+    max-width:calc(100% - 16px)!important;
+    margin-inline:auto!important;
+    z-index:22;
+  }
+  .stage > #regionChooser.touch-carousel{
+    padding:6px 7px!important;
+  }
+}
 </style>
 
 

@@ -1,30 +1,21 @@
-# Simulator trougla — 2.0.23 Integrated Mathematical Notebook
+# Triangle Simulator 2.0.24 — Portrait selector visibility fix
 
-## GitHub Pages deployment
+Focused correction built on the **2.0.23** integrated mathematical canvas.
 
-1. Extract `Triangle_Simulator_2_0_23_Installable_PWA.zip`.
-2. Upload **all extracted files and the `icons` folder** to the ROOT of your existing GitHub repository, replacing the older versions: `index.html`, `sw.js`, `manifest.webmanifest`, `README.md`, `icons/`, `.nojekyll`.
-3. Commit. Keep GitHub Pages set to `main` / `/(root)`.
-4. Visit the existing public HTTPS site; after the new service worker is detected, choose **Ažuriraj** to update the installed PWA. Finish any in-progress work before reloading because full exercise-state restoration is not yet implemented.
+## What changed
 
-## 2.0.23 interactions
+- In **phone portrait**, the overlapping-triangle selector is no longer attached just 7px from the bottom edge. It is placed above a conservative bottom clearance plus the device's safe-area inset.
+- The selection carousel stays horizontally centered and inside the canvas width.
+- Existing swipe-to-preview and tap-to-confirm interactions are preserved.
+- Desktop and phone landscape continue using the existing selector placement.
+- Geometry, direct point/angle editing, notebook equations, themes, zoom/pan and the underlying mathematics are unchanged.
 
-- Equations are real SVG text in the same `cameraView` group as the drawing. The writing has no independent window, buttons, collapse state, background, or scrolling container.
-- On desktop the notebook places the triangle to the left and mathematics at the upper right. On narrow phones both objects still share world space; zoom in for reading and pan sideways to move between them.
-- **Fit All** (`Shift+F` / **Sve** in Više alata) frames constructions and the mathematical writing. **Fit Triangle** (`F`) frames only the triangle.
-- Click/tap the drawing or mobile triangle carousel to select another region. The notebook calculation immediately changes. Related triangle names written in the notebook remain clickable.
-- `Detaljnije objašnjenje ↗` opens the optional Posmatraj theory window.
-- The notebook always shows the basic mathematics of △ABC if no subtriangle is selected.
+## Publish to existing GitHub Pages
 
-## Files
+1. Extract the 2.0.24 PWA ZIP and open the extracted folder.
+2. Upload **the folder contents** to the **root** of the existing repository (alongside `index.html` and `sw.js`), replacing older matching files.
+3. Commit the changes and wait for GitHub Pages to publish.
+4. Open the existing public URL in a browser; use the PWA **Ažuriraj** prompt when shown. If necessary close and reopen the installed app after the site has updated.
+5. Test the selector on a real phone in portrait, including with browser navigation bars visible. Tap a region where multiple triangles overlap, horizontally swipe, and tap a centered tab to confirm.
 
-- `index.html`: installable web app, includes the offline service worker registration.
-- `sw.js`: version-aware offline cache for application shell and icons.
-- `manifest.webmanifest`, `icons/`: PWA installation metadata and icons.
-- The separate `Triangle_Simulator_2_0_23_Portable.html` is offline and does **not** register a service worker.
-
-## Important limitations
-
-- On small phones, Fit All is a **whole-page overview**, not a readable zoom level; pinch to read the math or geometry. Writing is deliberately not pinned to the viewport.
-- The system does not yet save every geometry edit across installed PWA updates.
-- Mathematical formulas and constraint semantics are inherited from v2.0.22; this release changes the presentation system only.
+Version 2.0.24 is a **candidate pending manual device acceptance**. The portable HTML can still run without hosting.
