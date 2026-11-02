@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#f4f7fb" name="theme-color"/>
-<title>Simulator trougla — Matematička sveska 2.0.29</title>
+<title>Simulator trougla — Matematička sveska 2.0.30</title>
 <script id="theme-startup">(()=>{let mode=null;try{mode=localStorage.getItem('triangle-simulator-theme')}catch(_){}if(mode!=='light'&&mode!=='dark')mode=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=mode;})();</script>
 <style>
     :root{color-scheme:light;--ink:#20304a;--muted:#607086;--line:#dbe4ef;--surface:#fff;--blue:#3677a8;--red:#c65c61;--green:#2b8b78;--orange:#bd7734;--bg:#f4f7fb}
@@ -1302,6 +1302,24 @@ html[data-theme="dark"] #imageExportToggle[aria-expanded="true"]{background:#235
 html[data-theme="dark"] .export-formats label{background:#354239;border-color:#587666}
 html[data-theme="dark"] .export-formats label:has(input:checked){background:#245c47;color:#e2fff0;border-color:#72b795}
 #imageExportResolutionField[hidden]{display:none!important}
+
+
+/* 2.0.30 — Safe new-triangle / previous-work recovery, integrated in project shelf. */
+.saved-session-recovery,.saved-new-project{border-top:1px solid #d9e7e1;margin-top:10px;padding-top:10px}
+.saved-session-recovery[hidden],.saved-reset-confirm[hidden]{display:none!important}
+.saved-session-recovery .saved-shelf-help{margin:5px 0 9px}
+.saved-reset-confirm{margin-top:9px;border:1px solid #e7c8a8;border-radius:9px;
+  background:#fff8ed;padding:11px;line-height:1.5;color:#73502a}
+.saved-reset-confirm strong{display:block;font-size:.83rem;margin:0 0 4px}
+.saved-reset-confirm p{margin:5px 0 10px;font-size:.75rem}
+.saved-reset-confirm .saved-reset-actions{display:flex;flex-wrap:wrap;gap:9px}
+.saved-reset-confirm .saved-reset-actions button{flex:1;min-width:115px;min-height:44px}
+.saved-new-project>button,.saved-session-recovery>button{min-height:44px}
+.saved-new-project .saved-shelf-help{margin:5px 0}
+html[data-theme="dark"] .saved-session-recovery,html[data-theme="dark"] .saved-new-project{border-color:#536e5d}
+html[data-theme="dark"] .saved-reset-confirm{background:#42372c;color:#ffdfb6;border-color:#8b6f4e}
+@media(max-width:600px){.saved-reset-confirm .saved-reset-actions{flex-direction:column}
+  .saved-reset-confirm .saved-reset-actions button{width:100%}}
 
 </style>
 
@@ -6147,7 +6165,25 @@ html[data-theme="dark"] .export-formats label:has(input:checked){background:#245
         <button type="button" id="savedImportButton" class="saved-shelf-action">↑ Uvezi JSON</button>
         <input id="savedImportFile" type="file" accept=".json,application/json" hidden aria-label="Uvezi sačuvani trougao"/>
       </div>
-      <p class="saved-shelf-help">Trenutni rad automatski se obnavlja. Lokalni zapisi mogu nestati kada obrišeš podatke pregledača; JSON je prenosiva rezervna kopija.</p>
+
+      <div class="saved-session-recovery" id="savedRecoverySection" hidden>
+        <strong style="font-size:.83rem">↶ Prethodni rad</strong>
+        <p class="saved-shelf-help" id="savedRecoveryDescription">Tvoj prethodni rad je bezbedno sačuvan.</p>
+        <button type="button" id="savedRestoreRecovery" class="saved-shelf-action">↶ Vrati prethodni rad</button>
+      </div>
+      <div class="saved-new-project">
+        <button type="button" id="savedStartNew" class="saved-shelf-action">＋ Novi trougao · početne postavke</button>
+        <p class="saved-shelf-help">Novi trougao ne briše sačuvane projekte. Trenutni rad ostaje dostupan za oporavak.</p>
+        <div class="saved-reset-confirm" id="savedResetConfirm" hidden>
+          <strong>Pokrenuti novi trougao?</strong>
+          <p>Trenutna geometrija i njen prikaz biće vraćeni na početne postavke. Prethodni rad sačuvaćemo za oporavak. Sačuvani projekti ostaju netaknuti.</p>
+          <div class="saved-reset-actions">
+            <button type="button" id="savedCancelReset" class="saved-shelf-action">Odustani</button>
+            <button type="button" id="savedConfirmReset" class="saved-shelf-action danger">Potvrdi novi trougao</button>
+          </div>
+        </div>
+      </div>
+      <p class="saved-shelf-help">Rad se čuva za oporavak. Pri novom pokretanju prikazuje se početni trougao; prethodni rad možeš vratiti ovde. JSON koristi za dugoročnu rezervnu kopiju.</p>
     </div>`;
   stage.append(savedShelf);
   const savedStatus=savedShelf.querySelector('#savedShelfStatus');
@@ -6166,7 +6202,7 @@ html[data-theme="dark"] .export-formats label:has(input:checked){background:#245
     const scale=Math.max(1,unit());
     const visibleCenter=cameraWorldPoint({x:canvasSize.w/2,y:canvasSize.h/2});
     return {
-      format:PROJECT_FORMAT,schemaVersion:PROJECT_SCHEMA,appVersion:'2.0.29',
+      format:PROJECT_FORMAT,schemaVersion:PROJECT_SCHEMA,appVersion:'2.0.30',
       savedAt:new Date().toISOString(),state:{
         vertices:model.map(p=>({x:p.x,y:p.y})),
         givens:[...angleGiven.entries()],equalSides,givenCircumAngle,
@@ -6396,7 +6432,7 @@ html[data-theme="dark"] .export-formats label:has(input:checked){background:#245
     });
   });
   function loadProject(entry){runProjectAction(async()=>{
-    applyProjectSnapshot(entry.snapshot);openSavedShelf(false);
+    storeRecovery(makeProjectSnapshot());applyProjectSnapshot(entry.snapshot);openSavedShelf(false);
     projectMessage(`Otvoren je „${entry.name}“.`);
   });}
   function updateProject(entry){runProjectAction(async()=>{
@@ -6443,6 +6479,121 @@ html[data-theme="dark"] .export-formats label:has(input:checked){background:#245
       applyProjectSnapshot(snapshot);
       projectMessage(`Uvezen i otvoren „${entry.name}“.`);
     });
+  });
+
+
+  // 2.0.30 — Cold starts are fresh; the autosaved working document remains recoverable.
+  // App resume is intentionally NOT interpreted as a new session. Visibility/pagehide
+  // only persist current work and never reset it (mobile lifecycle is unreliable).
+  const RECOVERY_KEY='triangle-simulator-recoverable-work-v1';
+  let initialCleanSnapshot=null;
+  let recoverySnapshot=null;
+  const recoverySection=savedShelf.querySelector('#savedRecoverySection');
+  const recoveryDescription=savedShelf.querySelector('#savedRecoveryDescription');
+  const restoreRecoveryButton=savedShelf.querySelector('#savedRestoreRecovery');
+  const newTriangleButton=savedShelf.querySelector('#savedStartNew');
+  const resetConfirm=savedShelf.querySelector('#savedResetConfirm');
+  const resetCancel=savedShelf.querySelector('#savedCancelReset');
+  const resetProceed=savedShelf.querySelector('#savedConfirmReset');
+
+  function defaultSnapshot(){
+    // Capture the true first-paint defaults, independent of the old session.
+    // Keep the user's preferred theme, which is an app preference rather than a task.
+    const result=structuredClone(initialCleanSnapshot || makeProjectSnapshot());
+    result.state.aliases={};
+    result.state.theme=document.documentElement.dataset.theme==='dark'?'dark':'light';
+    result.savedAt=new Date().toISOString();
+    result.appVersion='2.0.30';
+    return result;
+  }
+  function isMeaningfulProject(snapshot){
+    try{
+      const work=normalizedProject(snapshot);
+      const clean=normalizedProject(defaultSnapshot());
+      const coordsDifferent=work.vertices.some((p,i)=>Math.hypot(p.x-clean.vertices[i].x,p.y-clean.vertices[i].y)>0.00001);
+      const constructionsUsed=Object.values(work.constructions.angle).some(Boolean)||
+        Object.values(work.constructions.side).some(Boolean)||
+        Object.values(work.constructions.outer).some(Boolean)||
+        Object.values(work.constructions.extensions).some(Boolean);
+      const changedDistances=Object.keys(work.constructions.extensionDistances).some(k=>
+        Math.abs(work.constructions.extensionDistances[k]-clean.constructions.extensionDistances[k])>.00001);
+      const changedDisplay=Object.keys(clean.display).some(k=>work.display[k]!==clean.display[k]);
+      const movedNotebook=Math.abs(work.notebook.offset.x)>0.001||Math.abs(work.notebook.offset.y)>0.001;
+      return coordsDifferent||work.givens.length>0||Boolean(work.equalSides)||work.givenCircumAngle!==null||
+        Object.keys(work.aliases).length>0||constructionsUsed||changedDistances||changedDisplay||
+        Boolean(work.selection)||movedNotebook||work.notebook.detailsExpanded;
+    }catch(_){return false;}
+  }
+  function updateRecoveryControls(){
+    recoverySection.hidden=!recoverySnapshot;
+    if(recoverySnapshot){
+      const recorded=new Date(recoverySnapshot.savedAt||'');
+      const date=Number.isFinite(recorded.getTime())?recorded.toLocaleString('sr-RS'):'';
+      recoveryDescription.textContent='Sačuvana postavka pre poslednjeg pokretanja ili resetovanja.'+
+        (date?' · '+date:'');
+    }
+  }
+  function storeRecovery(snapshot){
+    try{
+      normalizedProject(snapshot);
+      if(!isMeaningfulProject(snapshot))return false;
+      // Structured snapshot is independent of named projects and current autosave.
+      recoverySnapshot=structuredClone(snapshot);
+      localStorage.setItem(RECOVERY_KEY,JSON.stringify(recoverySnapshot));
+      updateRecoveryControls();return true;
+    }catch(error){console.warn('Recovery snapshot could not be saved:',error.message);return false;}
+  }
+  function armNewTriangle(){
+    openSavedShelf(true);
+    resetConfirm.hidden=false;
+    resetCancel.focus({preventScroll:true});
+    resetConfirm.scrollIntoView({block:'end',behavior:'auto'});
+  }
+  newTriangleButton.addEventListener('click',()=>{
+    if(resetConfirm.hidden)armNewTriangle();else resetConfirm.hidden=true;
+  });
+  resetCancel.addEventListener('click',()=>{resetConfirm.hidden=true;newTriangleButton.focus({preventScroll:true});});
+  resetProceed.addEventListener('click',()=>{
+    // Do not destroy the active state until a recovery copy has been attempted.
+    const active=makeProjectSnapshot();
+    if(isMeaningfulProject(active) && !storeRecovery(active)){
+      projectMessage('Oporavak nije moguće sačuvati. Izvezi trenutni JSON pre resetovanja.',true);
+      resetConfirm.hidden=true;
+      return;
+    }
+    applyProjectSnapshot(defaultSnapshot());
+    resetConfirm.hidden=true;
+    updateRecoveryControls();
+    projectMessage('Novi trougao je otvoren. Sačuvani projekti nisu izmenjeni.');
+    openSavedShelf(false);
+  });
+  restoreRecoveryButton.addEventListener('click',()=>{
+    if(!recoverySnapshot)return;
+    const previous=makeProjectSnapshot();
+    if(isMeaningfulProject(previous)){
+      // Swap allows recovering from a mistaken restore, without discarding either state.
+      const target=structuredClone(recoverySnapshot);
+      if(!storeRecovery(previous)){
+        projectMessage('Ne mogu bezbedno sačuvati trenutni rad. Izvezi ga pre vraćanja.',true);
+        return;
+      }
+      applyProjectSnapshot(target);
+    }else{
+      applyProjectSnapshot(recoverySnapshot);
+    }
+    resetConfirm.hidden=true;
+    openSavedShelf(false);
+  });
+  // An existing legacy reset control is hidden on mobile/desktop, but should
+  // never bypass the new protection even if invoked via accessibility or a shortcut.
+  byId('reset').addEventListener('click',event=>{
+    event.preventDefault();event.stopImmediatePropagation();armNewTriangle();
+  },true);
+  savedShelf.querySelector('#savedShelfClose').addEventListener('click',()=>{resetConfirm.hidden=true;});
+  window.TriangleSimulatorResetSafety=Object.freeze({
+    get recoveryAvailable(){return Boolean(recoverySnapshot)},
+    get confirmationOpen(){return !resetConfirm.hidden},
+    get defaultOnColdStart(){return true}
   });
 
   // 2.0.29 — Dedicated vector-to-raster export pipeline. We deliberately do
@@ -6838,11 +6989,31 @@ html[data-theme="dark"] .export-formats label:has(input:checked){background:#245
   let restoreAttempted=false;
   function restoreSessionOnFirstPaint(){
     if(restoreAttempted||!canvasSize.w)return;restoreAttempted=true;
-    try{const raw=localStorage.getItem(SESSION_KEY);
-      if(raw){applyProjectSnapshot(JSON.parse(raw));}
-    }catch(error){console.warn('Triangle session could not be restored:',error.message);}
+    // The initial canvas is deliberately a fresh document. A previous document
+    // remains recoverable, but is NEVER automatically applied to this instance.
+    initialCleanSnapshot=makeProjectSnapshot();
+    initialCleanSnapshot.state.aliases={};
+    try{
+      const rawRecovery=localStorage.getItem(RECOVERY_KEY);
+      if(rawRecovery){
+        const previous=JSON.parse(rawRecovery);
+        normalizedProject(previous);
+        if(isMeaningfulProject(previous))recoverySnapshot=previous;
+      }
+      const rawSession=localStorage.getItem(SESSION_KEY);
+      if(rawSession){
+        const lastSession=JSON.parse(rawSession);
+        normalizedProject(lastSession);
+        if(isMeaningfulProject(lastSession))storeRecovery(lastSession);
+      }
+    }catch(error){console.warn('Triangle session could not be prepared for recovery:',error.message);}
+    // Per-project point labels should not leak into a fresh default document.
+    pointAliases={};
+    try{localStorage.removeItem(aliasStorageKey)}catch(_){}
+    redraw(false);
+    updateRecoveryControls();
     sessionReady=true;
-    scheduleSessionSave();
+    // No initial autosave: merely opening the app must not overwrite recovery.
   }
   // Readonly diagnostics to support repeatable offline/manual testing.
   window.TriangleSimulatorProjects=Object.freeze({
